@@ -745,37 +745,37 @@ export default function App() {
             <nav className="flex gap-1.5 p-1 rounded-xl bg-black/40 border border-white/5 shadow-inner overflow-x-auto no-scrollbar">
               <button 
                 onClick={() => setActiveTab('home')}
-                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'home' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-spring cursor-pointer whitespace-nowrap ${activeTab === 'home' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Главная
               </button>
               <button 
                 onClick={() => setActiveTab('experience')}
-                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'experience' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-spring cursor-pointer whitespace-nowrap ${activeTab === 'experience' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Опыт
               </button>
               <button 
                 onClick={() => setActiveTab('cases')}
-                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'cases' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-spring cursor-pointer whitespace-nowrap ${activeTab === 'cases' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Кейсы
               </button>
               <button 
                 onClick={() => setActiveTab('map')}
-                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'map' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-spring cursor-pointer whitespace-nowrap ${activeTab === 'map' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Объекты
               </button>
               <button 
                 onClick={() => setActiveTab('chat')}
-                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'chat' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-spring cursor-pointer whitespace-nowrap ${activeTab === 'chat' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Переписка
               </button>
               <button 
                 onClick={() => setActiveTab('contacts')}
-                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'contacts' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-spring cursor-pointer whitespace-nowrap ${activeTab === 'contacts' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Контакты
               </button>
@@ -947,7 +947,8 @@ export default function App() {
               </div>
 
               {/* Chat Main Thread View */}
-              <div className="lg:col-span-8 glass-panel rounded-xl flex flex-col overflow-hidden">
+              <div className="lg:col-span-8 glass-panel border-beam-container rounded-xl flex flex-col overflow-hidden">
+                <div className="border-beam" />
                 {(() => {
                   const currentChat = CHATS.find(c => c.id === selectedChatId) || CHATS[0]
                   return (
@@ -1085,7 +1086,8 @@ export default function App() {
 
                 {/* Map Overlay Selected Card Info */}
                 {selectedObject && (
-                  <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md glass-panel gradient-border-premium p-6 rounded-xl shadow-2xl z-20 animate-fade-slide-in">
+                  <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md glass-panel border-beam-container gradient-border-premium p-6 rounded-xl shadow-2xl z-20 animate-fade-slide-in">
+                    <div className="border-beam" />
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <div>
                         <span className="text-[9px] font-mono text-white bg-white/10 px-2 py-0.5 rounded border border-white/15 font-bold uppercase tracking-wider">{selectedObject.contractor}</span>
@@ -1591,7 +1593,8 @@ export default function App() {
               </div>
 
               {/* Case details presentation */}
-              <div className="lg:col-span-8 glass-panel gradient-border-premium p-8 rounded-2xl min-h-[400px] shadow-xl">
+              <div className="lg:col-span-8 glass-panel border-beam-container gradient-border-premium p-8 rounded-2xl min-h-[400px] shadow-xl">
+                <div className="border-beam" />
                 {activeCaseId !== null && (
                   <div className="space-y-6">
                     {/* Header */}
