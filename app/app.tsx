@@ -486,6 +486,14 @@ export default function App() {
   const [editingCell, setEditingCell] = useState<{ rowIndex: number; fieldName: keyof VorItem } | null>(null)
   const [editValue, setEditValue] = useState<string>('')
 
+  // Case interactive widget states
+  const [vbaLog, setVbaLog] = useState<string[]>([])
+  const [vbaRunning, setVbaRunning] = useState(false)
+  const [nssLength, setNssLength] = useState(120)
+  const [nssTubes, setNssTubes] = useState(4)
+  const [exonLog, setExonLog] = useState<string[]>([])
+  const [exonRunning, setExonRunning] = useState(false)
+
   const mapRef = useRef<HTMLDivElement>(null)
   const leafletMap = useRef<L.Map | null>(null)
   const markersRef = useRef<{ [key: number]: L.Marker }>({})
@@ -1663,21 +1671,23 @@ export default function App() {
               </div>
 
               {/* Case details presentation */}
-              <div className="lg:col-span-8 glass-panel border-beam-container gradient-border-premium p-8 rounded-2xl min-h-[400px] shadow-xl">
+              <div className="lg:col-span-8 glass-panel border-beam-container gradient-border-premium p-8 rounded-2xl min-h-[400px] shadow-xl overflow-y-auto max-h-[85vh]">
                 <div className="border-beam" />
-                {activeCaseId !== null && (
+                {activeCaseId !== null && (() => {
+                  const c = CASES[activeCaseId - 1]
+                  return (
                   <div className="space-y-6">
                     {/* Header */}
                     <div>
                       <span className="text-[10px] font-mono text-white bg-white/10 px-2.5 py-1 rounded-lg border border-white/15 uppercase tracking-widest font-bold">Кейс 0{activeCaseId}</span>
-                      <h3 className="text-2xl font-bold text-white mt-3 font-display">{CASES[activeCaseId - 1].title}</h3>
+                      <h3 className="text-2xl font-bold text-white mt-3 font-display">{c.title}</h3>
                     </div>
 
                     {/* Problem */}
                     <div className="space-y-2">
                       <h4 className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest">Проблема / Вызов</h4>
                       <p className="text-muted-foreground text-xs md:text-sm leading-relaxed bg-red-500/5 border border-red-500/10 p-4 rounded-xl font-medium">
-                        {CASES[activeCaseId - 1].problem}
+                        {c.problem}
                       </p>
                     </div>
 
@@ -1685,7 +1695,7 @@ export default function App() {
                     <div className="space-y-2">
                       <h4 className="text-[10px] font-mono font-bold text-ring uppercase tracking-widest">Примененный Стек</h4>
                       <div className="flex flex-wrap gap-2">
-                        {CASES[activeCaseId - 1].tools.split(',').map(tool => (
+                        {c.tools.split(',').map(tool => (
                           <span key={tool} className="text-[10px] font-mono bg-white/5 border border-white/10 px-3 py-1 rounded-lg text-white font-semibold">
                             {tool.trim()}
                           </span>
@@ -1697,7 +1707,7 @@ export default function App() {
                     <div className="space-y-2">
                       <h4 className="text-[10px] font-mono font-bold text-ring uppercase tracking-widest">Проделанная работа</h4>
                       <ul className="space-y-3 text-xs md:text-sm text-muted-foreground font-medium">
-                        {CASES[activeCaseId - 1].work.map((item, index) => (
+                        {c.work.map((item, index) => (
                           <li key={index} className="flex gap-3 items-start">
                             <CheckCircle2 size={14} className="text-ring shrink-0 mt-0.5" />
                             <span>{item}</span>
@@ -1710,11 +1720,307 @@ export default function App() {
                     <div className="space-y-2 pt-6 border-t border-white/5">
                       <h4 className="text-[10px] font-mono font-bold text-ring uppercase tracking-widest">Результат в цифрах / Эффект</h4>
                       <p className="text-white text-xs md:text-sm font-semibold bg-primary/5 border border-primary/20 p-4 rounded-xl">
-                        {CASES[activeCaseId - 1].result}
+                        {c.result}
                       </p>
                     </div>
+
+                    {/* ===== INTERACTIVE DEMO WIDGET ===== */}
+                    <div className="space-y-3 pt-6 border-t border-white/5">
+                      <h4 className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        Интерактивный пример
+                      </h4>
+
+                      {/* ---- CASE 1: Землекопы таблица ---- */}
+                      {activeCaseId === 1 && (
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <div className="bg-white/5 px-4 py-2 border-b border-white/5 text-[10px] font-mono text-ring uppercase tracking-wider font-bold">
+                            Ведомость выработки — 17 объектов
+                          </div>
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-xs">
+                              <thead>
+                                <tr className="bg-white/[0.03]">
+                                  <th className="text-left px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">ФИО</th>
+                                  <th className="text-left px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Объект</th>
+                                  <th className="text-center px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Смены</th>
+                                  <th className="text-right px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Тариф ₽</th>
+                                  <th className="text-right px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Итого ₽</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {[
+                                  { name: 'Иванов П.С.', obj: 'Гарибальди 22', shifts: 22, rate: 3500 },
+                                  { name: 'Петров А.В.', obj: 'Тайнинская 16/2', shifts: 18, rate: 3200 },
+                                  { name: 'Сидоров К.М.', obj: '2-я Фрезерная 6', shifts: 25, rate: 3800 },
+                                  { name: 'Козлов Д.А.', obj: 'Газопровод 7', shifts: 20, rate: 3500 },
+                                  { name: 'Морозов И.Л.', obj: 'Большая Очаковская', shifts: 15, rate: 3200 },
+                                ].map((row, i) => (
+                                  <tr key={i} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
+                                    <td className="px-4 py-2.5 text-white font-medium">{row.name}</td>
+                                    <td className="px-4 py-2.5 text-muted-foreground">{row.obj}</td>
+                                    <td className="px-4 py-2.5 text-center text-white font-mono">{row.shifts}</td>
+                                    <td className="px-4 py-2.5 text-right text-muted-foreground font-mono">{row.rate.toLocaleString()}</td>
+                                    <td className="px-4 py-2.5 text-right text-emerald-400 font-mono font-bold">{(row.shifts * row.rate).toLocaleString()}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                              <tfoot>
+                                <tr className="bg-white/[0.03]">
+                                  <td colSpan={4} className="px-4 py-2.5 text-right text-[10px] font-mono text-ring uppercase tracking-wider font-bold">Итого по выборке:</td>
+                                  <td className="px-4 py-2.5 text-right text-white font-mono font-bold text-sm">
+                                    {[
+                                      { shifts: 22, rate: 3500 },
+                                      { shifts: 18, rate: 3200 },
+                                      { shifts: 25, rate: 3800 },
+                                      { shifts: 20, rate: 3500 },
+                                      { shifts: 15, rate: 3200 },
+                                    ].reduce((sum, r) => sum + r.shifts * r.rate, 0).toLocaleString()} ₽
+                                  </td>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ---- CASE 2: VBA Генератор ИД ---- */}
+                      {activeCaseId === 2 && (
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <div className="bg-white/5 px-4 py-2 border-b border-white/5 flex items-center justify-between">
+                            <span className="text-[10px] font-mono text-ring uppercase tracking-wider font-bold">Консоль VBA-макроса — Генератор ОЗДС</span>
+                            <button
+                              disabled={vbaRunning}
+                              onClick={() => {
+                                setVbaRunning(true)
+                                setVbaLog([])
+                                const steps = [
+                                  '[INIT] Загрузка шаблона АОСР...',
+                                  '[DATA] Чтение данных из реестра: 48 позиций',
+                                  '[GEN]  АОСР №001 — Монтаж кабельной линии СС ✓',
+                                  '[GEN]  АОСР №002 — Прокладка ВОК в каналах ✓',
+                                  '[GEN]  АОСР №003 — Монтаж муфт МТОК ✓',
+                                  '[GEN]  АОСР №004 — Установка оборудования ВТСС ✓',
+                                  '[CERT] Привязка паспортов: 12 позиций ✓',
+                                  '[PAGE] Пересчёт страничности: 186 стр. ✓',
+                                  '[PDF]  Формирование PDF комплекта...',
+                                  '[DONE] ✅ Комплект ИД по ОЗДС сформирован за 7.2 сек',
+                                ]
+                                steps.forEach((step, i) => {
+                                  setTimeout(() => {
+                                    setVbaLog(prev => [...prev, step])
+                                    if (i === steps.length - 1) setVbaRunning(false)
+                                  }, (i + 1) * 600)
+                                })
+                              }}
+                              className="px-3 py-1 text-[10px] font-mono uppercase tracking-wider rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors cursor-pointer disabled:opacity-40 font-bold"
+                            >
+                              {vbaRunning ? '⏳ Выполняется...' : '▶ Запустить макрос'}
+                            </button>
+                          </div>
+                          <div className="bg-black/60 p-4 font-mono text-[11px] min-h-[180px] max-h-[240px] overflow-y-auto space-y-1">
+                            {vbaLog.length === 0 && (
+                              <span className="text-muted-foreground italic">Нажмите «Запустить макрос» для симуляции генерации комплекта ИД...</span>
+                            )}
+                            {vbaLog.map((line, i) => (
+                              <div key={i} className={`${line.includes('DONE') ? 'text-emerald-400 font-bold' : line.includes('GEN') ? 'text-sky-400' : line.includes('CERT') || line.includes('PAGE') ? 'text-amber-400' : 'text-white/70'}`}>
+                                {line}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ---- CASE 3: Факт / Проект таблица ---- */}
+                      {activeCaseId === 3 && (
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <div className="bg-white/5 px-4 py-2 border-b border-white/5 text-[10px] font-mono text-ring uppercase tracking-wider font-bold">
+                            Сводная по внутренним сетям — Факт vs Проект
+                          </div>
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-xs">
+                              <thead>
+                                <tr className="bg-white/[0.03]">
+                                  <th className="text-left px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Система</th>
+                                  <th className="text-left px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Этаж</th>
+                                  <th className="text-center px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Ед.</th>
+                                  <th className="text-right px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Проект</th>
+                                  <th className="text-right px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Факт</th>
+                                  <th className="text-right px-4 py-2.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider font-bold border-b border-white/5">Δ</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {[
+                                  { sys: 'СС (слаботочные)', floor: '1-3 эт.', unit: 'м.п.', proj: 1240, fact: 1255 },
+                                  { sys: 'СС (слаботочные)', floor: '4-8 эт.', unit: 'м.п.', proj: 2800, fact: 2780 },
+                                  { sys: 'ВТСС (охранная)', floor: '1-3 эт.', unit: 'м.п.', proj: 560, fact: 590 },
+                                  { sys: 'ВТСС (охранная)', floor: '4-8 эт.', unit: 'м.п.', proj: 1120, fact: 1100 },
+                                  { sys: 'СКД (контроль доступа)', floor: 'Все', unit: 'шт.', proj: 48, fact: 48 },
+                                  { sys: 'СВН (видеонаблюдение)', floor: 'Все', unit: 'шт.', proj: 96, fact: 94 },
+                                  { sys: 'НСС (телеф. канализ.)', floor: 'Подвал', unit: 'м.п.', proj: 320, fact: 345 },
+                                ].map((row, i) => {
+                                  const delta = row.fact - row.proj
+                                  return (
+                                    <tr key={i} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
+                                      <td className="px-4 py-2.5 text-white font-medium">{row.sys}</td>
+                                      <td className="px-4 py-2.5 text-muted-foreground">{row.floor}</td>
+                                      <td className="px-4 py-2.5 text-center text-muted-foreground font-mono">{row.unit}</td>
+                                      <td className="px-4 py-2.5 text-right text-white font-mono">{row.proj.toLocaleString()}</td>
+                                      <td className="px-4 py-2.5 text-right text-white font-mono">{row.fact.toLocaleString()}</td>
+                                      <td className={`px-4 py-2.5 text-right font-mono font-bold ${delta > 0 ? 'text-amber-400' : delta < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                                        {delta > 0 ? '+' : ''}{delta}
+                                      </td>
+                                    </tr>
+                                  )
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="bg-white/[0.02] px-4 py-2 border-t border-white/5 text-[10px] font-mono text-muted-foreground flex gap-4">
+                            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-400" /> Совпадение</span>
+                            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-400" /> Перерасход</span>
+                            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-red-400" /> Недобор</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ---- CASE 4: Дашборд времени ---- */}
+                      {activeCaseId === 4 && (
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <div className="bg-white/5 px-4 py-2 border-b border-white/5 text-[10px] font-mono text-ring uppercase tracking-wider font-bold">
+                            Дашборд загрузки — Распределение времени ПТО
+                          </div>
+                          <div className="p-4 space-y-4">
+                            {[
+                              { label: 'Ведение ИД в Exon', hours: 28, max: 40, color: 'bg-sky-500' },
+                              { label: 'Работа с AutoCAD', hours: 18, max: 40, color: 'bg-violet-500' },
+                              { label: 'Подготовка ВОР', hours: 12, max: 40, color: 'bg-amber-500' },
+                              { label: 'Выезды на объекты', hours: 8, max: 40, color: 'bg-emerald-500' },
+                              { label: 'Согласование с ТН', hours: 6, max: 40, color: 'bg-rose-500' },
+                              { label: 'Административная работа', hours: 4, max: 40, color: 'bg-orange-500' },
+                            ].map((item, i) => (
+                              <div key={i} className="space-y-1.5">
+                                <div className="flex justify-between items-baseline">
+                                  <span className="text-xs text-white font-medium">{item.label}</span>
+                                  <span className="text-[10px] font-mono text-muted-foreground">{item.hours}ч / нед.</span>
+                                </div>
+                                <div className="w-full h-3 rounded-full bg-white/5 overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full ${item.color} transition-all duration-1000`}
+                                    style={{ width: `${(item.hours / item.max) * 100}%` }}
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                            <div className="pt-3 border-t border-white/5 flex justify-between">
+                              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider font-bold">Всего часов в неделю:</span>
+                              <span className="text-sm font-mono text-white font-bold">76ч</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ---- CASE 5: Калькулятор НСС ---- */}
+                      {activeCaseId === 5 && (
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <div className="bg-white/5 px-4 py-2 border-b border-white/5 text-[10px] font-mono text-ring uppercase tracking-wider font-bold">
+                            Параметрический калькулятор НСС
+                          </div>
+                          <div className="p-5 space-y-5">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <label className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider font-bold block">Длина трассы, м</label>
+                                <input
+                                  type="range"
+                                  min={10}
+                                  max={500}
+                                  value={nssLength}
+                                  onChange={e => setNssLength(Number(e.target.value))}
+                                  className="w-full accent-primary"
+                                />
+                                <div className="text-2xl font-mono text-white font-bold">{nssLength} м</div>
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider font-bold block">Кол-во труб ПНД</label>
+                                <input
+                                  type="range"
+                                  min={1}
+                                  max={12}
+                                  value={nssTubes}
+                                  onChange={e => setNssTubes(Number(e.target.value))}
+                                  className="w-full accent-primary"
+                                />
+                                <div className="text-2xl font-mono text-white font-bold">{nssTubes} шт.</div>
+                              </div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-3 pt-2">
+                              <div className="glass-panel p-4 rounded-xl text-center space-y-1">
+                                <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider font-bold">Объём земли</div>
+                                <div className="text-lg font-mono text-white font-bold">{(nssLength * 0.8 * 1.2).toFixed(1)} м³</div>
+                              </div>
+                              <div className="glass-panel p-4 rounded-xl text-center space-y-1">
+                                <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider font-bold">Метраж труб</div>
+                                <div className="text-lg font-mono text-white font-bold">{(nssLength * nssTubes).toLocaleString()} м.п.</div>
+                              </div>
+                              <div className="glass-panel p-4 rounded-xl text-center space-y-1">
+                                <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider font-bold">Колодцев (через 50м)</div>
+                                <div className="text-lg font-mono text-white font-bold">{Math.ceil(nssLength / 50) + 1} шт.</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ---- CASE 6: Exon Injector Console ---- */}
+                      {activeCaseId === 6 && (
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <div className="bg-white/5 px-4 py-2 border-b border-white/5 flex items-center justify-between">
+                            <span className="text-[10px] font-mono text-ring uppercase tracking-wider font-bold">JS-Инжектор Exon — Автозаполнение объёмов</span>
+                            <button
+                              disabled={exonRunning}
+                              onClick={() => {
+                                setExonRunning(true)
+                                setExonLog([])
+                                const steps = [
+                                  '> exon-inject v2.1 | Подключение к DOM...',
+                                  '> Парсинг XML-реестра: 24 позиции найдены',
+                                  '> [1/24] Поз. №1 — Кабель UTP cat.5e → 1240 м.п.  ✓',
+                                  '> [2/24] Поз. №2 — ВОК SM 8 волокон → 860 м.п.    ✓',
+                                  '> [3/24] Поз. №3 — Муфта МТОК-А1 → 12 шт.         ✓',
+                                  '> [4/24] Поз. №4 — Патч-панель 24 порт → 8 шт.     ✓',
+                                  '> [5/24] Поз. №5 — Кросс ОРШ-32 → 4 шт.           ✓',
+                                  '> ...пакетная загрузка позиций 6-24...',
+                                  '> Верификация: 24/24 полей заполнены корректно',
+                                  '> ✅ Загрузка завершена. Сэкономлено ~45 мин ручного ввода',
+                                ]
+                                steps.forEach((step, i) => {
+                                  setTimeout(() => {
+                                    setExonLog(prev => [...prev, step])
+                                    if (i === steps.length - 1) setExonRunning(false)
+                                  }, (i + 1) * 500)
+                                })
+                              }}
+                              className="px-3 py-1 text-[10px] font-mono uppercase tracking-wider rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors cursor-pointer disabled:opacity-40 font-bold"
+                            >
+                              {exonRunning ? '⏳ Инъекция...' : '▶ Запустить инъекцию'}
+                            </button>
+                          </div>
+                          <div className="bg-black/60 p-4 font-mono text-[11px] min-h-[180px] max-h-[240px] overflow-y-auto space-y-1">
+                            {exonLog.length === 0 && (
+                              <span className="text-muted-foreground italic">Нажмите «Запустить инъекцию» для симуляции загрузки объёмов в Exon...</span>
+                            )}
+                            {exonLog.map((line, i) => (
+                              <div key={i} className={`${line.includes('✅') ? 'text-emerald-400 font-bold' : line.includes('✓') ? 'text-sky-400' : line.includes('...') ? 'text-amber-400' : 'text-white/70'}`}>
+                                {line}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
+                  )
+                })()}
               </div>
             </div>
           </section>
