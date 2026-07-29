@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Children } from 'react'
 import { 
   MapPin, Phone, Mail, CheckCircle2, Cpu, Briefcase, GraduationCap, Github, Send,
   SlidersHorizontal, Check, ArrowUpRight, Upload, Download, Search, ChevronLeft, 
@@ -388,6 +388,59 @@ interface VorItem {
   exonQty: any
   note: any
   status: any
+}
+
+interface MarqueeProps {
+  children: React.ReactNode
+  direction?: 'left' | 'right' | 'up' | 'down'
+  speed?: number
+  pauseOnHover?: boolean
+  gap?: string
+  className?: string
+  fade?: boolean
+}
+
+function Marquee({
+  children,
+  direction = 'left',
+  speed = 30,
+  pauseOnHover = true,
+  gap = '1rem',
+  className = '',
+  fade = true,
+}: MarqueeProps) {
+  const vertical = direction === 'up' || direction === 'down'
+  const reverse = direction === 'right' || direction === 'down'
+  const items = Children.toArray(children)
+
+  return (
+    <div
+      className={`group relative flex overflow-hidden ${vertical ? 'flex-col' : 'flex-row'} ${fade && !vertical ? '[mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]' : ''} ${fade && vertical ? '[mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]' : ''} ${className}`}
+      style={{ gap } as any}
+    >
+      {[0, 1].map((dup) => (
+        <div
+          key={dup}
+          style={{
+            animationDuration: `${speed}s`,
+            animationDirection: reverse ? 'reverse' : 'normal',
+            gap,
+            display: 'flex',
+            flexShrink: 0,
+            alignItems: 'center',
+            flexDirection: vertical ? 'column' : 'row',
+          } as any}
+          className={`${vertical ? 'animate-marquee-vertical' : 'animate-marquee'} ${pauseOnHover ? 'group-hover:[animation-play-state:paused]' : ''}`}
+        >
+          {items.map((child, i) => (
+            <div key={i} className="shrink-0">
+              {child}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export default function App() {
@@ -899,6 +952,23 @@ export default function App() {
                   Интерактивный ВОР &rarr;
                 </button>
               </div>
+            </div>
+
+            {/* Partners Marquee */}
+            <div className="relative z-10 max-w-5xl mx-auto space-y-4 pt-10">
+              <div className="text-center">
+                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-bold">Компании и Подрядчики на моих проектах</span>
+              </div>
+              <Marquee speed={35} className="py-4" gap="2rem">
+                {['ООО "МОНАРХ"', 'АО "МСУ-1"', 'ГК "ЕКС"', 'ООО "ГСТ"', 'ООО "МОСРЕНСТРОЙ-6"', 'Мосинжпроект', 'Москапстрой', 'ПАО "Ростелеком"', 'ПАО "МТС"', 'Департамент строительства Москвы'].map((partner) => (
+                  <div
+                    key={partner}
+                    className="flex h-12 items-center justify-center rounded-xl border border-white/5 bg-white/[0.02] px-6 text-xs font-mono font-semibold text-white/80 shadow-md backdrop-blur-sm"
+                  >
+                    {partner}
+                  </div>
+                ))}
+              </Marquee>
             </div>
           </section>
         )}
@@ -1886,6 +1956,23 @@ export default function App() {
                   <p className="text-xs text-muted-foreground italic">Очно-заочная форма. Диплом выдан 17 января 2026 г.</p>
                 </div>
               </div>
+            </div>
+
+            {/* Tech Stack Marquee */}
+            <div className="glass-panel gradient-border-premium p-6 rounded-2xl shadow-xl relative z-10 space-y-4">
+              <div className="text-center">
+                <span className="text-[10px] font-mono text-ring uppercase tracking-widest font-bold">Инструменты &bull; Стандарты &bull; Технологии</span>
+              </div>
+              <Marquee speed={25} className="py-2" gap="1.5rem">
+                {['AutoCAD', 'Excel', 'VBA', 'PowerQuery', 'PowerBI', 'Python', 'SQL', 'Exon', 'Sarex', 'ГОСТ', 'СП', 'ППР', 'АОСР', 'ИД', 'Слаботочные сети', 'СС', 'НСС', 'Волоконно-оптические линии'].map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs font-mono font-semibold"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </Marquee>
             </div>
           </section>
         )}
