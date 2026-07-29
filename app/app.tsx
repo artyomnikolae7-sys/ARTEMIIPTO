@@ -627,37 +627,43 @@ export default function App() {
               </div>
             </div>
 
-            {/* Navigation Tabs */}
-            <nav className="flex gap-1 bg-card/85 p-1 rounded-xl border border-border shadow-sm">
+            {/* Navigation Tabs (6-tabs structure) */}
+            <nav className="flex gap-1 bg-card/85 p-1 rounded-xl border border-border shadow-sm overflow-x-auto">
               <button 
-                onClick={() => setActiveTab('map')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'map' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                onClick={() => setActiveTab('home')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'home' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
               >
-                Карта объектов
+                Главная
               </button>
               <button 
-                onClick={() => setActiveTab('vor')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'vor' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                onClick={() => setActiveTab('experience')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'experience' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
               >
-                Таблица ВОР (Excel)
+                Опыт
               </button>
               <button 
                 onClick={() => setActiveTab('cases')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'cases' ? 'bg-primary text-primary-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'cases' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
               >
-                Кейсы работы
+                Кейсы
               </button>
               <button 
-                onClick={() => setActiveTab('profile')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'profile' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                onClick={() => setActiveTab('map')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'map' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
               >
-                Резюме
+                Объекты (Карта)
               </button>
               <button 
-                onClick={() => setActiveTab('projects')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'projects' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                onClick={() => setActiveTab('chat')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'chat' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
               >
-                Репозитории
+                Переписка (Exon)
+              </button>
+              <button 
+                onClick={() => setActiveTab('contacts')}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'contacts' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Контакты
               </button>
             </nav>
 
