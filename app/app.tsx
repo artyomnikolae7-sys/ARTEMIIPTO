@@ -252,6 +252,112 @@ const CASES = [
       'Заложил устойчивость к типовым сбоям: проверка полей, повтор кликов, контроль применения данных.'
     ],
     result: 'Снял основную рутину с ручного ввода: процесс стал быстрее и предсказуемее, а количество ошибок снизилось.'
+// 8 Chat Threads from Exon/Work Messaging
+const CHATS = [
+  {
+    id: 1,
+    name: 'Замечания технадзора — Гарибальди 22',
+    author: 'Алексей (Технадзор)',
+    role: 'Заказчик',
+    date: 'Вчера, 14:20',
+    avatar: '👨‍💼',
+    status: 'Решено',
+    messages: [
+      { sender: 'Алексей (Технадзор)', time: '14:20', text: 'Артемий, привет! По АОСР №45 на наружку СС в Exon отклонение: нет паспорта на муфту МТОК.' },
+      { sender: 'Николаев Артемий', time: '14:35', text: 'Приветствую, Алексей! Паспорт прикрепил в реестре под №112 и переподписал комплект в Exon. Проверь, пожалуйста.' },
+      { sender: 'Алексей (Технадзор)', time: '15:10', text: 'Отлично, вижу. Акт согласован и подписан ЭЦП.' }
+    ]
+  },
+  {
+    id: 2,
+    name: 'Согласование ВОР по слаботочке (ВТСС)',
+    author: 'Елена (ГК ЕКС)',
+    role: 'Главный инженер',
+    date: '25 июля',
+    avatar: '👩‍💼',
+    status: 'В работе',
+    messages: [
+      { sender: 'Елена (ГК ЕКС)', time: '10:15', text: 'Артемий, добрый день. По Лосевской 3А разница в объемах кабеля UTP между спецификацией и ВОР.' },
+      { sender: 'Николаев Артемий', time: '10:40', text: 'Добрый день! Разница возникла из-за трассировки через подземный паркинг (+180м). Выгрузил шахматку с формулами, проверяем.' }
+    ]
+  },
+  {
+    id: 3,
+    name: 'ОЗДС Сборка комплекта ИД',
+    author: 'Сергей (СК КРОНОС)',
+    role: 'Начальник участка',
+    date: '22 июля',
+    avatar: '👷‍♂️',
+    status: 'Решено',
+    messages: [
+      { sender: 'Сергей (СК КРОНОС)', time: '09:00', text: 'Артемий, сколько дней займет собрать полный пакет ОЗДС по Газопроводу 7?' },
+      { sender: 'Николаев Артемий', time: '09:15', text: 'Запустил генератор ИД. Все 24 АОСР и схемы будут готовы и загружены в Exon сегодня к 17:00.' }
+    ]
+  },
+  {
+    id: 4,
+    name: 'Связка Excel + AutoCAD (НСС)',
+    author: 'Игорь (Проектировщик)',
+    role: 'ГИП',
+    date: '19 июля',
+    avatar: '👨‍🔬',
+    status: 'Решено',
+    messages: [
+      { sender: 'Игорь (Проектировщик)', time: '16:00', text: 'Артемий, сместили трассу телефонной канализации на 4 метра. Нужно пересчитать.' },
+      { sender: 'Николаев Артемий', time: '16:25', text: 'Принято. Обновил длину в Excel-таблице НСС, данные в чертежах AutoCAD пересчитались автоматически. Готово.' }
+    ]
+  },
+  {
+    id: 5,
+    name: 'Авто-ввод объемов в Exon (JS)',
+    author: 'Дмитрий (МОСРЕНСТРОЙ-6)',
+    role: 'Инженер ПТО',
+    date: '15 июля',
+    avatar: '💻',
+    status: 'Выполнено',
+    messages: [
+      { sender: 'Дмитрий (МОСРЕНСТРОЙ-6)', time: '11:00', text: 'Скрипт авто-заполнения объемов в Exon сработал без единого сбоя. 450 позиций ввелись за 3 минуты!' },
+      { sender: 'Николаев Артемий', time: '11:12', text: 'Супер! Главное — корректный XML/Excel на входе. Ручной ввод убран.' }
+    ]
+  },
+  {
+    id: 6,
+    name: 'Выезд к Технадзору (Тайнинская 16)',
+    author: 'Виктор (МОНАРХ)',
+    role: 'Зам. дир. по строительству',
+    date: '10 июля',
+    avatar: '🏗️',
+    status: 'Решено',
+    messages: [
+      { sender: 'Виктор (МОНАРХ)', time: '08:30', text: 'Артемий, сегодня в 14:00 выездная проверка МГСН по слаботочным системам.' },
+      { sender: 'Николаев Артемий', time: '08:45', text: 'Планшет с Exon и распечатанные исполнительные схемы AutoCAD со мной. Все разделы готовы.' }
+    ]
+  },
+  {
+    id: 7,
+    name: 'Снос и перекладка сетей (Варшавское ш.)',
+    author: 'Мария (ДАРС-РЕНОВАЦИЯ)',
+    role: 'Сметный отдел',
+    date: '02 июля',
+    avatar: '📊',
+    status: 'Решено',
+    messages: [
+      { sender: 'Мария (ДАРС-РЕНОВАЦИЯ)', time: '13:10', text: 'Нужен точный реестр вынесенных кабелей связи под снос строения 143В.' },
+      { sender: 'Николаев Артемий', time: '13:50', text: 'Реестр с актами демонтажа и согласованием с Ростелекомом сформирован и прикреплен.' }
+    ]
+  },
+  {
+    id: 8,
+    name: 'Корректировка Шахматки (ВОР)',
+    author: 'Олег (ФЛЭТ И КО)',
+    role: 'Руководитель проекта',
+    date: '28 июня',
+    avatar: '📁',
+    status: 'Решено',
+    messages: [
+      { sender: 'Олег (ФЛЭТ И КО)', time: '17:00', text: 'Артемий, покажи текущий статус закрытия по этажам на Шахматке.' },
+      { sender: 'Николаев Артемий', time: '17:20', text: 'Шахматка обновлена в интерактивной таблице на сайте: 1-12 этажи закрыты на 100%, 13-14 этажи в работе.' }
+    ]
   }
 ]
 
@@ -288,6 +394,7 @@ export default function App() {
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false)
   const [activeTab, setActiveTab] = useState<'home' | 'experience' | 'cases' | 'map' | 'chat' | 'contacts' | 'profile' | 'projects' | 'vor'>('home')
   const [activeCaseId, setActiveCaseId] = useState<number | null>(1)
+  const [selectedChatId, setSelectedChatId] = useState<number>(1)
 
   // Theme State
   const [theme, setTheme] = useState<Theme>('dark')
@@ -757,6 +864,104 @@ export default function App() {
                 <span className="text-3xl font-bold text-ring font-mono">AutoCAD</span>
                 <p className="text-xs text-muted-foreground font-medium">Схемы и чертежи</p>
               </div>
+            </div>
+          </section>
+        )}
+
+        {/* ================= CHAT TAB ================= */}
+        {activeTab === 'chat' && (
+          <section className="space-y-8">
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Согласования и коммуникация</span>
+              <h2 className="text-4xl font-light text-foreground tracking-tight font-display">Рабочая Переписка и Exon</h2>
+              <p className="text-muted-foreground text-base leading-relaxed">
+                Примеры реального взаимодействия с Технадзором, ГИПами, Заказчиками и подрядчиками при сдаче исполнительной документации и ведении объектов.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-card/30 p-3 rounded-2xl border border-border backdrop-blur-sm shadow-sm h-[650px]">
+              
+              {/* Chat Sidebar */}
+              <div className="lg:col-span-4 bg-card rounded-xl border border-border flex flex-col overflow-hidden">
+                <div className="p-4 border-b border-border bg-muted/20 font-semibold text-sm flex items-center justify-between">
+                  <span>Диалоги ({CHATS.length})</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Exon / Messenger</span>
+                </div>
+                <div className="flex-1 overflow-y-auto divide-y divide-border no-scrollbar">
+                  {CHATS.map(chat => (
+                    <button
+                      key={chat.id}
+                      onClick={() => setSelectedChatId(chat.id)}
+                      className={`w-full text-left p-4 transition-all flex items-start gap-3 border-l-2 ${selectedChatId === chat.id ? 'bg-primary/5 border-l-primary' : 'bg-transparent border-l-transparent hover:bg-muted/40'}`}
+                    >
+                      <span className="text-2xl leading-none">{chat.avatar}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-baseline mb-1">
+                          <h4 className="text-xs font-semibold text-foreground truncate">{chat.name}</h4>
+                        </div>
+                        <p className="text-xs text-muted-foreground truncate">{chat.author} • {chat.role}</p>
+                        <span className="inline-block mt-1 text-[10px] text-ring font-mono">{chat.date}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Chat Main Thread View */}
+              <div className="lg:col-span-8 bg-card rounded-xl border border-border flex flex-col overflow-hidden">
+                {(() => {
+                  const currentChat = CHATS.find(c => c.id === selectedChatId) || CHATS[0]
+                  return (
+                    <>
+                      {/* Chat Header */}
+                      <div className="p-4 border-b border-border bg-muted/20 flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl">{currentChat.avatar}</span>
+                          <div>
+                            <h3 className="text-sm font-bold text-foreground">{currentChat.name}</h3>
+                            <p className="text-xs text-muted-foreground">{currentChat.author} ({currentChat.role})</p>
+                          </div>
+                        </div>
+                        <span className="px-3 py-1 text-xs rounded-full bg-primary/10 text-ring border border-primary/20 font-semibold font-mono">
+                          Статус: {currentChat.status}
+                        </span>
+                      </div>
+
+                      {/* Chat Messages Feed */}
+                      <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-background/50">
+                        {currentChat.messages.map((msg, idx) => {
+                          const isMe = msg.sender.includes('Николаев')
+                          return (
+                            <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
+                              <div className={`max-w-md p-4 rounded-2xl shadow-sm text-xs space-y-1.5 ${isMe ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card border border-border text-foreground rounded-bl-none'}`}>
+                                <div className="flex justify-between items-center gap-4 text-[10px] opacity-75 font-mono">
+                                  <span>{msg.sender}</span>
+                                  <span>{msg.time}</span>
+                                </div>
+                                <p className="leading-relaxed text-sm">{msg.text}</p>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      {/* Chat Input Placeholder */}
+                      <div className="p-4 border-t border-border bg-card flex gap-3">
+                        <input
+                          type="text"
+                          disabled
+                          placeholder="Диалог архивирован в рамках отчета портфолио..."
+                          className="flex-1 px-4 py-2.5 rounded-xl bg-muted/30 border border-border text-xs text-muted-foreground cursor-not-allowed"
+                        />
+                        <button disabled className="px-4 py-2.5 rounded-xl bg-primary/50 text-primary-foreground text-xs font-semibold cursor-not-allowed">
+                          Отправить
+                        </button>
+                      </div>
+                    </>
+                  )
+                })()}
+              </div>
+
             </div>
           </section>
         )}
