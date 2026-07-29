@@ -286,7 +286,7 @@ export default function App() {
   const [contractorFilter, setContractorFilter] = useState<string>('Все')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false)
-  const [activeTab, setActiveTab] = useState<'profile' | 'map' | 'cases' | 'projects' | 'vor'>('map')
+  const [activeTab, setActiveTab] = useState<'home' | 'experience' | 'cases' | 'map' | 'chat' | 'contacts' | 'profile' | 'projects' | 'vor'>('home')
   const [activeCaseId, setActiveCaseId] = useState<number | null>(1)
 
   // Theme State
@@ -701,6 +701,61 @@ export default function App() {
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        {/* ================= HOME TAB ================= */}
+        {activeTab === 'home' && (
+          <section className="space-y-12">
+            {/* Hero Section */}
+            <div className="relative overflow-hidden rounded-3xl bg-card border border-border p-8 md:p-12 shadow-lg">
+              <div className="relative z-10 max-w-3xl space-y-6">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-ring text-xs font-mono font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                  Открыт к предложениям / Инженер ПТО
+                </div>
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-display leading-tight">
+                  Николаев Артемий
+                </h1>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Специалист по подготовке и сдаче исполнительной документации (ИД), ведению ВОР, исполнительных схем в AutoCAD и автоматизации процессов в строительстве. Сдал более 17 крупных объектов в Москве.
+                </p>
+                <div className="flex flex-wrap gap-4 pt-2">
+                  <button 
+                    onClick={() => setActiveTab('map')}
+                    className="px-5 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  >
+                    <MapPin size={16} /> Карта объектов (17)
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('chat')}
+                    className="px-5 py-3 rounded-xl border border-border bg-card hover:bg-muted text-foreground font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <Send size={16} /> Переписка / Согласования Exon
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Key Metrics / Highlights */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
+                <span className="text-3xl font-bold text-ring font-mono">17+</span>
+                <p className="text-xs text-muted-foreground font-medium">Сданных объектов в МСК</p>
+              </div>
+              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
+                <span className="text-3xl font-bold text-ring font-mono">100%</span>
+                <p className="text-xs text-muted-foreground font-medium">Закрытие ИД по сетям связи</p>
+              </div>
+              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
+                <span className="text-3xl font-bold text-ring font-mono">Exon</span>
+                <p className="text-xs text-muted-foreground font-medium">Свободное владение ИС</p>
+              </div>
+              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
+                <span className="text-3xl font-bold text-ring font-mono">AutoCAD</span>
+                <p className="text-xs text-muted-foreground font-medium">Схемы и чертежи</p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ================= MAP TAB ================= */}
         {activeTab === 'map' && (
