@@ -726,56 +726,56 @@ export default function App() {
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
+      <header className="sticky top-0 z-50 glass-panel border-b border-white/5 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             
             {/* Logo / Title */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg shadow-[0_0_15px_rgba(var(--primary),0.2)]">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white font-bold text-lg shadow-[0_0_15px_rgba(255,0,34,0.25)] font-display">
                 АН
               </div>
-              <div>
-                <h1 className="text-xl font-bold tracking-tight text-foreground font-display">Николаев Артемий</h1>
-                <p className="text-xs text-ring font-mono font-medium">Инженер ПТО / Специалист по исполнительной документации</p>
+              <div className="hidden sm:block">
+                <h1 className="text-lg font-bold tracking-tight text-white font-display">Артемий Николаев</h1>
+                <p className="text-[9px] text-ring font-mono uppercase tracking-widest font-bold">Инженер ПТО / Сдача ИД</p>
               </div>
             </div>
 
             {/* Navigation Tabs (6-tabs structure) */}
-            <nav className="flex gap-1 bg-card/85 p-1 rounded-xl border border-border shadow-sm overflow-x-auto">
+            <nav className="flex gap-1.5 p-1 rounded-xl bg-black/40 border border-white/5 shadow-inner overflow-x-auto no-scrollbar">
               <button 
                 onClick={() => setActiveTab('home')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'home' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'home' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Главная
               </button>
               <button 
                 onClick={() => setActiveTab('experience')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'experience' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'experience' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Опыт
               </button>
               <button 
                 onClick={() => setActiveTab('cases')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'cases' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'cases' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Кейсы
               </button>
               <button 
                 onClick={() => setActiveTab('map')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'map' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'map' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
-                Объекты (Карта)
+                Объекты
               </button>
               <button 
                 onClick={() => setActiveTab('chat')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'chat' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'chat' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
-                Переписка (Exon)
+                Переписка
               </button>
               <button 
                 onClick={() => setActiveTab('contacts')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'contacts' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap ${activeTab === 'contacts' ? 'bg-white/10 text-white border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'}`}
               >
                 Контакты
               </button>
@@ -785,30 +785,29 @@ export default function App() {
             <div className="relative">
               <button
                 onClick={() => setShowThemeSelector(!showThemeSelector)}
-                className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-lg border border-border bg-card hover:bg-muted/50 cursor-pointer shadow-sm text-foreground transition-all"
+                className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white cursor-pointer shadow-sm transition-all"
               >
-                <Palette size={14} className="text-ring" />
-                <span>Тема: {theme === 'dark' ? 'Futuristic Dark' : 'ElevenLabs Cream'}</span>
+                <Palette size={12} className="text-ring" />
+                <span className="hidden md:inline">{theme === 'dark' ? 'Dark Space' : 'Cream Light'}</span>
               </button>
 
               {showThemeSelector && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-card border border-border p-1.5 shadow-xl z-50">
+                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-card border border-white/10 p-1.5 shadow-xl z-50">
                   <button
                     onClick={() => { setTheme('dark'); setShowThemeSelector(false); }}
-                    className={`w-full text-left px-3 py-2 text-xs rounded-lg transition-all cursor-pointer ${theme === 'dark' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted/50 text-foreground'}`}
+                    className={`w-full text-left px-3 py-2 text-xs rounded-lg transition-all cursor-pointer ${theme === 'dark' ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-muted-foreground'}`}
                   >
-                    Futuristic Dark (По умолчанию)
+                    Dark Space (Default)
                   </button>
                   <button
                     onClick={() => { setTheme('elevenlabs'); setShowThemeSelector(false); }}
-                    className={`w-full text-left px-3 py-2 text-xs rounded-lg transition-all cursor-pointer ${theme === 'elevenlabs' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted/50 text-foreground'}`}
+                    className={`w-full text-left px-3 py-2 text-xs rounded-lg transition-all cursor-pointer ${theme === 'elevenlabs' ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-muted-foreground'}`}
                   >
-                    ElevenLabs (Кремовая светлая)
+                    Cream Light
                   </button>
                 </div>
               )}
             </div>
-
           </div>
         </div>
       </header>
@@ -881,7 +880,12 @@ export default function App() {
               <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
                 <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">AutoCAD</span>
                 <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Схемы и скрипты</p>
-                <p className="text-xs text-muted-foreground font-sans italic">Интеграция с Excel</p>
+                <button 
+                  onClick={() => setActiveTab('vor')}
+                  className="text-xs text-ring hover:text-white hover:underline transition-colors mt-2 cursor-pointer font-bold block w-full text-center"
+                >
+                  Интерактивный ВОР &rarr;
+                </button>
               </div>
             </div>
           </section>
@@ -889,37 +893,41 @@ export default function App() {
 
         {/* ================= CHAT TAB ================= */}
         {activeTab === 'chat' && (
-          <section className="space-y-8">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
+          <section className="space-y-8 animate-fade-slide-in relative">
+            <div className="gradient-glow top-[-50px] right-[-50px] opacity-60"></div>
+            
+            <div className="text-center max-w-3xl mx-auto space-y-3 relative z-10">
               <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Согласования и коммуникация</span>
-              <h2 className="text-4xl font-light text-foreground tracking-tight font-display">Рабочая Переписка и Exon</h2>
-              <p className="text-muted-foreground text-base leading-relaxed">
+              <h2 className="text-4xl font-light text-white tracking-tight font-display">
+                Рабочая <span className="font-instrument italic font-normal text-gradient-red-orange">переписка</span> и Exon
+              </h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Примеры реального взаимодействия с Технадзором, ГИПами, Заказчиками и подрядчиками при сдаче исполнительной документации и ведении объектов.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-card/30 p-3 rounded-2xl border border-border backdrop-blur-sm shadow-sm h-[650px]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-black/20 p-3 rounded-2xl border border-white/5 backdrop-blur-sm shadow-xl h-[650px] relative z-10">
               
               {/* Chat Sidebar */}
-              <div className="lg:col-span-4 bg-card rounded-xl border border-border flex flex-col overflow-hidden">
-                <div className="p-4 border-b border-border bg-muted/20 font-semibold text-sm flex items-center justify-between">
+              <div className="lg:col-span-4 glass-panel rounded-xl flex flex-col overflow-hidden">
+                <div className="p-4 border-b border-white/5 bg-white/5 font-semibold text-xs uppercase tracking-wider font-mono flex items-center justify-between text-white">
                   <span>Диалоги ({CHATS.length})</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Exon / Messenger</span>
+                  <span className="text-[10px] px-2.5 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Exon / Messenger</span>
                 </div>
-                <div className="flex-1 overflow-y-auto divide-y divide-border no-scrollbar">
+                <div className="flex-1 overflow-y-auto divide-y divide-white/5 no-scrollbar">
                   {CHATS.map(chat => (
                     <button
                       key={chat.id}
                       onClick={() => setSelectedChatId(chat.id)}
-                      className={`w-full text-left p-4 transition-all flex items-start gap-3 border-l-2 ${selectedChatId === chat.id ? 'bg-primary/5 border-l-primary' : 'bg-transparent border-l-transparent hover:bg-muted/40'}`}
+                      className={`w-full text-left p-4 transition-all flex items-start gap-3 border-l-2 ${selectedChatId === chat.id ? 'bg-white/5 border-l-ring' : 'bg-transparent border-l-transparent hover:bg-white/5'}`}
                     >
                       <span className="text-2xl leading-none">{chat.avatar}</span>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-baseline mb-1">
-                          <h4 className="text-xs font-semibold text-foreground truncate">{chat.name}</h4>
+                          <h4 className="text-xs font-semibold text-white truncate">{chat.name}</h4>
                         </div>
-                        <p className="text-xs text-muted-foreground truncate">{chat.author} • {chat.role}</p>
-                        <span className="inline-block mt-1 text-[10px] text-ring font-mono">{chat.date}</span>
+                        <p className="text-[11px] text-muted-foreground truncate">{chat.author} • {chat.role}</p>
+                        <span className="inline-block mt-1 text-[9px] text-ring font-mono uppercase tracking-wider">{chat.date}</span>
                       </div>
                     </button>
                   ))}
@@ -927,32 +935,32 @@ export default function App() {
               </div>
 
               {/* Chat Main Thread View */}
-              <div className="lg:col-span-8 bg-card rounded-xl border border-border flex flex-col overflow-hidden">
+              <div className="lg:col-span-8 glass-panel rounded-xl flex flex-col overflow-hidden">
                 {(() => {
                   const currentChat = CHATS.find(c => c.id === selectedChatId) || CHATS[0]
                   return (
                     <>
                       {/* Chat Header */}
-                      <div className="p-4 border-b border-border bg-muted/20 flex justify-between items-center">
+                      <div className="p-4 border-b border-white/5 bg-white/5 flex justify-between items-center text-white">
                         <div className="flex items-center gap-3">
                           <span className="text-3xl">{currentChat.avatar}</span>
                           <div>
-                            <h3 className="text-sm font-bold text-foreground">{currentChat.name}</h3>
+                            <h3 className="text-sm font-bold text-white">{currentChat.name}</h3>
                             <p className="text-xs text-muted-foreground">{currentChat.author} ({currentChat.role})</p>
                           </div>
                         </div>
-                        <span className="px-3 py-1 text-xs rounded-full bg-primary/10 text-ring border border-primary/20 font-semibold font-mono">
+                        <span className="px-3 py-1 text-[10px] font-mono rounded-lg bg-primary/10 text-ring border border-primary/20 font-bold uppercase tracking-wider">
                           Статус: {currentChat.status}
                         </span>
                       </div>
 
                       {/* Chat Messages Feed */}
-                      <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-background/50">
+                      <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-black/40">
                         {currentChat.messages.map((msg, idx) => {
                           const isMe = msg.sender.includes('Николаев')
                           return (
                             <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                              <div className={`max-w-md p-4 rounded-2xl shadow-sm text-xs space-y-1.5 ${isMe ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-card border border-border text-foreground rounded-bl-none'}`}>
+                              <div className={`max-w-md p-4 rounded-2xl shadow-md text-xs space-y-1.5 ${isMe ? 'bg-gradient-to-r from-primary to-accent text-white rounded-br-none shadow-[0_0_15px_rgba(255,0,34,0.15)]' : 'bg-white/5 border border-white/10 text-white rounded-bl-none'}`}>
                                 <div className="flex justify-between items-center gap-4 text-[10px] opacity-75 font-mono">
                                   <span>{msg.sender}</span>
                                   <span>{msg.time}</span>
@@ -965,14 +973,14 @@ export default function App() {
                       </div>
 
                       {/* Chat Input Placeholder */}
-                      <div className="p-4 border-t border-border bg-card flex gap-3">
+                      <div className="p-4 border-t border-white/5 bg-black/5 flex gap-3">
                         <input
                           type="text"
                           disabled
                           placeholder="Диалог архивирован в рамках отчета портфолио..."
-                          className="flex-1 px-4 py-2.5 rounded-xl bg-muted/30 border border-border text-xs text-muted-foreground cursor-not-allowed"
+                          className="flex-1 px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-muted-foreground cursor-not-allowed"
                         />
-                        <button disabled className="px-4 py-2.5 rounded-xl bg-primary/50 text-primary-foreground text-xs font-semibold cursor-not-allowed">
+                        <button disabled className="px-4 py-2.5 rounded-xl bg-primary/20 text-white/40 text-xs font-semibold cursor-not-allowed uppercase font-mono tracking-wider">
                           Отправить
                         </button>
                       </div>
@@ -987,41 +995,45 @@ export default function App() {
 
         {/* ================= MAP TAB ================= */}
         {activeTab === 'map' && (
-          <section className="space-y-8">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
+          <section className="space-y-8 animate-fade-slide-in relative">
+            <div className="gradient-glow top-[-50px] right-[-50px] opacity-60"></div>
+            
+            <div className="text-center max-w-3xl mx-auto space-y-3 relative z-10">
               <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">География объектов в Москве</span>
-              <h2 className="text-4xl font-light text-foreground tracking-tight font-display">Мои Строительные Объекты</h2>
-              <p className="text-muted-foreground text-base leading-relaxed">
+              <h2 className="text-4xl font-light text-white tracking-tight font-display">
+                Мои строительные <span className="font-instrument italic font-normal text-gradient-red-orange">объекты</span>
+              </h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Интерактивная карта проектов, на которых я успешно закрыл исполнительную документацию (ИД). 
                 Выберите объект из списка слева для центрирования карты и просмотра деталей.
               </p>
             </div>
 
             {/* Map Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-card/30 p-3 rounded-2xl border border-border backdrop-blur-sm shadow-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-black/20 p-3 rounded-2xl border border-white/5 backdrop-blur-sm shadow-xl relative z-10">
               
               {/* Sidebar List */}
-              <div className="lg:col-span-4 flex flex-col h-[600px] bg-card rounded-xl overflow-hidden border border-border shadow-sm">
+              <div className="lg:col-span-4 flex flex-col h-[600px] glass-panel rounded-xl overflow-hidden shadow-md">
                 
                 {/* Search & Filter Header */}
-                <div className="p-4 border-b border-border space-y-3 bg-muted/20">
+                <div className="p-4 border-b border-white/5 space-y-3 bg-white/5">
                   <div className="relative">
                     <input 
                       type="text" 
                       placeholder="Поиск по адресу, компании..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-3 pr-4 py-2 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-ring transition-colors text-sm"
+                      className="w-full px-3 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white placeholder-muted-foreground focus:outline-none focus:border-ring transition-colors text-xs"
                     />
                   </div>
 
                   {/* Contractor Filter pills */}
-                  <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar">
+                  <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                     {contractors.map(c => (
                       <button
                         key={c}
                         onClick={() => setContractorFilter(c)}
-                        className={`px-3 py-1 text-xs rounded-full whitespace-nowrap transition-all border ${contractorFilter === c ? 'bg-primary/10 text-ring border-ring/50' : 'bg-background text-muted-foreground border-transparent hover:bg-muted'}`}
+                        className={`px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider rounded-lg whitespace-nowrap transition-all border cursor-pointer ${contractorFilter === c ? 'bg-white/10 text-white border-white/15' : 'bg-transparent text-muted-foreground border-transparent hover:text-white hover:bg-white/5'}`}
                       >
                         {c === 'Все' ? 'Все подрядчики' : c.replace('ООО ', '').replace('АО ', '')}
                       </button>
@@ -1030,53 +1042,53 @@ export default function App() {
                 </div>
 
                 {/* Objects list scrollable */}
-                <div className="flex-1 overflow-y-auto no-scrollbar divide-y divide-border p-2 space-y-1">
+                <div className="flex-1 overflow-y-auto no-scrollbar divide-y divide-white/5 p-2 space-y-1 bg-black/20">
                   {filteredObjects.length > 0 ? (
                     filteredObjects.map(obj => (
                       <button
                         key={obj.id}
                         onClick={() => setSelectedObjectId(obj.id)}
-                        className={`w-full text-left p-3.5 rounded-lg transition-all border ${selectedObjectId === obj.id ? 'bg-primary/5 border-primary/45 shadow-[inset_4px_0_0_rgba(var(--primary),0.8)]' : 'bg-transparent border-transparent hover:bg-muted/50 text-muted-foreground hover:text-foreground'}`}
+                        className={`w-full text-left p-3.5 rounded-lg transition-all border cursor-pointer ${selectedObjectId === obj.id ? 'bg-gradient-to-r from-primary/10 to-accent/10 border-white/10 shadow-lg text-white' : 'bg-transparent border-transparent text-muted-foreground hover:text-white hover:bg-white/5'}`}
                       >
                         <div className="flex justify-between items-start gap-2 mb-1">
-                          <span className="text-[10px] font-mono text-ring font-bold uppercase">{obj.contractor}</span>
-                          <span className="text-[10px] text-muted-foreground font-mono">{obj.district.split(' ')[0]}</span>
+                          <span className="text-[9px] font-mono text-ring font-bold uppercase tracking-wider">{obj.contractor}</span>
+                          <span className="text-[9px] text-muted-foreground font-mono">{obj.district.split(' ')[0]}</span>
                         </div>
-                        <h4 className="text-sm font-semibold mb-1 text-foreground line-clamp-1">{obj.title}</h4>
-                        <p className="text-xs text-muted-foreground line-clamp-1 flex items-center gap-1">
+                        <h4 className="text-xs font-bold mb-1 text-white line-clamp-1">{obj.title}</h4>
+                        <p className="text-[11px] text-muted-foreground line-clamp-1 flex items-center gap-1">
                           <MapPin size={12} className="text-ring shrink-0" />
                           {obj.address}
                         </p>
                       </button>
                     ))
                   ) : (
-                    <div className="p-8 text-center text-muted-foreground text-sm">Объекты не найдены</div>
+                    <div className="p-8 text-center text-muted-foreground text-xs font-mono">Объекты не найдены</div>
                   )}
                 </div>
               </div>
 
               {/* Map Canvas */}
-              <div className="lg:col-span-8 h-[600px] rounded-xl overflow-hidden relative border border-border shadow-sm">
+              <div className="lg:col-span-8 h-[600px] rounded-xl overflow-hidden relative border border-white/5 shadow-md">
                 <div ref={mapRef} className="w-full h-full z-10" />
 
                 {/* Map Overlay Selected Card Info */}
                 {selectedObject && (
-                  <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-card/95 backdrop-blur-md p-6 rounded-xl border border-border shadow-2xl z-20">
+                  <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md glass-panel gradient-border-premium p-6 rounded-xl shadow-2xl z-20 animate-fade-slide-in">
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <div>
-                        <span className="text-[11px] font-mono text-ring bg-primary/10 px-2 py-0.5 rounded border border-ring/25 font-bold uppercase tracking-wider">{selectedObject.contractor}</span>
-                        <h3 className="text-lg font-bold text-foreground mt-2 leading-snug font-display">{selectedObject.title}</h3>
+                        <span className="text-[9px] font-mono text-white bg-white/10 px-2 py-0.5 rounded border border-white/15 font-bold uppercase tracking-wider">{selectedObject.contractor}</span>
+                        <h3 className="text-lg font-bold text-white mt-2 leading-snug font-display">{selectedObject.title}</h3>
                       </div>
-                      <span className="text-[11px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded border border-border">{selectedObject.district}</span>
+                      <span className="text-[9px] font-mono text-muted-foreground bg-white/5 border border-white/5 px-2 py-0.5 rounded uppercase tracking-wider font-bold">{selectedObject.district.split(' ')[0]}</span>
                     </div>
 
-                    <div className="space-y-3.5 text-sm text-muted-foreground">
+                    <div className="space-y-3.5 text-xs text-muted-foreground font-medium font-sans">
                       <div className="flex gap-2 items-start">
-                        <MapPin size={16} className="text-ring shrink-0 mt-0.5" />
-                        <span className="text-foreground">{selectedObject.address}</span>
+                        <MapPin size={14} className="text-ring shrink-0 mt-0.5" />
+                        <span className="text-white font-sans">{selectedObject.address}</span>
                       </div>
-                      <div className="pt-3 border-t border-border text-xs text-muted-foreground leading-relaxed">
-                        <strong className="text-ring block mb-1">Специфика / Выполненные задачи:</strong>
+                      <div className="pt-3 border-t border-white/5 text-[11px] text-muted-foreground leading-relaxed font-sans">
+                        <strong className="text-ring block mb-1 uppercase font-mono tracking-wider font-bold">Специфика / Задачи:</strong>
                         {selectedObject.details}
                       </div>
                     </div>
@@ -1089,29 +1101,44 @@ export default function App() {
 
         {/* ================= TAB VOR ================= */}
         {activeTab === 'vor' && (
-          <section className="space-y-8 animate-fade-in">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Исполнительная ведомость работ</span>
-              <h2 className="text-4xl font-light text-foreground tracking-tight font-display">Таблица ВОР проекта</h2>
-              <p className="text-muted-foreground text-base">
-                Интерактивная ведомость со всеми объемами работ по проекту из листа **ВОР**. 
-                Вы можете редактировать ячейки на лету (двойной клик), фильтровать, а также загружать/выгружать файлы в формате Excel.
-              </p>
+          <section className="space-y-8 animate-fade-slide-in relative">
+            <div className="gradient-glow top-[-50px] right-[-50px] opacity-60"></div>
+            
+            {/* Header info & Go Back button */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-6">
+              <div className="space-y-1.5">
+                <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Исполнительная ведомость работ</span>
+                <h2 className="text-4xl font-light text-white tracking-tight font-display">
+                  Интерактивная <span className="font-instrument italic font-normal text-gradient-red-orange">ведомость</span> ВОР
+                </h2>
+                <p className="text-muted-foreground text-xs leading-relaxed max-w-2xl">
+                  Интерактивная ведомость со всеми объемами работ по проекту из листа **ВОР**. 
+                  Вы можете редактировать ячейки на лету (двойной клик), фильтровать, а также загружать/выгружать файлы в формате Excel.
+                </p>
+              </div>
+              <div>
+                <button 
+                  onClick={() => setActiveTab('home')}
+                  className="px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-mono uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 active:scale-95"
+                >
+                  &larr; Назад на главную
+                </button>
+              </div>
             </div>
 
             {/* Table Control Panel */}
-            <div className="bg-card border border-border rounded-2xl p-5 shadow-sm space-y-4">
+            <div className="glass-panel p-6 rounded-2xl shadow-xl space-y-4">
               <div className="flex flex-col md:flex-row justify-between gap-4">
                 
                 {/* Search Bar */}
                 <div className="relative flex-1 max-w-md">
-                  <Search className="absolute left-3 top-3 text-muted-foreground" size={16} />
+                  <Search className="absolute left-3.5 top-3 text-muted-foreground" size={14} />
                   <input
                     type="text"
                     placeholder="Поиск по наименованию, шифру, ID..."
                     value={vorSearchQuery}
                     onChange={(e) => setVorSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-ring text-sm"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white placeholder-muted-foreground focus:outline-none focus:border-ring text-xs transition-colors"
                   />
                 </div>
 
@@ -1121,13 +1148,13 @@ export default function App() {
                   {/* Add row */}
                   <button 
                     onClick={handleAddRow}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground text-xs font-semibold rounded-lg cursor-pointer hover:opacity-90 transition-opacity shadow-sm"
+                    className="flex items-center gap-1.5 px-4 py-2.5 bg-gradient-to-r from-primary to-accent text-white text-xs font-semibold rounded-lg cursor-pointer hover:brightness-110 shadow-lg transition-all active:scale-95"
                   >
                     <Plus size={14} /> Добавить строку
                   </button>
 
                   {/* Import Excel */}
-                  <label className="flex items-center gap-1.5 px-4 py-2 border border-border bg-background hover:bg-muted/40 text-foreground text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all">
+                  <label className="flex items-center gap-1.5 px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95">
                     <Upload size={14} className="text-ring" />
                     <span>Импорт XLSX</span>
                     <input 
@@ -1141,7 +1168,7 @@ export default function App() {
                   {/* Export Excel */}
                   <button 
                     onClick={handleExportExcel}
-                    className="flex items-center gap-1.5 px-4 py-2 border border-border bg-background hover:bg-muted/40 text-foreground text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all"
+                    className="flex items-center gap-1.5 px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95"
                   >
                     <Download size={14} className="text-ring" /> Экспорт XLSX
                   </button>
@@ -1150,15 +1177,15 @@ export default function App() {
                   <div className="relative">
                     <button 
                       onClick={() => setShowColumnDropdown(!showColumnDropdown)}
-                      className="flex items-center gap-1.5 px-4 py-2 border border-border bg-background hover:bg-muted/40 text-foreground text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all"
+                      className="flex items-center gap-1.5 px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95"
                     >
                       <LayoutGrid size={14} className="text-ring" /> Колонки
                     </button>
                     
                     {showColumnDropdown && (
-                      <div className="absolute right-0 mt-2 w-48 rounded-xl bg-card border border-border p-2 shadow-xl z-50 text-xs text-foreground space-y-1">
+                      <div className="absolute right-0 mt-2 w-48 rounded-xl bg-card border border-white/10 p-2 shadow-xl z-50 text-xs text-white space-y-1">
                         {Object.keys(visibleColumns).map((col) => (
-                          <label key={col} className="flex items-center gap-2 p-1.5 hover:bg-muted/50 rounded-lg cursor-pointer">
+                          <label key={col} className="flex items-center gap-2 p-1.5 hover:bg-white/5 rounded-lg cursor-pointer">
                             <input 
                               type="checkbox"
                               checked={(visibleColumns as any)[col]}
@@ -1166,7 +1193,7 @@ export default function App() {
                                 ...visibleColumns,
                                 [col]: e.target.checked
                               })}
-                              className="rounded border-border text-ring focus:ring-ring"
+                              className="rounded border-white/10 text-primary focus:ring-primary bg-black/40"
                             />
                             <span className="capitalize">{col === 'qty' ? 'Кол-во' : col === 'unit' ? 'Ед.изм.' : col === 'model' ? 'Марка/тип' : col === 'name' ? 'Наименование' : col === 'code' ? 'Шифр' : col === 'status' ? 'Состояние' : col === 'actions' ? 'Действия' : col}</span>
                           </label>
@@ -1179,7 +1206,7 @@ export default function App() {
               </div>
 
               {/* Faceted Filters Row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-border">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-white/5">
                 
                 {/* System Filter */}
                 <div className="space-y-1.5">
@@ -1187,10 +1214,10 @@ export default function App() {
                   <select
                     value={vorSystemFilter}
                     onChange={(e) => setVorSystemFilter(e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-lg bg-background border border-border text-foreground text-xs focus:outline-none focus:border-ring"
+                    className="w-full px-3 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-ring"
                   >
                     {uniqueSystems.map(sys => (
-                      <option key={sys} value={sys}>{sys}</option>
+                      <option key={sys} value={sys} className="bg-card text-white">{sys}</option>
                     ))}
                   </select>
                 </div>
@@ -1201,10 +1228,10 @@ export default function App() {
                   <select
                     value={vorStatusFilter}
                     onChange={(e) => setVorStatusFilter(e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-lg bg-background border border-border text-foreground text-xs focus:outline-none focus:border-ring"
+                    className="w-full px-3 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-ring"
                   >
                     {uniqueStatuses.map(st => (
-                      <option key={st} value={st}>{st || 'Не указано'}</option>
+                      <option key={st} value={st} className="bg-card text-white">{st || 'Не указано'}</option>
                     ))}
                   </select>
                 </div>
@@ -1215,10 +1242,10 @@ export default function App() {
                   <select
                     value={vorSupplierFilter}
                     onChange={(e) => setVorSupplierFilter(e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-lg bg-background border border-border text-foreground text-xs focus:outline-none focus:border-ring"
+                    className="w-full px-3 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-ring"
                   >
                     {uniqueSuppliers.map(sup => (
-                      <option key={sup} value={sup}>{sup || 'Не указано'}</option>
+                      <option key={sup} value={sup} className="bg-card text-white">{sup || 'Не указано'}</option>
                     ))}
                   </select>
                 </div>
@@ -1227,11 +1254,11 @@ export default function App() {
             </div>
 
             {/* Excel Data Table Canvas */}
-            <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+            <div className="glass-panel border border-white/5 rounded-2xl overflow-hidden shadow-xl">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="bg-muted/30 border-b border-border text-muted-foreground font-mono uppercase tracking-wider text-[10px]">
+                    <tr className="bg-white/5 border-b border-white/5 text-muted-foreground font-mono uppercase tracking-wider text-[10px]">
                       {visibleColumns.id && <th className="p-3 w-16 text-center">ID</th>}
                       {visibleColumns.code && <th className="p-3">Шифр</th>}
                       {visibleColumns.system && <th className="p-3">Система</th>}
@@ -1523,54 +1550,58 @@ export default function App() {
 
         {/* ================= CASES TAB ================= */}
         {activeTab === 'cases' && (
-          <section className="space-y-8 animate-fade-in">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
+          <section className="space-y-12 animate-fade-slide-in relative">
+            <div className="gradient-glow top-[-50px] left-[-50px] opacity-55"></div>
+            
+            <div className="text-center max-w-3xl mx-auto space-y-3 relative z-10">
               <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Оптимизация и Автоматизация</span>
-              <h2 className="text-4xl font-light text-foreground tracking-tight font-display">Рабочие Кейсы & Инновации</h2>
-              <p className="text-muted-foreground text-lg">
+              <h2 className="text-4xl font-light text-white tracking-tight font-display">
+                Рабочие <span className="font-instrument italic font-normal text-gradient-red-orange">кейсы</span> & Инновации
+              </h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 Практические примеры решения критических проблем сдачи ИД с использованием Excel, VBA и скриптов автоматизации.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
               {/* Left Case selector buttons */}
-              <div className="space-y-3">
+              <div className="lg:col-span-4 space-y-3">
                 {CASES.map(c => (
                   <button
                     key={c.id}
                     onClick={() => setActiveCaseId(c.id)}
-                    className={`w-full text-left p-5 rounded-xl border transition-all duration-300 cursor-pointer ${activeCaseId === c.id ? 'bg-primary/5 border-primary shadow text-foreground' : 'bg-card/40 border-border text-muted-foreground hover:text-foreground hover:bg-card/60'}`}
+                    className={`w-full text-left p-5 rounded-xl border transition-all duration-300 cursor-pointer ${activeCaseId === c.id ? 'bg-gradient-to-r from-primary to-accent border-transparent text-white shadow-[0_0_15px_rgba(255,0,34,0.25)]' : 'glass-panel border-white/5 text-muted-foreground hover:text-white hover:bg-white/10'}`}
                   >
-                    <div className="text-xs font-mono text-ring mb-1 font-bold">КЕЙС 0{c.id}</div>
-                    <h3 className="text-base font-bold line-clamp-1">{c.title}</h3>
+                    <div className="text-[10px] font-mono text-ring mb-1 font-bold uppercase tracking-wider">Кейс 0{c.id}</div>
+                    <h3 className="text-sm font-bold line-clamp-1">{c.title}</h3>
                   </button>
                 ))}
               </div>
 
               {/* Case details presentation */}
-              <div className="lg:col-span-2 bg-card/30 border border-border rounded-2xl p-8 backdrop-blur-sm min-h-[400px] shadow-sm">
+              <div className="lg:col-span-8 glass-panel gradient-border-premium p-8 rounded-2xl min-h-[400px] shadow-xl">
                 {activeCaseId !== null && (
                   <div className="space-y-6">
                     {/* Header */}
                     <div>
-                      <span className="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 uppercase tracking-widest font-bold">Кейс {activeCaseId}</span>
-                      <h3 className="text-2xl font-extrabold text-foreground mt-3 font-display">{CASES[activeCaseId - 1].title}</h3>
+                      <span className="text-[10px] font-mono text-white bg-white/10 px-2.5 py-1 rounded-lg border border-white/15 uppercase tracking-widest font-bold">Кейс 0{activeCaseId}</span>
+                      <h3 className="text-2xl font-bold text-white mt-3 font-display">{CASES[activeCaseId - 1].title}</h3>
                     </div>
 
                     {/* Problem */}
                     <div className="space-y-2">
-                      <h4 className="text-xs font-mono font-bold text-red-500 uppercase tracking-wider">Проблема / Вызов</h4>
-                      <p className="text-muted-foreground text-sm leading-relaxed bg-red-500/5 border border-red-500/10 p-4 rounded-xl">
+                      <h4 className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest">Проблема / Вызов</h4>
+                      <p className="text-muted-foreground text-xs md:text-sm leading-relaxed bg-red-500/5 border border-red-500/10 p-4 rounded-xl font-medium">
                         {CASES[activeCaseId - 1].problem}
                       </p>
                     </div>
 
                     {/* Tools */}
                     <div className="space-y-2">
-                      <h4 className="text-xs font-mono font-bold text-ring uppercase tracking-wider">Примененный Стек</h4>
+                      <h4 className="text-[10px] font-mono font-bold text-ring uppercase tracking-widest">Примененный Стек</h4>
                       <div className="flex flex-wrap gap-2">
                         {CASES[activeCaseId - 1].tools.split(',').map(tool => (
-                          <span key={tool} className="text-xs font-mono bg-background border border-border px-3 py-1 rounded-lg text-foreground font-semibold">
+                          <span key={tool} className="text-[10px] font-mono bg-white/5 border border-white/10 px-3 py-1 rounded-lg text-white font-semibold">
                             {tool.trim()}
                           </span>
                         ))}
@@ -1579,11 +1610,11 @@ export default function App() {
 
                     {/* Work done */}
                     <div className="space-y-2">
-                      <h4 className="text-xs font-mono font-bold text-ring uppercase tracking-wider">Проделанная работа</h4>
-                      <ul className="space-y-2.5 text-sm text-muted-foreground">
+                      <h4 className="text-[10px] font-mono font-bold text-ring uppercase tracking-widest">Проделанная работа</h4>
+                      <ul className="space-y-3 text-xs md:text-sm text-muted-foreground font-medium">
                         {CASES[activeCaseId - 1].work.map((item, index) => (
                           <li key={index} className="flex gap-3 items-start">
-                            <CheckCircle2 size={16} className="text-ring shrink-0 mt-0.5" />
+                            <CheckCircle2 size={14} className="text-ring shrink-0 mt-0.5" />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -1591,9 +1622,9 @@ export default function App() {
                     </div>
 
                     {/* Result */}
-                    <div className="space-y-2 pt-4 border-t border-border">
-                      <h4 className="text-xs font-mono font-bold text-ring uppercase tracking-wider">Результат в цифрах / Эффект</h4>
-                      <p className="text-foreground text-sm font-semibold bg-primary/5 border border-primary/10 p-4 rounded-xl">
+                    <div className="space-y-2 pt-6 border-t border-white/5">
+                      <h4 className="text-[10px] font-mono font-bold text-ring uppercase tracking-widest">Результат в цифрах / Эффект</h4>
+                      <p className="text-white text-xs md:text-sm font-semibold bg-primary/5 border border-primary/20 p-4 rounded-xl">
                         {CASES[activeCaseId - 1].result}
                       </p>
                     </div>
