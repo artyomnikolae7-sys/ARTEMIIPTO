@@ -845,6 +845,14 @@ export default function App() {
                   >
                     <Send size={16} /> Переписка / Согласования Exon
                   </button>
+                  <a 
+                    href="https://artyomnikolae7-sys.github.io/ARTEMIIPTO/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-5 py-3 rounded-xl border border-primary/30 bg-primary/10 hover:bg-primary/20 text-ring font-semibold text-sm transition-all flex items-center gap-2"
+                  >
+                    <ArrowUpRight size={16} /> Открыть сайт на Pages
+                  </a>
                 </div>
               </div>
             </div>
