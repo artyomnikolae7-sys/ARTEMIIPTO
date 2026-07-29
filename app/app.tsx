@@ -818,62 +818,70 @@ export default function App() {
 
         {/* ================= HOME TAB ================= */}
         {activeTab === 'home' && (
-          <section className="space-y-12">
+          <section className="space-y-16 relative animate-fade-slide-in">
+            {/* Glow backdrop */}
+            <div className="gradient-glow top-[-100px] left-[-50px]"></div>
+            <div className="gradient-glow top-[150px] right-[-50px] opacity-75"></div>
+
             {/* Hero Section */}
-            <div className="relative overflow-hidden rounded-3xl bg-card border border-border p-8 md:p-12 shadow-lg">
-              <div className="relative z-10 max-w-3xl space-y-6">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-ring text-xs font-mono font-semibold">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                  Открыт к предложениям / Инженер ПТО
-                </div>
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-display leading-tight">
-                  Николаев Артемий
-                </h1>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Специалист по подготовке и сдаче исполнительной документации (ИД), ведению ВОР, исполнительных схем в AutoCAD и автоматизации процессов в строительстве. Сдал более 17 крупных объектов в Москве.
-                </p>
-                <div className="flex flex-wrap gap-4 pt-2">
-                  <button 
-                    onClick={() => setActiveTab('map')}
-                    className="px-5 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-all shadow-md flex items-center gap-2 cursor-pointer"
-                  >
-                    <MapPin size={16} /> Карта объектов (17)
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('chat')}
-                    className="px-5 py-3 rounded-xl border border-border bg-card hover:bg-muted text-foreground font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer"
-                  >
-                    <Send size={16} /> Переписка / Согласования Exon
-                  </button>
-                  <a 
-                    href="https://artyomnikolae7-sys.github.io/ARTEMIIPTO/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-5 py-3 rounded-xl border border-primary/30 bg-primary/10 hover:bg-primary/20 text-ring font-semibold text-sm transition-all flex items-center gap-2"
-                  >
-                    <ArrowUpRight size={16} /> Открыть сайт на Pages
-                  </a>
-                </div>
+            <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 pt-8 md:pt-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-white/5 text-ring text-[11px] font-mono font-semibold uppercase tracking-wider shadow-xl">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping shrink-0"></span>
+                <span>Сдача ИД &bull; Автоматизация ПТО</span>
+              </div>
+              
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white font-display leading-none">
+                Сдаю <span className="font-instrument text-gradient-red-orange font-normal italic">исполнительную</span> <br className="hidden md:inline" />
+                документацию без <span className="font-instrument text-gradient-red-orange font-normal italic">замечаний</span>
+              </h1>
+
+              <p className="max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed font-sans font-medium">
+                Николаев Артемий — Инженер ПТО со стажем более 3 лет. Специализируюсь на закрытии разделов связи (СС, НСС) и автоматизации рутины. Сдал <span className="text-white font-semibold">17 крупных объектов</span> в Москве с помощью скриптов и AutoCAD.
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-4 pt-4">
+                <button 
+                  onClick={() => setActiveTab('map')}
+                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-semibold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,0,34,0.35)] flex items-center gap-2 cursor-pointer"
+                >
+                  <MapPin size={14} /> Карта объектов (17)
+                </button>
+                <button 
+                  onClick={() => setActiveTab('chat')}
+                  className="px-6 py-3.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-semibold text-xs uppercase tracking-wider hover:border-white/20 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+                >
+                  <Send size={14} className="text-ring" /> Согласования Exon
+                </button>
+                <button 
+                  onClick={() => setActiveTab('experience')}
+                  className="px-6 py-3.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-semibold text-xs uppercase tracking-wider hover:border-white/20 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+                >
+                  <Briefcase size={14} className="text-ring" /> Мой опыт & Стек
+                </button>
               </div>
             </div>
 
-            {/* Key Metrics / Highlights */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
-                <span className="text-3xl font-bold text-ring font-mono">17+</span>
-                <p className="text-xs text-muted-foreground font-medium">Сданных объектов в МСК</p>
+            {/* Key Metrics / Highlights Grid */}
+            <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
+              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">17+</span>
+                <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Сданных объектов</p>
+                <p className="text-xs text-muted-foreground font-sans italic">Жилые комплексы в МСК</p>
               </div>
-              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
-                <span className="text-3xl font-bold text-ring font-mono">100%</span>
-                <p className="text-xs text-muted-foreground font-medium">Закрытие ИД по сетям связи</p>
+              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">100%</span>
+                <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Закрытие ИД</p>
+                <p className="text-xs text-muted-foreground font-sans italic">Слаботочные сети связи</p>
               </div>
-              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
-                <span className="text-3xl font-bold text-ring font-mono">Exon</span>
-                <p className="text-xs text-muted-foreground font-medium">Свободное владение ИС</p>
+              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">Exon</span>
+                <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Свободное владение</p>
+                <p className="text-xs text-muted-foreground font-sans italic">Согласование без задержек</p>
               </div>
-              <div className="bg-card border border-border p-6 rounded-2xl text-center space-y-1 shadow-sm">
-                <span className="text-3xl font-bold text-ring font-mono">AutoCAD</span>
-                <p className="text-xs text-muted-foreground font-medium">Схемы и чертежи</p>
+              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">AutoCAD</span>
+                <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Схемы и скрипты</p>
+                <p className="text-xs text-muted-foreground font-sans italic">Интеграция с Excel</p>
               </div>
             </div>
           </section>
@@ -1596,78 +1604,80 @@ export default function App() {
           </section>
         )}
 
-        {/* ================= PROFILE TAB ================= */}
-        {activeTab === 'profile' && (
-          <section className="space-y-12 animate-fade-in">
+        {/* ================= EXPERIENCE TAB ================= */}
+        {activeTab === 'experience' && (
+          <section className="space-y-12 animate-fade-slide-in relative">
+            <div className="gradient-glow top-[-50px] right-[-50px] opacity-50"></div>
+            
             {/* Top Grid Info */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
               
               {/* Profile Card */}
-              <div className="bg-card/40 border border-border rounded-2xl p-6 space-y-6 text-center md:text-left flex flex-col justify-between backdrop-blur-sm shadow-sm">
-                <div className="space-y-4">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-primary to-ring mx-auto md:mx-0 flex items-center justify-center text-4xl shadow-lg shadow-primary/10">
+              <div className="glass-panel gradient-border-premium p-8 rounded-2xl flex flex-col justify-between shadow-xl">
+                <div className="space-y-6">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-primary to-ring mx-auto md:mx-0 flex items-center justify-center text-4xl shadow-lg shadow-primary/20">
                     👷‍♂️
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-foreground font-display">Николаев Артемий</h3>
-                    <p className="text-muted-foreground text-sm">Инженер ПТО / Специалист по исполнительной документации</p>
+                  <div className="space-y-2 text-center md:text-left">
+                    <h3 className="text-3xl font-bold text-white font-display">Николаев Артемий</h3>
+                    <p className="text-xs font-mono text-ring uppercase tracking-wider font-bold">Инженер ПТО / Специалист по ИД</p>
                   </div>
-                  <div className="flex flex-wrap justify-center md:justify-start gap-2">
-                    <span className="text-xs bg-background border border-border text-ring font-mono px-2 py-0.5 rounded font-bold">СС</span>
-                    <span className="text-xs bg-background border border-border text-ring font-mono px-2 py-0.5 rounded font-bold">НСС</span>
-                    <span className="text-xs bg-background border border-border text-ring font-mono px-2 py-0.5 rounded font-bold">ЭОМ</span>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
+                    <span className="text-[10px] font-mono bg-white/5 border border-white/10 text-white px-2.5 py-1 rounded-lg font-bold">СС (Связь)</span>
+                    <span className="text-[10px] font-mono bg-white/5 border border-white/10 text-white px-2.5 py-1 rounded-lg font-bold">НСС (Наружная)</span>
+                    <span className="text-[10px] font-mono bg-white/5 border border-white/10 text-white px-2.5 py-1 rounded-lg font-bold">ЭОМ (Электрика)</span>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-border space-y-3.5 text-sm text-muted-foreground">
+                <div className="pt-8 mt-8 border-t border-white/5 space-y-4 text-xs text-muted-foreground font-mono">
                   <div className="flex items-center gap-3 justify-center md:justify-start">
-                    <Phone size={16} className="text-ring" />
-                    <span>89154944457</span>
+                    <Phone size={14} className="text-ring shrink-0" />
+                    <span>8 (915) 494-44-57</span>
                   </div>
                   <div className="flex items-center gap-3 justify-center md:justify-start">
-                    <Mail size={16} className="text-ring" />
+                    <Mail size={14} className="text-ring shrink-0" />
                     <span>artyomnikolae7@gmail.com</span>
                   </div>
                   <div className="flex items-center gap-3 justify-center md:justify-start">
-                    <Github size={16} className="text-ring" />
-                    <span>@Amantle_x (Telegram)</span>
+                    <Github size={14} className="text-ring shrink-0" />
+                    <span>Telegram: @Amantle_x</span>
                   </div>
                 </div>
               </div>
 
               {/* Work Profile Details */}
-              <div className="md:col-span-2 bg-card/40 border border-border rounded-2xl p-8 space-y-6 backdrop-blur-sm shadow-sm">
+              <div className="md:col-span-2 glass-panel gradient-border-premium p-8 rounded-2xl space-y-6 shadow-xl">
                 <div>
-                  <h3 className="text-xl font-bold text-foreground flex items-center gap-2 font-display">
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-2 font-display">
                     <Briefcase size={20} className="text-ring" />
-                    Профиль / Опыт работы
+                    <span className="font-instrument italic font-normal text-gradient-red-orange">Профиль</span> & Опыт работы
                   </h3>
-                  <div className="h-1 w-16 bg-ring mt-2 rounded"></div>
+                  <div className="h-0.5 w-12 bg-gradient-to-r from-primary to-accent mt-2 rounded"></div>
                 </div>
                 
-                <p className="text-muted-foreground text-base leading-relaxed">
-                  3 года работаю в <strong>Exon</strong> в субподрядной организации: закрываю исполнительную документацию по слаботочным сетям связи и сдаю комплекты.
-                  Моя главная ценность — выстраивание качественного процесса и оптимизация рутины, сокращающие количество замечаний от технадзора и повышающие скорость согласования.
+                <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-sans font-medium">
+                  Более 3 лет работаю в субподрядной строительной организации в системе <strong className="text-white">Exon</strong>: осуществляю сборку, проверку и сдачу исполнительной документации по слаботочным сетям связи, а также ведение ведомостей объемов работ (ВОР). 
+                  Мой фокус — <span className="text-white font-semibold">автоматизация процессов</span> (AutoCAD + Excel), что сокращает время на подготовку актов и минимизирует замечания от технадзора.
                 </p>
 
-                <div className="space-y-4">
-                  <h4 className="text-sm font-bold text-ring uppercase tracking-widest font-mono">Сильные стороны:</h4>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-muted-foreground">
-                    <li className="flex gap-2 items-center">
-                      <CheckCircle2 size={16} className="text-ring" />
-                      Контроль состава и страничности документов
+                <div className="space-y-4 pt-4 border-t border-white/5">
+                  <h4 className="text-xs font-bold text-ring uppercase tracking-widest font-mono">Профессиональные компетенции:</h4>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-muted-foreground font-sans font-medium">
+                    <li className="flex gap-2.5 items-start">
+                      <CheckCircle2 size={14} className="text-ring shrink-0 mt-0.5" />
+                      <span>Контроль состава и страничности документов</span>
                     </li>
-                    <li className="flex gap-2 items-center">
-                      <CheckCircle2 size={16} className="text-ring" />
-                      Разработка единых шаблонов схем/реестров
+                    <li className="flex gap-2.5 items-start">
+                      <CheckCircle2 size={14} className="text-ring shrink-0 mt-0.5" />
+                      <span>Разработка единых шаблонов чертежей и реестров</span>
                     </li>
-                    <li className="flex gap-2 items-center">
-                      <CheckCircle2 size={16} className="text-ring" />
-                      Загрузка ИД в Exon, Sarex
+                    <li className="flex gap-2.5 items-start">
+                      <CheckCircle2 size={14} className="text-ring shrink-0 mt-0.5" />
+                      <span>Загрузка и ведение ИД в ИС Exon, Sarex</span>
                     </li>
-                    <li className="flex gap-2 items-center">
-                      <CheckCircle2 size={16} className="text-ring" />
-                      Разработка ППР и Техкарт по Наружным сетям
+                    <li className="flex gap-2.5 items-start">
+                      <CheckCircle2 size={14} className="text-ring shrink-0 mt-0.5" />
+                      <span>Разработка ППР и техкарт по Наружным сетям</span>
                     </li>
                   </ul>
                 </div>
@@ -1675,16 +1685,16 @@ export default function App() {
             </div>
 
             {/* Skills & AI Stack */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
               {/* Standard Skills */}
-              <div className="bg-card/30 border border-border rounded-2xl p-6 space-y-4 shadow-sm">
-                <h3 className="text-lg font-bold text-foreground flex items-center gap-2 font-display">
+              <div className="glass-panel gradient-border-premium p-8 rounded-2xl space-y-4 shadow-xl">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2 font-display">
                   <SlidersHorizontal size={18} className="text-ring" />
-                  Инструменты & Стандартные навыки
+                  Инструменты & <span className="font-instrument italic font-normal text-gradient-red-orange">Навыки</span>
                 </h3>
                 <div className="flex flex-wrap gap-2 pt-2">
                   {['AutoCAD', 'Excel', 'VBA', 'PowerQuery', 'PowerBI', 'Word', 'Photoshop'].map(skill => (
-                    <span key={skill} className="px-3.5 py-1.5 rounded-lg bg-background border border-border text-foreground text-sm font-medium">
+                    <span key={skill} className="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs font-semibold hover:bg-white/10 transition-colors">
                       {skill}
                     </span>
                   ))}
@@ -1692,14 +1702,14 @@ export default function App() {
               </div>
 
               {/* AI Stack */}
-              <div className="bg-card/30 border border-border rounded-2xl p-6 space-y-4 shadow-sm">
-                <h3 className="text-lg font-bold text-foreground flex items-center gap-2 font-display">
+              <div className="glass-panel gradient-border-premium p-8 rounded-2xl space-y-4 shadow-xl">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2 font-display">
                   <Cpu size={18} className="text-ring" />
-                  Искусственный Интеллект Stack
+                  Искусственный <span className="font-instrument italic font-normal text-gradient-red-orange">Интеллект</span> Stack
                 </h3>
                 <div className="flex flex-wrap gap-2 pt-2">
                   {['Antigravity', 'Cursor', 'Gemini', 'DeepSeek', 'Grok', 'ChatGPT', 'Copilot'].map(ai => (
-                    <span key={ai} className="px-3.5 py-1.5 rounded-lg bg-primary/5 border border-ring/20 text-ring text-sm font-medium">
+                    <span key={ai} className="px-3.5 py-2 rounded-xl bg-primary/5 border border-primary/20 text-ring text-xs font-semibold hover:bg-primary/10 transition-colors">
                       {ai}
                     </span>
                   ))}
@@ -1708,19 +1718,128 @@ export default function App() {
             </div>
 
             {/* Education */}
-            <div className="bg-card/40 border border-border rounded-2xl p-8 backdrop-blur-sm shadow-sm">
-              <h3 className="text-xl font-bold text-foreground flex items-center gap-2 mb-4 font-display">
+            <div className="glass-panel gradient-border-premium p-8 rounded-2xl shadow-xl relative z-10">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2 mb-6 font-display">
                 <GraduationCap size={22} className="text-ring" />
-                Образование
+                <span className="font-instrument italic font-normal text-gradient-red-orange">Образование</span>
               </h3>
-              <div className="border-l border-border pl-6 space-y-4 relative">
-                <div className="absolute w-3 h-3 bg-ring rounded-full -left-[6px] top-1.5 shadow-[0_0_8px_rgba(var(--ring),0.8)]"></div>
-                <div>
-                  <h4 className="text-base font-bold text-foreground">Московский гуманитарно-технический университет — Московский архитектурно-строительный институт (МГТУ-МАСИ)</h4>
-                  <p className="text-muted-foreground text-sm">Высшее образование — бакалавриат</p>
-                  <p className="text-muted-foreground text-sm mt-2"><strong>Направление подготовки:</strong> 08.03.01 Строительство (Промышленное и гражданское строительство)</p>
-                  <p className="text-xs text-muted-foreground mt-1">Очно-заочная форма. Дата выдачи диплома: 17 января 2026</p>
+              <div className="border-l border-white/10 pl-6 space-y-4 relative">
+                <div className="absolute w-3 h-3 bg-red-500 rounded-full -left-[6px] top-1.5 shadow-[0_0_10px_rgba(255,0,34,0.8)]"></div>
+                <div className="space-y-2">
+                  <h4 className="text-base font-bold text-white font-sans leading-snug">Московский гуманитарно-технический университет — Московский архитектурно-строительный институт (МГТУ-МАСИ)</h4>
+                  <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider font-bold">Высшее образование — бакалавриат</p>
+                  <p className="text-sm text-muted-foreground pt-1"><strong>Направление подготовки:</strong> 08.03.01 Строительство (Промышленное и гражданское строительство)</p>
+                  <p className="text-xs text-muted-foreground italic">Очно-заочная форма. Диплом выдан 17 января 2026 г.</p>
                 </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ================= CONTACTS TAB ================= */}
+        {activeTab === 'contacts' && (
+          <section className="space-y-8 animate-fade-slide-in relative">
+            <div className="gradient-glow bottom-[-50px] left-[-50px] opacity-60"></div>
+            
+            <div className="text-center max-w-3xl mx-auto space-y-3 relative z-10">
+              <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Связаться со мной</span>
+              <h2 className="text-4xl font-light text-white tracking-tight font-display">
+                Начать <span className="font-instrument italic font-normal text-gradient-red-orange">сотрудничество</span>
+              </h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                Если у вас есть вопросы по сдаче ИД, ведению ВОР на ваших объектах или вы хотите обсудить проект автоматизации ПТО — заполните форму ниже или свяжитесь напрямую.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto relative z-10">
+              {/* Contact Info Cards */}
+              <div className="lg:col-span-5 space-y-4 flex flex-col justify-center">
+                <div className="glass-panel gradient-border-premium p-6 rounded-xl space-y-2">
+                  <span className="text-[10px] font-mono text-ring uppercase font-bold">Локация</span>
+                  <div className="flex items-center gap-3 text-sm text-white">
+                    <MapPin size={16} className="text-ring" />
+                    <span>Москва, Российская Федерация</span>
+                  </div>
+                </div>
+
+                <div className="glass-panel gradient-border-premium p-6 rounded-xl space-y-2">
+                  <span className="text-[10px] font-mono text-ring uppercase font-bold">Электронная почта</span>
+                  <div className="flex items-center gap-3 text-sm text-white">
+                    <Mail size={16} className="text-ring" />
+                    <a href="mailto:artyomnikolae7@gmail.com" className="hover:underline">artyomnikolae7@gmail.com</a>
+                  </div>
+                </div>
+
+                <div className="glass-panel gradient-border-premium p-6 rounded-xl space-y-2">
+                  <span className="text-[10px] font-mono text-ring uppercase font-bold">Telegram / Связь</span>
+                  <div className="flex items-center gap-3 text-sm text-white">
+                    <Github size={16} className="text-ring" />
+                    <a href="https://t.me/Amantle_x" target="_blank" rel="noreferrer" className="hover:underline">@Amantle_x</a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Form */}
+              <div className="lg:col-span-7 glass-panel gradient-border-premium p-8 rounded-2xl shadow-xl">
+                <h4 className="text-lg font-bold text-white mb-6 font-display">Отправить сообщение</h4>
+                
+                {formSubmitted ? (
+                  <div className="bg-emerald-500/5 border border-emerald-500/20 p-8 rounded-xl text-center space-y-3">
+                    <Check className="w-12 h-12 text-emerald-500 mx-auto" />
+                    <h4 className="font-bold text-white">Сообщение успешно отправлено!</h4>
+                    <p className="text-xs text-muted-foreground">Спасибо за обращение. Я свяжусь с вами в течение рабочего дня.</p>
+                    <button 
+                      onClick={() => setFormSubmitted(false)}
+                      className="text-xs text-ring hover:underline mt-4 cursor-pointer"
+                    >
+                      Отправить новое сообщение
+                    </button>
+                  </div>
+                ) : (
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      setFormSubmitted(true)
+                    }}
+                    className="space-y-4"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase font-mono">Ваше Имя *</label>
+                        <input 
+                          required 
+                          type="text" 
+                          placeholder="Артемий" 
+                          className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring transition-colors text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase font-mono">Email *</label>
+                        <input 
+                          required 
+                          type="email" 
+                          placeholder="you@example.com" 
+                          className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring transition-colors text-xs"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase font-mono">Сообщение *</label>
+                      <textarea 
+                        required 
+                        rows={4}
+                        placeholder="Здравствуйте, Артемий! Требуется сдать ИД по объекту..." 
+                        className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring transition-colors text-xs resize-none"
+                      ></textarea>
+                    </div>
+                    <button 
+                      type="submit" 
+                      className="w-full py-3.5 px-4 bg-gradient-to-r from-primary to-accent text-white font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-2 cursor-pointer hover:brightness-110 shadow-lg transition-all active:scale-95"
+                    >
+                      <Send size={12} /> Отправить сообщение
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </section>
@@ -1796,102 +1915,14 @@ export default function App() {
 
       </main>
 
-      {/* Footer & Contact Form */}
-      <footer className="bg-muted/10 border-t border-border mt-20 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
-            {/* Contact Details */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-foreground font-display">Связаться со мной</h3>
-              <p className="text-muted-foreground leading-relaxed text-sm">
-                Если у вас есть вопросы по поводу сдачи исполнительной документации на ваших строительных объектах, 
-                требуется автоматизация рутинных процессов или вы хотите пригласить меня в проект, напишите мне на почту или в Telegram.
-              </p>
-              
-              <div className="space-y-3.5 text-sm text-muted-foreground">
-                <div className="flex items-center gap-3">
-                  <MapPin size={16} className="text-ring" />
-                  <span>Москва, Российская Федерация</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Mail size={16} className="text-ring" />
-                  <span>artyomnikolae7@gmail.com</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Github size={16} className="text-ring" />
-                  <span>Telegram: @Amantle_x</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Contact Form */}
-            <div className="bg-card/60 p-8 rounded-2xl border border-border relative shadow-sm">
-              <h4 className="text-lg font-bold text-foreground mb-6 font-display">Отправить сообщение</h4>
-              
-              {formSubmitted ? (
-                <div className="bg-emerald-500/5 border border-emerald-500/20 p-6 rounded-xl text-center space-y-3">
-                  <Check className="w-12 h-12 text-emerald-500 mx-auto" />
-                  <h4 className="font-bold text-foreground">Сообщение отправлено!</h4>
-                  <p className="text-sm text-muted-foreground">Спасибо за обращение. Я свяжусь с вами в ближайшее время.</p>
-                  <button 
-                    onClick={() => setFormSubmitted(false)}
-                    className="text-xs text-ring hover:underline mt-2 cursor-pointer"
-                  >
-                    Отправить еще одно
-                  </button>
-                </div>
-              ) : (
-                <form 
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    setFormSubmitted(true)
-                  }}
-                  className="space-y-4"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase font-mono">Ваше Имя *</label>
-                      <input 
-                        required 
-                        type="text" 
-                        placeholder="Артемий" 
-                        className="w-full px-3.5 py-2.5 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:border-ring transition-colors text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase font-mono">Email *</label>
-                      <input 
-                        required 
-                        type="email" 
-                        placeholder="you@example.com" 
-                        className="w-full px-3.5 py-2.5 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:border-ring transition-colors text-sm"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase font-mono">Сообщение *</label>
-                    <textarea 
-                      required 
-                      rows={4}
-                      placeholder="Здравствуйте..." 
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:border-ring transition-colors text-sm resize-none"
-                    ></textarea>
-                  </div>
-                  <button 
-                    type="submit" 
-                    className="w-full py-3 px-4 bg-primary text-primary-foreground font-bold text-sm rounded-lg flex items-center justify-center gap-2 cursor-pointer hover:opacity-90 shadow-lg shadow-primary/10 transition-all"
-                  >
-                    <Send size={14} /> Отправить
-                  </button>
-                </form>
-              )}
-            </div>
-
-          </div>
-          
-          <div className="pt-12 mt-12 border-t border-border text-center text-xs text-muted-foreground font-mono">
-            &copy; 2026 Николаев Артемий. Все права защищены.
+      {/* Footer */}
+      <footer className="border-t border-white/5 bg-[#050505] py-8 mt-20 relative z-10 text-xs text-muted-foreground font-mono">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div>&copy; 2026 Николаев Артемий. Все права защищены.</div>
+          <div className="flex gap-4">
+            <a href="mailto:artyomnikolae7@gmail.com" className="hover:text-white transition-colors">Email</a>
+            <a href="https://t.me/Amantle_x" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Telegram</a>
+            <span className="text-ring font-semibold">Инженер ПТО / Exon</span>
           </div>
         </div>
       </footer>
