@@ -879,9 +879,13 @@ export default function App() {
         {/* ================= HOME TAB ================= */}
         {activeTab === 'home' && (
           <section className="space-y-16 relative animate-fade-slide-in overflow-hidden py-10">
-            {/* Glow backdrop */}
-            <div className="gradient-glow top-[-100px] left-[-50px]"></div>
-            <div className="gradient-glow top-[150px] right-[-50px] opacity-75"></div>
+            {/* Floating Grid Background */}
+            <div className="absolute inset-0 floating-grid -z-10" />
+            
+            {/* Ambient Glow Orbs */}
+            <div className="ambient-orb w-[400px] h-[400px] bg-primary/20 top-[-100px] left-[-100px]" />
+            <div className="ambient-orb w-[300px] h-[300px] bg-accent/15 top-[200px] right-[-80px]" style={{ animationDelay: '5s' }} />
+            <div className="ambient-orb w-[250px] h-[250px] bg-ring/10 bottom-[-50px] left-[30%]" style={{ animationDelay: '10s' }} />
 
             {/* Concentric Circles Background */}
             <div
@@ -896,7 +900,7 @@ export default function App() {
             </div>
 
             {/* Hero Section */}
-            <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 pt-8 md:pt-16">
+            <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 pt-8 md:pt-16 hero-stagger">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-white/5 text-ring text-[11px] font-mono font-semibold uppercase tracking-wider shadow-xl">
                 <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping shrink-0"></span>
                 <span>Сдача ИД &bull; Автоматизация ПТО</span>
@@ -914,7 +918,7 @@ export default function App() {
               <div className="flex flex-wrap justify-center gap-4 pt-4">
                 <button 
                   onClick={() => setActiveTab('map')}
-                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-semibold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,0,34,0.35)] flex items-center gap-2 cursor-pointer"
+                  className="glow-button px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-semibold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,0,34,0.35)] flex items-center gap-2 cursor-pointer"
                 >
                   <MapPin size={14} /> Карта объектов (17)
                 </button>
@@ -935,23 +939,23 @@ export default function App() {
 
             {/* Key Metrics / Highlights Grid */}
             <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
-              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
-                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">17+</span>
+              <div className="relative glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group tilt-card card-lift">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block metric-glow">17+</span>
                 <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Сданных объектов</p>
                 <p className="text-xs text-muted-foreground font-sans italic">Жилые комплексы в МСК</p>
               </div>
-              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
-                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">100%</span>
+              <div className="relative glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group tilt-card card-lift">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block metric-glow">100%</span>
                 <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Закрытие ИД</p>
                 <p className="text-xs text-muted-foreground font-sans italic">Слаботочные сети связи</p>
               </div>
-              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
-                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">Exon</span>
+              <div className="relative glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group tilt-card card-lift">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block text-shimmer">Exon</span>
                 <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Свободное владение</p>
                 <p className="text-xs text-muted-foreground font-sans italic">Согласование без задержек</p>
               </div>
-              <div className="glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group">
-                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block">AutoCAD</span>
+              <div className="relative glass-panel gradient-border-premium p-8 rounded-2xl text-center space-y-2 hover:border-white/15 transition-all group tilt-card card-lift">
+                <span className="text-4xl md:text-5xl font-bold font-mono tracking-tight text-white group-hover:scale-110 transition-transform block text-shimmer">AutoCAD</span>
                 <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-mono font-bold">Схемы и скрипты</p>
                 <button 
                   onClick={() => setActiveTab('vor')}
