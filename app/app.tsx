@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { 
   MapPin, Phone, Mail, CheckCircle2, Cpu, Briefcase, GraduationCap, Github, Send,
   SlidersHorizontal, Check, ArrowUpRight, Upload, Download, Search, ChevronLeft, 
-  ChevronRight, Plus, Trash2, Palette, LayoutGrid
+  ChevronRight, Plus, Trash2, Palette, LayoutGrid, Clock
 } from 'lucide-react'
 import L from 'leaflet'
 import * as XLSX from 'xlsx'
@@ -485,8 +485,8 @@ export default function App() {
 
     const customIcon = L.divIcon({
       className: 'custom-div-icon',
-      html: `<div class="w-8 h-8 rounded-full bg-amber-500/35 border-2 border-amber-500 flex items-center justify-center animate-pulse">
-               <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+      html: `<div class="w-8 h-8 rounded-full bg-red-500/30 border border-red-500 flex items-center justify-center animate-pulse">
+               <div class="w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_#ff0022]"></div>
              </div>`,
       iconSize: [32, 32],
       iconAnchor: [16, 16]
@@ -817,10 +817,22 @@ export default function App() {
 
         {/* ================= HOME TAB ================= */}
         {activeTab === 'home' && (
-          <section className="space-y-16 relative animate-fade-slide-in">
+          <section className="space-y-16 relative animate-fade-slide-in overflow-hidden py-10">
             {/* Glow backdrop */}
             <div className="gradient-glow top-[-100px] left-[-50px]"></div>
             <div className="gradient-glow top-[150px] right-[-50px] opacity-75"></div>
+
+            {/* Concentric Circles Background */}
+            <div
+              style={{
+                transform: "translate(-50%, -50%)",
+              }}
+              className="absolute left-1/2 top-[35%] -z-10 mx-auto size-[600px] rounded-full border border-white/[0.04] p-16 [mask-image:linear-gradient(to_top,transparent,transparent,white,white,white,transparent,transparent)] md:size-[1000px] md:p-32 pointer-events-none"
+            >
+              <div className="size-full rounded-full border border-white/[0.03] p-16 md:p-32">
+                <div className="size-full rounded-full border border-white/[0.02]"></div>
+              </div>
+            </div>
 
             {/* Hero Section */}
             <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8 pt-8 md:pt-16">
@@ -1715,6 +1727,114 @@ export default function App() {
               </div>
             </div>
 
+            {/* Timeline Section */}
+            <div className="glass-panel gradient-border-premium p-8 rounded-2xl shadow-xl relative z-10 space-y-8 animate-fade-slide-in">
+              <div>
+                <h3 className="text-2xl font-bold text-white flex items-center gap-2 font-display">
+                  <Clock size={20} className="text-ring" />
+                  Хронологическая <span className="font-instrument italic font-normal text-gradient-red-orange">биография</span> опыта
+                </h3>
+                <div className="h-0.5 w-12 bg-gradient-to-r from-primary to-accent mt-2 rounded"></div>
+              </div>
+
+              <div className="relative border-l border-white/10 ml-4 md:ml-36 space-y-12">
+                
+                {/* Milestone 1 */}
+                <div className="relative pl-8 md:pl-12">
+                  {/* Glowing marker */}
+                  <div className="absolute w-4 h-4 bg-red-500 rounded-full -left-[9px] top-1.5 shadow-[0_0_12px_#ff0022] border-2 border-black flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  </div>
+                  {/* Date label for larger screens */}
+                  <div className="hidden md:block absolute -left-36 top-1 text-right w-28 font-mono text-[10px] text-ring font-bold uppercase tracking-wider">
+                    2023 &mdash; н. в.
+                  </div>
+                  
+                  {/* Content card */}
+                  <div className="bg-white/[0.02] border border-white/5 p-6 rounded-xl space-y-3">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                      <div>
+                        <h4 className="text-base font-bold text-white">Старший инженер ПТО / Руководитель группы ИД</h4>
+                        <p className="text-xs text-muted-foreground font-mono">Строительство жилых комплексов бизнес- и комфорт-класса (СС, НСС)</p>
+                      </div>
+                      <span className="md:hidden text-[9px] font-mono text-ring font-bold uppercase bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">
+                        2023 &mdash; н. в.
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Управление сдачей исполнительной документации на объектах реновации и коммерческого жилья Москвы. Координация работы смежных отделов, взаимодействие с заказчиками (Москапстрой, Мосинжпроект) и надзорными органами.
+                    </p>
+                    <ul className="space-y-1.5 text-xs text-muted-foreground list-disc list-inside">
+                      <li>Автоматизировал генерацию актов освидетельствования скрытых работ (АОСР) на VBA;</li>
+                      <li>Сдал под ключ слаботочные разделы связи (СС) на 12 крупных объектах;</li>
+                      <li>Курировал ведение и наполнение ВОР и реестров замечаний в цифровой системе **Exon**.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Milestone 2 */}
+                <div className="relative pl-8 md:pl-12">
+                  <div className="absolute w-4 h-4 bg-red-500 rounded-full -left-[9px] top-1.5 shadow-[0_0_12px_#ff0022] border-2 border-black flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  </div>
+                  <div className="hidden md:block absolute -left-36 top-1 text-right w-28 font-mono text-[10px] text-ring font-bold uppercase tracking-wider">
+                    2021 &mdash; 2023
+                  </div>
+                  
+                  <div className="bg-white/[0.02] border border-white/5 p-6 rounded-xl space-y-3">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                      <div>
+                        <h4 className="text-base font-bold text-white">Инженер ПТО</h4>
+                        <p className="text-xs text-muted-foreground font-mono">Наружные кабельные и инженерные сети связи (НСС)</p>
+                      </div>
+                      <span className="md:hidden text-[9px] font-mono text-ring font-bold uppercase bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">
+                        2021 &mdash; 2023
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Подготовка разрешительной и исполнительной документации по выносу и перекладке сетей связи из пятна застройки. Разработка проектов производства работ (ППР) и технологических карт.
+                    </p>
+                    <ul className="space-y-1.5 text-xs text-muted-foreground list-disc list-inside">
+                      <li>Согласовал более 45 кабельных трасс с городскими службами и ПАО «Ростелеком»;</li>
+                      <li>Снизил процент замечаний технадзора по входному контролю материалов на 35%;</li>
+                      <li>Вел детальные ведомости объемов работ (ВОР) по 17 объектам одновременно.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Milestone 3 */}
+                <div className="relative pl-8 md:pl-12">
+                  <div className="absolute w-4 h-4 bg-red-500 rounded-full -left-[9px] top-1.5 shadow-[0_0_12px_#ff0022] border-2 border-black flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  </div>
+                  <div className="hidden md:block absolute -left-36 top-1 text-right w-28 font-mono text-[10px] text-ring font-bold uppercase tracking-wider">
+                    2020 &mdash; 2021
+                  </div>
+                  
+                  <div className="bg-white/[0.02] border border-white/5 p-6 rounded-xl space-y-3">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                      <div>
+                        <h4 className="text-base font-bold text-white">Помощник инженера ПТО / AutoCAD чертежник</h4>
+                        <p className="text-xs text-muted-foreground font-mono">Проектирование и исполнительные схемы</p>
+                      </div>
+                      <span className="md:hidden text-[9px] font-mono text-ring font-bold uppercase bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">
+                        2020 &mdash; 2021
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Черчение исполнительных схем по геодезическим съемкам, оцифровка проектной документации, оформление обложек, реестров и подготовка папок к сдаче в архив.
+                    </p>
+                    <ul className="space-y-1.5 text-xs text-muted-foreground list-disc list-inside">
+                      <li>Оформил и сдал в архив более 150 комплектов ИД;</li>
+                      <li>В совершенстве освоил работу в AutoCAD, разработал библиотеку динамических блоков;</li>
+                      <li>Выполнял рутинную сверку фактических кабельных длин с проектными спецификациями.</li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
             {/* Skills & AI Stack */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
               {/* Standard Skills */}
@@ -1841,7 +1961,7 @@ export default function App() {
                           required 
                           type="text" 
                           placeholder="Артемий" 
-                          className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring transition-colors text-xs"
+                          className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring focus:ring-1 focus:ring-ring/30 focus:shadow-[0_0_15px_rgba(255,125,78,0.15)] transition-all duration-300 text-xs"
                         />
                       </div>
                       <div>
@@ -1850,7 +1970,7 @@ export default function App() {
                           required 
                           type="email" 
                           placeholder="you@example.com" 
-                          className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring transition-colors text-xs"
+                          className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring focus:ring-1 focus:ring-ring/30 focus:shadow-[0_0_15px_rgba(255,125,78,0.15)] transition-all duration-300 text-xs"
                         />
                       </div>
                     </div>
@@ -1860,7 +1980,7 @@ export default function App() {
                         required 
                         rows={4}
                         placeholder="Здравствуйте, Артемий! Требуется сдать ИД по объекту..." 
-                        className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring transition-colors text-xs resize-none"
+                        className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white focus:outline-none focus:border-ring focus:ring-1 focus:ring-ring/30 focus:shadow-[0_0_15px_rgba(255,125,78,0.15)] transition-all duration-300 text-xs resize-none"
                       ></textarea>
                     </div>
                     <button 
