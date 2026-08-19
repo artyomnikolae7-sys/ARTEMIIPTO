@@ -1,5 +1,4 @@
 import React from "react"
-import { motion } from "framer-motion"
 import { cn } from "../../lib/utils"
 
 export interface ShimmeringTextProps {
@@ -9,21 +8,13 @@ export interface ShimmeringTextProps {
 
 export function ShimmeringText({ text, className }: ShimmeringTextProps) {
   return (
-    <motion.span
+    <span
       className={cn(
-        "relative inline-block bg-gradient-to-r from-muted-foreground via-foreground to-muted-foreground bg-[length:200%_auto] bg-clip-text text-transparent",
+        "relative inline-block bg-gradient-to-r from-foreground via-muted-foreground to-foreground bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer",
         className
       )}
-      animate={{
-        backgroundPosition: ["0% center", "200% center"],
-      }}
-      transition={{
-        duration: 3,
-        repeat: Infinity,
-        ease: "linear",
-      }}
     >
       {text}
-    </motion.span>
+    </span>
   )
 }

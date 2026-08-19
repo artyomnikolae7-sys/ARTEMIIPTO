@@ -1,5 +1,4 @@
-import React, { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface ScrollRevealProps {
   children: React.ReactNode
@@ -8,19 +7,54 @@ interface ScrollRevealProps {
   yOffset?: number
 }
 
-export function ScrollReveal({ children, className = '', delay = 0, yOffset = 50 }: ScrollRevealProps) {
+export function ScrollReveal({ children, className = '', delay = 0, yOffset = 24 }: ScrollRevealProps) {
+  const [isVisible, setIsVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  useEffect(() => {
+    // If IntersectionObserver is not supported, show immediately
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      setIsVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      {
+        threshold: 0.05,
+        rootMargin: '50px',
+      }
+    )
+
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    // Safety fallback: reveal after 300ms regardless to prevent any white screen
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, 400)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(timer)
+    }
+  }, [])
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: yOffset }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: yOffset }}
-      transition={{ duration: 0.8, delay: delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      className={className}
+      className={`transition-all duration-700 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      } ${className}`}
+      style={{ transitionDelay: `${delay * 100}ms` }}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
