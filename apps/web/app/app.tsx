@@ -26,9 +26,9 @@ type Theme = 'dark' | 'light'
 const NAV_LINKS = [
   { label: 'Обо мне', id: 'about' },
   { label: 'Опыт', id: 'experience' },
-  { label: 'Карта объектов', id: 'map' },
+  { label: 'Карта', id: 'map' },
   { label: 'Кейсы', id: 'cases' },
-  { label: 'ВОР (Таблица)', id: 'vor' },
+  { label: 'ВОР', id: 'vor' },
   { label: 'Системы', id: 'systems' },
   { label: 'Процесс', id: 'workflow' },
   { label: 'Стек', id: 'techstack' },
@@ -85,9 +85,9 @@ export default function App() {
     <ReactLenis root options={{ lerp: 0.1, duration: 1.5, smoothWheel: true }}>
       <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
 
-        {/* ───── Top Sticky Header ───── */}
+        {/* ───── Top Sticky Header (Structured Grid) ───── */}
         <header className="sticky top-0 z-50 header-glass border-b border-border">
-          <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
 
               {/* Logo */}
@@ -103,22 +103,7 @@ export default function App() {
 
               {/* Desktop Nav Strip */}
               <nav className="hidden xl:flex items-center gap-1 bg-secondary/60 p-1 rounded-xl border border-border">
-                {[
-                  { label: 'Обо мне', id: 'about' },
-                  { label: 'Опыт', id: 'experience' },
-                  { label: 'Карта', id: 'map' },
-                  { label: 'Кейсы', id: 'cases' },
-                  { label: 'ВОР', id: 'vor' },
-                  { label: 'Системы', id: 'systems' },
-                  { label: 'Процесс', id: 'workflow' },
-                  { label: 'Стек', id: 'techstack' },
-                  { label: 'Метрики', id: 'metrics' },
-                  { label: 'Шаблоны', id: 'toolkit' },
-                  { label: 'Отзывы', id: 'testimonials' },
-                  { label: 'FAQ', id: 'faq' },
-                  { label: 'Чат', id: 'chat' },
-                  { label: 'Контакты', id: 'contacts' },
-                ].map(link => (
+                {NAV_LINKS.slice(0, 11).map(link => (
                   <button
                     key={link.id}
                     onClick={() => scrollTo(link.id)}
@@ -204,8 +189,8 @@ export default function App() {
           ]}
         />
 
-        {/* ───── Main Single-Page Content ───── */}
-        <main className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* ───── Main Single-Page Content in Unified 7xl Grid ───── */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="space-y-24">
 
             {/* 1. Hero Section */}
@@ -342,9 +327,9 @@ export default function App() {
           </div>
         </main>
 
-        {/* ───── Footer ───── */}
+        {/* ───── Footer (Structured Grid) ───── */}
         <footer className="border-t border-border footer-bg py-10 mt-24 relative z-10 text-xs text-muted-foreground font-mono">
-          <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>&copy; 2026 Николаев Артемий — Инженер ПТО / Exon / Автоматизация ИД</div>
             <div className="flex items-center gap-6">
               <a href="mailto:artyomnikolae7@gmail.com" className="hover:text-foreground transition-colors">Email</a>

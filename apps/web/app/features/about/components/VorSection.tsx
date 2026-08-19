@@ -231,44 +231,32 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
   }
 
   return (
-    <section className="space-y-8 animate-fade-slide-in relative">
-      <div className="gradient-glow top-[-50px] right-[-50px] opacity-60"></div>
-      
-      {/* Header info & Go Back button */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-6">
-        <div className="space-y-1.5">
-          <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Исполнительная ведомость работ</span>
-          <h2 className="text-4xl font-light text-white tracking-tight font-display">
-            Интерактивная <span className="font-instrument italic font-normal text-gradient-red-orange">ведомость</span> ВОР
-          </h2>
-          <p className="text-muted-foreground text-xs leading-relaxed max-w-2xl">
-            Интерактивная ведомость со всеми объемами работ по проекту из листа **ВОР**. 
-            Вы можете редактировать ячейки на лету (двойной клик), фильтровать, а также загружать/выгружать файлы в формате Excel.
-          </p>
-        </div>
-        <div>
-          <button 
-            onClick={() => setActiveTab('home')}
-            className="px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-mono uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 active:scale-95"
-          >
-            &larr; Назад на главную
-          </button>
-        </div>
+    <section id="vor" className="space-y-8 animate-fade-slide-in relative">
+      {/* Header info */}
+      <div className="text-center space-y-3">
+        <span className="text-primary font-mono text-xs tracking-widest uppercase font-semibold">Исполнительная ведомость объемов</span>
+        <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight font-display">
+          Интерактивная <span className="font-instrument italic font-normal text-gradient-warm">ведомость ВОР</span> (Шахматка)
+        </h2>
+        <p className="text-muted-foreground text-xs leading-relaxed max-w-2xl mx-auto">
+          Интерактивная ведомость со всеми объемами работ по проекту из листа <strong>ВОР</strong>. 
+          Вы можете редактировать ячейки на лету (двойной клик), фильтровать, а также загружать/выгружать файлы в формате Excel.
+        </p>
       </div>
 
       {/* Table Control Panel */}
-      <div className="glass-panel p-6 rounded-2xl shadow-xl space-y-4">
+      <div className="themed-card p-6 rounded-2xl shadow-xl space-y-4">
         <div className="flex flex-col md:flex-row justify-between gap-4">
           
           {/* Search Bar */}
           <div className="relative flex-1 max-w-md group">
-            <Search className="absolute left-3.5 top-3 text-muted-foreground group-focus-within:text-ring transition-colors" size={14} />
+            <Search className="absolute left-3.5 top-3 text-muted-foreground group-focus-within:text-primary transition-colors" size={14} />
             <input
               type="text"
               placeholder="Поиск по наименованию, шифру, ID..."
               value={vorSearchQuery}
               onChange={(e) => setVorSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder-muted-foreground focus:outline-none focus:border-ring focus:ring-1 focus:ring-ring focus:bg-white/5 text-xs transition-all shadow-inner"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs transition-all"
             />
           </div>
 
@@ -278,14 +266,14 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
             {/* Add row */}
             <button 
               onClick={handleAddRow}
-              className="flex items-center gap-1.5 px-4 py-2.5 bg-gradient-to-r from-primary to-accent text-white text-xs font-semibold rounded-lg cursor-pointer hover:brightness-110 shadow-lg transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-4 py-2.5 bg-primary text-primary-foreground text-xs font-semibold rounded-lg cursor-pointer hover:brightness-110 shadow-sm transition-all active:scale-95"
             >
               <Plus size={14} /> Добавить строку
             </button>
 
             {/* Import Excel */}
-            <label className="flex items-center gap-1.5 px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95">
-              <Upload size={14} className="text-ring" />
+            <label className="flex items-center gap-1.5 px-4 py-2.5 border border-border bg-secondary hover:bg-muted text-foreground text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95">
+              <Upload size={14} className="text-primary" />
               <span>Импорт XLSX</span>
               <input 
                 type="file" 
@@ -298,24 +286,24 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
             {/* Export Excel */}
             <button 
               onClick={handleExportExcel}
-              className="flex items-center gap-1.5 px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-4 py-2.5 border border-border bg-secondary hover:bg-muted text-foreground text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95"
             >
-              <Download size={14} className="text-ring" /> Экспорт XLSX
+              <Download size={14} className="text-primary" /> Экспорт XLSX
             </button>
 
             {/* Column Visibility Trigger */}
             <div className="relative">
               <button 
                 onClick={() => setShowColumnDropdown(!showColumnDropdown)}
-                className="flex items-center gap-1.5 px-4 py-2.5 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95"
+                className="flex items-center gap-1.5 px-4 py-2.5 border border-border bg-secondary hover:bg-muted text-foreground text-xs font-semibold rounded-lg cursor-pointer shadow-sm transition-all active:scale-95"
               >
-                <LayoutGrid size={14} className="text-ring" /> Колонки
+                <LayoutGrid size={14} className="text-primary" /> Колонки
               </button>
               
               {showColumnDropdown && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-card border border-white/10 p-2 shadow-xl z-50 text-xs text-white space-y-1">
+                <div className="absolute right-0 mt-2 w-48 rounded-xl bg-card border border-border p-2 shadow-xl z-50 text-xs text-foreground space-y-1">
                   {Object.keys(visibleColumns).map((col) => (
-                    <label key={col} className="flex items-center gap-2 p-1.5 hover:bg-white/5 rounded-lg cursor-pointer">
+                    <label key={col} className="flex items-center gap-2 p-1.5 hover:bg-secondary rounded-lg cursor-pointer">
                       <input 
                         type="checkbox"
                         checked={(visibleColumns as any)[col]}
@@ -323,7 +311,7 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
                           ...visibleColumns,
                           [col]: e.target.checked
                         })}
-                        className="rounded border-white/10 text-primary focus:ring-primary bg-black/40"
+                        className="rounded border-border text-primary focus:ring-primary bg-background"
                       />
                       <span className="capitalize">{col === 'qty' ? 'Кол-во' : col === 'unit' ? 'Ед.изм.' : col === 'model' ? 'Марка/тип' : col === 'name' ? 'Наименование' : col === 'code' ? 'Шифр' : col === 'status' ? 'Состояние' : col === 'actions' ? 'Действия' : col}</span>
                     </label>
@@ -336,7 +324,7 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
         </div>
 
         {/* Faceted Filters Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-border">
           
           {/* System Filter */}
           <div className="space-y-1.5">
@@ -344,10 +332,10 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
             <select
               value={vorSystemFilter}
               onChange={(e) => setVorSystemFilter(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-ring"
+              className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground text-xs focus:outline-none focus:border-primary"
             >
               {uniqueSystems.map(sys => (
-                <option key={sys} value={sys} className="bg-card text-white">{sys}</option>
+                <option key={sys} value={sys} className="bg-card text-foreground">{sys}</option>
               ))}
             </select>
           </div>
@@ -358,10 +346,10 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
             <select
               value={vorStatusFilter}
               onChange={(e) => setVorStatusFilter(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-ring"
+              className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground text-xs focus:outline-none focus:border-primary"
             >
               {uniqueStatuses.map(st => (
-                <option key={st} value={st} className="bg-card text-white">{st || 'Не указано'}</option>
+                <option key={st} value={st} className="bg-card text-foreground">{st || 'Не указано'}</option>
               ))}
             </select>
           </div>
@@ -372,10 +360,10 @@ export function VorSection({ setActiveTab }: VorSectionProps) {
             <select
               value={vorSupplierFilter}
               onChange={(e) => setVorSupplierFilter(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-ring"
+              className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground text-xs focus:outline-none focus:border-primary"
             >
               {uniqueSuppliers.map(sup => (
-                <option key={sup} value={sup} className="bg-card text-white">{sup || 'Не указано'}</option>
+                <option key={sup} value={sup} className="bg-card text-foreground">{sup || 'Не указано'}</option>
               ))}
             </select>
           </div>
