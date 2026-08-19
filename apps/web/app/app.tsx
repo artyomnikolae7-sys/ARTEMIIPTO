@@ -48,11 +48,11 @@ export default function App() {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('portfolio-theme') as Theme | null
       if (saved === 'light' || saved === 'dark') return saved
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        return 'light'
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
       }
     }
-    return 'dark'
+    return 'light'
   })
 
   useEffect(() => {
@@ -83,82 +83,91 @@ export default function App() {
 
   return (
     <ReactLenis root options={{ lerp: 0.1, duration: 1.5, smoothWheel: true }}>
-      <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      <div className="min-h-screen bg-background text-foreground transition-colors duration-250">
 
-        {/* ───── Top Sticky Header (Structured Grid) ───── */}
-        <header className="sticky top-0 z-50 header-glass border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* ───── ElevenLabs Top Nav Bar (Clean, Minimalist 50-60px) ───── */}
+        <header className="sticky top-0 z-50 header-glass">
+          <div className="max-w-[1280px] mx-auto px-6 sm:px-8">
             <div className="flex justify-between items-center h-16">
 
-              {/* Logo */}
+              {/* Brand Wordmark (Inter bold / semibold) */}
               <a href="#" onClick={(e) => { e.preventDefault(); scrollTo(''); }} className="flex items-center gap-3 group">
-                <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm shadow-md font-mono">
+                <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-xs font-mono">
                   АН
                 </div>
-                <div>
-                  <h1 className="text-sm sm:text-base font-bold tracking-tight text-foreground leading-none">Артемий Николаев</h1>
-                  <p className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider font-semibold">Инженер ПТО / Exon</p>
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold tracking-tight text-foreground leading-none">Артемий Николаев</span>
+                  <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">Инженер ПТО / Exon</span>
                 </div>
               </a>
 
-              {/* Desktop Nav Strip */}
-              <nav className="hidden xl:flex items-center gap-1 bg-secondary/60 p-1 rounded-xl border border-border">
+              {/* Desktop Nav Strip (Ghost Link Buttons) */}
+              <nav className="hidden xl:flex items-center gap-0.5">
                 {NAV_LINKS.slice(0, 11).map(link => (
                   <button
                     key={link.id}
                     onClick={() => scrollTo(link.id)}
-                    className="px-2.5 py-1.5 text-xs font-medium rounded-lg text-muted-foreground hover:text-foreground hover:bg-background/80 transition-all cursor-pointer whitespace-nowrap"
+                    className="btn-ghost"
                   >
                     {link.label}
                   </button>
                 ))}
               </nav>
 
-              {/* Header Right: Theme Toggle & Mobile Trigger */}
+              {/* Header Right: Theme Switcher & Actions */}
               <div className="flex items-center gap-3">
-                {/* Theme Toggle Button */}
+                
+                {/* Theme Toggle (Pill Button) */}
                 <button
                   onClick={toggleTheme}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-muted text-foreground transition-all cursor-pointer text-xs font-mono shadow-sm"
+                  className="btn-pill-outlined text-xs py-1.5 px-3.5"
                   aria-label="Переключить тему оформления"
                   title={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}
                 >
                   {theme === 'dark' ? (
                     <>
-                      <Sun size={14} className="text-amber-400" />
+                      <Sun size={13} className="text-amber-400" />
                       <span className="hidden sm:inline">Светлая</span>
                     </>
                   ) : (
                     <>
-                      <Moon size={14} className="text-sky-600" />
+                      <Moon size={13} className="text-foreground" />
                       <span className="hidden sm:inline">Тёмная</span>
                     </>
                   )}
                 </button>
 
-                {/* Mobile Hamburger Button */}
+                {/* Primary CTA Pill */}
+                <button
+                  onClick={() => scrollTo('contacts')}
+                  className="btn-pill-filled hidden sm:inline-flex text-xs py-1.5 px-4"
+                >
+                  Связаться
+                </button>
+
+                {/* Mobile Menu Trigger */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="xl:hidden p-2 rounded-lg border border-border bg-secondary text-foreground hover:bg-muted transition-colors cursor-pointer"
+                  className="xl:hidden w-8 h-8 rounded-full border border-border bg-card flex items-center justify-center text-foreground"
                   aria-label="Меню"
                 >
-                  {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                  {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
                 </button>
               </div>
             </div>
 
-            {/* Mobile Dropdown Menu */}
+            {/* Mobile Dropdown */}
             {mobileMenuOpen && (
-              <nav className="xl:hidden py-4 border-t border-border space-y-1 bg-background/95 backdrop-blur-lg">
+              <nav className="xl:hidden py-4 border-t border-border space-y-1 bg-background">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
                   {NAV_LINKS.map(link => (
                     <button
                       key={link.id}
                       onClick={() => scrollTo(link.id)}
-                      className="flex items-center justify-between px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors cursor-pointer"
+                      className="flex items-center justify-between px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-card rounded-full transition-colors cursor-pointer"
                     >
                       <span>{link.label}</span>
-                      <ChevronRight size={12} className="text-muted-foreground/50" />
+                      <ChevronRight size={12} className="text-muted-foreground/40" />
                     </button>
                   ))}
                 </div>
@@ -167,7 +176,7 @@ export default function App() {
           </div>
         </header>
 
-        {/* ───── Floating Vertical LineNav Indicator ───── */}
+        {/* ───── Floating Vertical LineNav ───── */}
         <LineNav
           sections={[
             { id: 'about', label: 'Обо мне' },
@@ -189,128 +198,128 @@ export default function App() {
           ]}
         />
 
-        {/* ───── Main Single-Page Content in Unified 7xl Grid ───── */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="space-y-24">
+        {/* ───── Main Editorial Flow (Max-Width 1280px, 96-125px Gaps) ───── */}
+        <main className="max-w-[1280px] mx-auto px-6 sm:px-8 py-12">
+          <div className="space-y-28">
 
             {/* 1. Hero Section */}
             <HeroSection />
 
             {/* 2. About Section */}
             <ScrollReveal delay={0.1}>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="about">
                 <AboutSection />
               </div>
             </ScrollReveal>
 
-            {/* 3. Detailed Experience Section */}
+            {/* 3. Experience Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="experience">
                 <ExperienceSection />
               </div>
             </ScrollReveal>
 
-            {/* 4. Interactive Map of 17 Construction Sites */}
+            {/* 4. Interactive Map */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="map">
                 <ProjectsMapSection theme={theme} />
               </div>
             </ScrollReveal>
 
-            {/* 5. Automation Cases */}
+            {/* 5. Cases Section */}
             <ScrollReveal delay={0.1}>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="cases">
                 <CasesSection />
               </div>
             </ScrollReveal>
 
-            {/* 6. Interactive VOR (Шахматка) Generator & Editor */}
+            {/* 6. Interactive VOR */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="vor">
                 <VorSection />
               </div>
             </ScrollReveal>
 
-            {/* 7. Low-Current & Communication Systems */}
+            {/* 7. Systems Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="systems">
                 <SystemsSection />
               </div>
             </ScrollReveal>
 
-            {/* 8. Step-by-Step Approval Workflow */}
+            {/* 8. Workflow Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="workflow">
                 <WorkflowSection />
               </div>
             </ScrollReveal>
 
-            {/* 9. Tech Stack & Engineering Tools */}
+            {/* 9. Tech Stack */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="techstack">
                 <TechStackSection />
               </div>
             </ScrollReveal>
 
-            {/* 10. Key PTO Metrics */}
+            {/* 10. Metrics Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="metrics">
                 <MetricsSection />
               </div>
             </ScrollReveal>
 
-            {/* 11. Toolkit & Templates */}
+            {/* 11. Toolkit Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="toolkit">
                 <ToolkitSection />
               </div>
             </ScrollReveal>
 
-            {/* 12. Qualifications & Certifications */}
+            {/* 12. Certifications Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="certifications">
                 <CertificationsSection />
               </div>
             </ScrollReveal>
 
-            {/* 13. Career Milestone Timeline */}
+            {/* 13. Timeline Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="timeline">
                 <TimelineSection />
               </div>
             </ScrollReveal>
 
-            {/* 14. Contractor Testimonials */}
+            {/* 14. Testimonials Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="testimonials">
                 <TestimonialsSection />
               </div>
             </ScrollReveal>
 
-            {/* 15. FAQ */}
+            {/* 15. FAQ Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="faq">
                 <FaqSection />
               </div>
             </ScrollReveal>
 
-            {/* 16. Exon / Supervision Chat Simulator */}
+            {/* 16. Chat Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="chat">
                 <ChatSection />
               </div>
@@ -318,7 +327,7 @@ export default function App() {
 
             {/* 17. Contact Section */}
             <ScrollReveal>
-              <div className="rule-divider mb-12" />
+              <div className="hairline-divider mb-16" />
               <div id="contacts">
                 <ContactsSection />
               </div>
@@ -327,9 +336,9 @@ export default function App() {
           </div>
         </main>
 
-        {/* ───── Footer (Structured Grid) ───── */}
-        <footer className="border-t border-border footer-bg py-10 mt-24 relative z-10 text-xs text-muted-foreground font-mono">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* ───── ElevenLabs Footer (Compact Single Band) ───── */}
+        <footer className="border-t border-border footer-bg py-10 mt-28 relative z-10 text-xs text-muted-foreground font-mono">
+          <div className="max-w-[1280px] mx-auto px-6 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>&copy; 2026 Николаев Артемий — Инженер ПТО / Exon / Автоматизация ИД</div>
             <div className="flex items-center gap-6">
               <a href="mailto:artyomnikolae7@gmail.com" className="hover:text-foreground transition-colors">Email</a>

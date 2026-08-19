@@ -12,53 +12,55 @@ export function AboutSection() {
   })
 
   return (
-    <section id="about" className="space-y-8 animate-fade-slide-in">
+    <section id="about" className="space-y-10 animate-fade-slide-in">
       <div className="text-center space-y-2">
-        <span className="text-primary font-mono text-xs tracking-widest uppercase font-semibold">{content.about.sectionTag}</span>
-        <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight font-display">
-          {content.about.title.part1}<span className="font-instrument italic font-normal text-gradient-warm">{content.about.title.part2}</span>{content.about.title.part3}
+        <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest font-semibold">{content.about.sectionTag}</span>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          {content.about.title.part1} {content.about.title.part2} {content.about.title.part3}
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Bio Card */}
-        <div className="lg:col-span-3 themed-card p-6 sm:p-8 rounded-xl space-y-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-              <Building size={24} />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Bio Card (Warm Taupe Surface, 20px Radius) */}
+        <div className="lg:col-span-7 themed-card p-8 rounded-[20px] space-y-6 flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-sm font-mono">
+                АН
+              </div>
+              <div>
+                <h3 className="text-lg font-normal text-foreground font-display">{content.about.profile.name}</h3>
+                <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{content.about.profile.role}</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-lg font-bold text-foreground font-display">{content.about.profile.name}</h3>
-              <p className="text-xs font-mono text-primary uppercase tracking-wider font-medium">{content.about.profile.role}</p>
-            </div>
+
+            <p className="text-sm text-muted-foreground leading-relaxed font-normal">
+              {content.about.profile.bio}
+            </p>
           </div>
 
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {content.about.profile.bio}
-          </p>
-
-          <div className="flex flex-wrap gap-4 pt-2 border-t border-border">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <MapPin size={14} className="text-primary" />
+          <div className="flex flex-wrap gap-4 pt-4 border-t border-border text-xs text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <MapPin size={14} className="text-foreground/70" />
               <span>{content.about.profile.location}</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Calendar size={14} className="text-primary" />
+            <div className="flex items-center gap-2">
+              <Calendar size={14} className="text-foreground/70" />
               <span>{content.about.profile.experience}</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Award size={14} className="text-primary" />
+            <div className="flex items-center gap-2">
+              <Award size={14} className="text-foreground/70" />
               <span>{content.about.profile.education}</span>
             </div>
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="lg:col-span-2 grid grid-cols-2 gap-3">
+        {/* Stats Grid (5 cols, 2x2 cards) */}
+        <div className="lg:col-span-5 grid grid-cols-2 gap-4">
           {facts.map((f) => (
-            <div key={f.label} className="themed-card p-5 rounded-xl text-center space-y-1.5 card-lift">
-              <f.icon size={22} strokeWidth={1.5} className="text-primary mx-auto" />
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-foreground block">{f.value}</span>
+            <div key={f.label} className="themed-card p-6 rounded-[20px] text-center space-y-2 flex flex-col justify-center items-center">
+              <f.icon size={20} strokeWidth={1.5} className="text-foreground/70 mx-auto" />
+              <span className="text-2xl sm:text-3xl font-light font-display text-foreground block tracking-tight">{f.value}</span>
               <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-mono font-medium leading-tight">{f.label}</p>
             </div>
           ))}
