@@ -56,6 +56,7 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const leafletMap = useRef<L.Map | null>(null)
+  const tileLayerRef = useRef<L.TileLayer | null>(null)
   const markersRef = useRef<{ [key: number]: L.Marker }>({})
 
   // Distinct contractors list with counts
@@ -75,38 +76,68 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
   
   const selectedObject = OBJECTS.find(o => o.id === selectedObjectId)
 
-  // Initialize Map
+  // Initialize Map safely once
   useEffect(() => {
     if (!mapRef.current) return
     if (leafletMap.current) return
 
-    const moscowCenter: [number, number] = [55.7512, 37.6184]
-    const map = L.map(mapRef.current, {
-      center: moscowCenter,
-      zoom: 10,
-      zoomControl: false,
-      attributionControl: false
-    })
+    try {
+      // Clean up previous leaflet instance on DOM if any
+      const container = mapRef.current as any
+      if (container._leaflet_id) {
+        container._leaflet_id = null
+      }
 
-    leafletMap.current = map
+      const moscowCenter: [number, number] = [55.7512, 37.6184]
+      const map = L.map(mapRef.current, {
+        center: moscowCenter,
+        zoom: 10,
+        zoomControl: false,
+        attributionControl: false
+      })
 
-    L.control.zoom({
-      position: 'topright'
-    }).addTo(map)
+      leafletMap.current = map
 
-    const tileUrl = theme === 'dark'
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+      L.control.zoom({
+        position: 'topright'
+      }).addTo(map)
 
-    L.tileLayer(tileUrl, {
-      maxZoom: 19,
-      subdomains: 'abcd',
-    }).addTo(map)
+      const tileUrl = theme === 'dark'
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
 
-    // Cleanup
+      const tiles = L.tileLayer(tileUrl, {
+        maxZoom: 19,
+        subdomains: 'abcd',
+      }).addTo(map)
+
+      tileLayerRef.current = tiles
+    } catch (err) {
+      console.error("Leaflet init error:", err)
+    }
+
     return () => {
-      map.remove()
-      leafletMap.current = null
+      try {
+        if (leafletMap.current) {
+          leafletMap.current.remove()
+          leafletMap.current = null
+        }
+      } catch (err) {
+        console.error("Leaflet cleanup error:", err)
+      }
+    }
+  }, [])
+
+  // Update TileLayer when theme changes without destroying the map
+  useEffect(() => {
+    if (!leafletMap.current || !tileLayerRef.current) return
+    try {
+      const tileUrl = theme === 'dark'
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+      tileLayerRef.current.setUrl(tileUrl)
+    } catch (err) {
+      console.error("Error updating tile URL:", err)
     }
   }, [theme])
 
@@ -114,56 +145,59 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
   useEffect(() => {
     if (!leafletMap.current) return
 
-    // Clear old markers
-    Object.values(markersRef.current).forEach(marker => marker.remove())
-    markersRef.current = {}
+    try {
+      // Clear old markers
+      Object.values(markersRef.current).forEach(marker => marker.remove())
+      markersRef.current = {}
 
-    // Add markers
-    OBJECTS.forEach(obj => {
-      const isSelected = obj.id === selectedObjectId
+      // Add markers
+      OBJECTS.forEach(obj => {
+        const isSelected = obj.id === selectedObjectId
 
-      // Custom marker icon
-      const customIcon = L.divIcon({
-        className: 'custom-map-pin',
-        html: `
-          <div class="relative flex items-center justify-center group cursor-pointer">
-            <div class="w-7 h-7 rounded-full flex items-center justify-center font-mono text-[10px] font-bold shadow-md transition-all duration-200 ${
-              isSelected 
-                ? 'bg-foreground text-background scale-125 border-2 border-foreground' 
-                : 'bg-card border border-border text-foreground hover:bg-foreground hover:text-background'
-            }">
-              ${obj.id}
+        const customIcon = L.divIcon({
+          className: 'custom-map-pin',
+          html: `
+            <div class="relative flex items-center justify-center group cursor-pointer">
+              <div class="w-7 h-7 rounded-full flex items-center justify-center font-mono text-[10px] font-bold shadow-md transition-all duration-200 ${
+                isSelected 
+                  ? 'bg-foreground text-background scale-125 border-2 border-foreground' 
+                  : 'bg-card border border-border text-foreground hover:bg-foreground hover:text-background'
+              }">
+                ${obj.id}
+              </div>
+              ${isSelected ? '<div class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-foreground"></div>' : ''}
             </div>
-            ${isSelected ? '<div class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-foreground"></div>' : ''}
-          </div>
-        `,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14]
+          `,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        })
+
+        const marker = L.marker(obj.coordinates, { icon: customIcon })
+          .addTo(leafletMap.current!)
+          .on('click', () => {
+            setSelectedObjectId(obj.id)
+            leafletMap.current?.flyTo(obj.coordinates, 13, { duration: 1 })
+          })
+          .on('mouseover', (e) => {
+            setHoveredObject(obj)
+            if (mapContainerRef.current) {
+              const rect = mapContainerRef.current.getBoundingClientRect()
+              setTooltipPos({
+                x: e.originalEvent.clientX - rect.left,
+                y: e.originalEvent.clientY - rect.top
+              })
+            }
+          })
+          .on('mouseout', () => {
+            setHoveredObject(null)
+          })
+
+        markersRef.current[obj.id] = marker
       })
-
-      const marker = L.marker(obj.coordinates, { icon: customIcon })
-        .addTo(leafletMap.current!)
-        .on('click', () => {
-          setSelectedObjectId(obj.id)
-          leafletMap.current?.flyTo(obj.coordinates, 13, { duration: 1 })
-        })
-        .on('mouseover', (e) => {
-          setHoveredObject(obj)
-          if (mapContainerRef.current) {
-            const rect = mapContainerRef.current.getBoundingClientRect()
-            setTooltipPos({
-              x: e.originalEvent.clientX - rect.left,
-              y: e.originalEvent.clientY - rect.top
-            })
-          }
-        })
-        .on('mouseout', () => {
-          setHoveredObject(null)
-        })
-
-      markersRef.current[obj.id] = marker
-    })
-  }, [selectedObjectId, theme])
+    } catch (err) {
+      console.error("Error updating markers:", err)
+    }
+  }, [selectedObjectId])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!mapContainerRef.current) return
