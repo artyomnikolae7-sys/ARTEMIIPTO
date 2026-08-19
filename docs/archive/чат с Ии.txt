@@ -1,0 +1,1366 @@
+омоги найти для разработки сайов полезные гитхаб репозитории с анимациями на react next js я н особо понимаю во всем этом фронтэнд бэкэнд, можешь заодно ещё укащать на расширения к next js или react хочу понять вообще принцип и как использовать
+
+Да. Если ты пока не очень понимаешь разделение frontend / backend / React / Next.js / библиотеки, я бы не начинал с десятков репозиториев. Лучше сначала собрать правильную картину: что за что отвечает, а потом уже взять 8–10 GitHub-проектов как «конструктор».
+
+Для твоей задачи — современные сайты, красивые анимации, интерактив, 3D, портфолио инженера/дизайнера, landing pages — стек я бы строил примерно так:
+
+Next.js → React → Tailwind → shadcn/ui → Motion → GSAP → Lenis → Three.js/R3F
+
+1. Сначала главное: что вообще есть что
+
+Упрощённо:
+
+                 ТВОЙ САЙТ
+                     │
+             ┌───────┴───────┐
+             │               │
+          FRONTEND         BACKEND
+             │               │
+       то, что видит      серверная
+       пользователь       логика / БД
+             │
+      ┌──────┼───────┐
+      │      │       │
+    React  CSS    JavaScript
+      │
+    Next.js
+      │
+ ┌────┴───────────────┐
+ │                    │
+страницы           серверные
+компоненты         функции/API
+ │
+ ├── Motion
+ ├── GSAP
+ ├── Three.js
+ ├── Lenis
+ ├── shadcn/ui
+ └── React Bits
+React
+
+React — способ строить интерфейс из компонентов.
+
+Например:
+
+Сайт
+ ├── Header
+ ├── Hero
+ ├── About
+ ├── Projects
+ │    ├── ProjectCard
+ │    ├── ProjectCard
+ │    └── ProjectCard
+ └── Footer
+
+Каждый элемент можно сделать отдельным React-компонентом.
+
+Next.js
+
+Next.js — фреймворк поверх React.
+
+Он добавляет:
+
+маршрутизацию;
+серверный рендеринг;
+Server Components;
+API/server functions;
+работу с изображениями;
+оптимизацию;
+metadata/SEO;
+структуру проекта;
+deployment.
+
+Современный Next.js использует App Router, где страницы и layouts организуются через файловую структуру.
+
+То есть:
+
+React
+   ↓
+Next.js
+   ↓
+готовое приложение
+2. Самое важное для тебя — не путать библиотеки
+
+Например:
+
+Next.js
+
+Отвечает примерно за:
+
+«Как устроен сайт целиком?»
+
+React
+
+Отвечает:
+
+«Как устроены компоненты интерфейса?»
+
+Motion
+
+Отвечает:
+
+«Как красиво анимировать эти компоненты?»
+
+GSAP
+
+Отвечает:
+
+«Как делать сложные последовательные и scroll-based анимации?»
+
+Lenis
+
+Отвечает:
+
+«Как сделать плавный scroll и связать его с анимациями?»
+
+Three.js
+
+Отвечает:
+
+«Как сделать 3D/WebGL?»
+
+React Three Fiber
+
+Отвечает:
+
+«Как использовать Three.js внутри React?»
+
+Tailwind
+
+Отвечает:
+
+«Как быстро писать CSS?»
+
+shadcn/ui
+
+Отвечает:
+
+«Как получить готовые UI-компоненты, которые можно редактировать?»
+
+3. Репозиторий №1 — React Bits
+
+Это обязательно сохрани.
+
+React Bits — GitHub
+
+Это огромная коллекция готовых анимированных React-компонентов.
+
+Сейчас там уже 140+ компонентов: text animations, backgrounds, UI, интерактивные эффекты и т.д. Код можно брать и модифицировать.
+
+Например, условно:
+
+React Bits
+│
+├── Text animations
+│   ├── BlurText
+│   ├── SplitText
+│   ├── DecryptedText
+│   └── ...
+│
+├── Backgrounds
+│   ├── Aurora
+│   ├── Particles
+│   ├── Grid
+│   └── ...
+│
+├── Components
+│   ├── Cards
+│   ├── Buttons
+│   ├── Hover effects
+│   └── ...
+│
+└── 3D / interactive
+
+Особенно полезно тебе для сайта-портфолио.
+
+4. Motion — начать изучение анимаций именно с него
+
+Motion for React — документация
+
+Раньше библиотека была широко известна как Framer Motion, сейчас основной пакет называется motion.
+
+Установка:
+
+npm install motion
+
+Использование:
+
+import { motion } from "motion/react";
+
+export default function Card() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
+      Hello
+    </motion.div>
+  );
+}
+
+И всё.
+
+Получается:
+
+обычный div
+      ↓
+motion.div
+      ↓
+можно анимировать
+
+Motion поддерживает hover, tap, drag, scroll, layout transitions, SVG и т.д.
+
+Например:
+
+<motion.button
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+>
+  Нажми
+</motion.button>
+
+Это уже интерактивная кнопка.
+
+5. GSAP — когда хочется «вау»
+
+GSAP — GitHub
+
+GSAP — гораздо более мощный инструмент для сложных анимационных сцен.
+
+Он умеет:
+
+timeline;
+scroll animation;
+SVG;
+morphing;
+motion paths;
+сложные последовательности;
+WebGL;
+React;
+responsive animation.
+
+Особенно интересен:
+
+ScrollTrigger
+
+Например:
+
+пользователь скроллит
+       ↓
+заголовок уменьшается
+       ↓
+картинка увеличивается
+       ↓
+текст появляется
+       ↓
+карточки разъезжаются
+       ↓
+следующая секция
+
+GSAP предоставляет @gsap/react с useGSAP() для интеграции с React.
+
+6. Lenis — плавный scroll
+
+Lenis — GitHub
+
+Это очень интересная штука для premium-looking сайтов.
+
+Lenis делает плавный scroll и хорошо сочетается с:
+
+Lenis
+   +
+GSAP
+   +
+ScrollTrigger
+
+Например:
+
+SCROLL
+  ↓
+Lenis
+  ↓
+плавное значение scroll
+  ↓
+GSAP
+  ↓
+анимация элементов
+
+Есть отдельная React-интеграция:
+
+import { ReactLenis } from "lenis/react";
+
+и useLenis.
+
+7. Three.js + React Three Fiber
+
+Вот здесь начинается уже 3D/WebGL.
+
+React Three Fiber — GitHub
+
+Three.js:
+
+JavaScript
+      ↓
+Three.js
+      ↓
+3D сцена
+
+React Three Fiber:
+
+React
+  +
+Three.js
+  ↓
+React Three Fiber
+
+То есть вместо:
+
+new THREE.Mesh(...)
+
+можно мыслить React-компонентами:
+
+<mesh>
+  <boxGeometry />
+  <meshStandardMaterial />
+</mesh>
+
+R3F официально позиционируется как React renderer для Three.js; экосистема включает drei, postprocessing, physics и другие инструменты.
+
+8. Обязательно посмотри Drei
+
+React Three Drei — GitHub
+
+Если Three.js — это условно:
+
+«движок»
+
+то Drei:
+
+«набор готовых инструментов для этого движка».
+
+Например:
+
+Three.js
+   │
+   └── React Three Fiber
+           │
+           └── Drei
+                ├── Camera
+                ├── Environment
+                ├── Controls
+                ├── Text
+                ├── Models
+                └── Effects
+
+Без Drei многие вещи пришлось бы писать самостоятельно.
+
+9. React Spring
+
+React Spring — GitHub
+
+Ещё одна animation library.
+
+Она особенно интересна, если нравятся физические spring-анимации.
+
+Например:
+
+элемент
+   ↓
+ускорение
+   ↓
+перелёт
+   ↓
+отскок
+   ↓
+стабилизация
+
+Она поддерживает React DOM и React Three Fiber.
+
+Но тебе пока её изучать не обязательно.
+
+Сначала Motion.
+
+10. Ещё один очень интересный репозиторий — shadcn/ui
+
+shadcn/ui — официальный сайт
+
+Здесь важный концептуальный момент.
+
+Это не совсем обычная библиотека:
+
+npm install library
+
+и всё.
+
+shadcn позволяет добавлять исходный код компонентов в свой проект, после чего ты можешь его изменять.
+
+Например:
+
+Button
+Dialog
+Card
+Dropdown
+Tabs
+Accordion
+Navigation
+Tooltip
+...
+
+И потом:
+
+shadcn Button
+      ↓
+твой проект
+      ↓
+ты можешь изменить код
+      ↓
+полностью свой дизайн
+
+Это очень хороший подход для тебя, если ты хочешь понимать код, а не просто подключать чёрные ящики.
+
+11. Ещё несколько репозиториев, которые я бы сохранил
+Aceternity UI
+
+Aceternity UI — GitHub
+
+Очень много эффектных компонентов:
+
+cards;
+spotlight;
+background;
+text effects;
+hover;
+gradients;
+scroll effects.
+
+Хорош для изучения того, как делают современные landing pages.
+
+Magic UI
+
+Magic UI — GitHub
+
+Похожая концепция:
+
+готовый компонент
+       ↓
+копируешь
+       ↓
+адаптируешь
+       ↓
+получаешь свой UI
+
+Особенно хорош для SaaS/tech/AI-style сайтов.
+
+React Icons
+
+React Icons — GitHub
+
+Чтобы не искать SVG-иконки вручную.
+
+Lucide
+
+Lucide — GitHub
+
+Очень хороший современный набор SVG-иконок для интерфейсов.
+
+12. И вот как всё это реально соединяется
+
+Допустим, мы делаем твой сайт-портфолио.
+
+Структура
+NEXT.JS
+│
+├── Header
+│    └── React
+│
+├── Hero
+│    ├── React
+│    ├── Motion
+│    └── Three.js
+│
+├── About
+│    └── React
+│
+├── Projects
+│    ├── shadcn/ui
+│    ├── React Bits
+│    └── Motion
+│
+├── Experience
+│    └── GSAP
+│
+├── 3D section
+│    ├── Three.js
+│    ├── React Three Fiber
+│    └── Drei
+│
+└── Footer
+
+А поверх всего:
+
+                    NEXT.JS
+                       │
+                 ┌─────┴─────┐
+                 │           │
+               React       Tailwind
+                 │
+       ┌─────────┼──────────┐
+       │         │          │
+     Motion     GSAP      React Bits
+       │         │          │
+       └─────────┼──────────┘
+                 │
+               Lenis
+                 │
+          ┌──────┴───────┐
+          │              │
+       Three.js         R3F
+                         │
+                       Drei
+13. Но есть важная вещь: не надо устанавливать всё
+
+Я бы не делал:
+
+npm install
+motion
+gsap
+react-spring
+three
+lenis
+...
+
+просто потому что они существуют.
+
+Начальный стек:
+
+Next.js
+React
+TypeScript
+Tailwind
+shadcn/ui
+Motion
+
+И всё.
+
+Потом:
+
++ Lenis
+
+если нужен smooth scroll.
+
+Потом:
+
++ GSAP
+
+если Motion уже не хватает.
+
+Потом:
+
++ Three.js
++ React Three Fiber
++ Drei
+
+если появляется 3D.
+
+14. Самая полезная схема обучения для тебя
+
+Я бы вообще не учил это как отдельные технологии.
+
+Учил бы через создание сайта.
+
+Этап 1 — понять React
+Component
+Props
+State
+Events
+Hooks
+
+Тебе не нужен сразу весь React.
+
+Этап 2 — Next.js
+
+Понять:
+
+app/
+│
+├── page.tsx
+├── layout.tsx
+│
+├── about/
+│   └── page.tsx
+│
+└── projects/
+    └── page.tsx
+
+То есть:
+
+app/page.tsx
+      ↓
+      /
+      
+app/about/page.tsx
+      ↓
+      /about
+
+app/projects/page.tsx
+      ↓
+      /projects
+
+Это одна из ключевых концепций Next.js App Router.
+
+15. Потом разобраться с Client / Server
+
+Вот это место сначала выглядит страшно.
+
+В Next.js компоненты по умолчанию являются Server Components. Для интерактивных компонентов используется Client Component.
+
+Например:
+
+export default function Page() {
+  return <h1>Hello</h1>
+}
+
+может быть серверным компонентом.
+
+А если нужен:
+
+onClick
+useState
+useEffect
+Motion
+WebGL
+browser API
+
+обычно появляется:
+
+"use client";
+
+То есть:
+
+SERVER
+   │
+   ├── данные
+   ├── SEO
+   ├── страницы
+   └── структура
+       
+CLIENT
+   │
+   ├── кнопки
+   ├── анимации
+   ├── интерактив
+   ├── 3D
+   └── состояние
+
+Это очень важная концепция Next.js.
+
+16. Что означает «расширение для Next.js»
+
+Здесь тоже легко запутаться.
+
+Есть несколько разных вещей.
+
+① Library
+
+Например:
+
+motion
+gsap
+lenis
+three
+
+Ты устанавливаешь:
+
+npm install motion
+② Component library
+
+Например:
+
+shadcn
+React Bits
+Aceternity
+Magic UI
+
+Берёшь готовые компоненты.
+
+③ Framework
+Next.js
+
+Это уже основа приложения.
+
+④ Runtime / language
+JavaScript
+TypeScript
+⑤ CSS framework
+Tailwind CSS
+17. А вот GitHub-репозитории тебе лучше изучать не как «скачать проект»
+
+Это очень важный навык.
+
+Допустим, нашёл:
+
+React Bits
+
+Не надо:
+
+скачать весь GitHub → запустить → надеяться, что работает.
+
+Лучше:
+
+1. Открыл компонент
+       ↓
+2. Посмотрел demo
+       ↓
+3. Открыл исходник
+       ↓
+4. Посмотрел package imports
+       ↓
+5. Понял зависимости
+       ↓
+6. Скопировал компонент
+       ↓
+7. Изменил его
+
+Так ты постепенно начнёшь читать frontend-код.
+
+18. Что я бы рекомендовал именно тебе
+
+С учётом того, что ты хочешь делать визуально сильные сайты, а не становиться backend-разработчиком, твой первый roadmap был бы таким:
+
+                    WEB
+                     │
+                     ▼
+                 JavaScript
+                     │
+                     ▼
+                   React
+                     │
+                     ▼
+                  Next.js
+                     │
+              ┌──────┴──────┐
+              ▼             ▼
+           Tailwind      Components
+                            │
+                 ┌──────────┼─────────┐
+                 ▼          ▼         ▼
+              shadcn    React Bits  Aceternity
+                 │
+                 ▼
+              Motion
+                 │
+                 ▼
+               GSAP
+                 │
+                 ▼
+               Lenis
+                 │
+                 ▼
+              Three.js
+                 │
+                 ▼
+          React Three Fiber
+                 │
+                 ▼
+                Drei
+
+И не надо проходить это годами.
+
+Можно сделать один учебный проект и в процессе разобраться.
+
+19. Конкретно с чего начать
+
+Я бы сделал тебе такой первый проект:
+
+ENGINEER PORTFOLIO
+/
+├── Hero
+│
+├── About
+│
+├── Skills
+│
+├── Projects
+│
+├── Project/[slug]
+│
+├── Experience
+│
+└── Contact
+
+И постепенно:
+
+Версия 1
+Next.js
+React
+Tailwind
+
+↓
+
+Версия 2
++ shadcn
+
+↓
+
+Версия 3
++ Motion
+
+↓
+
+Версия 4
++ React Bits
+
+↓
+
+Версия 5
++ Lenis
++ GSAP
+
+↓
+
+Версия 6
++ Three.js
++ React Three Fiber
++ Drei
+
+Так ты увидишь зачем существует каждая технология, вместо того чтобы просто запоминать названия.
+
+Мой минимальный список GitHub для закладок
+Репозиторий	Зачем
+React Bits	готовые анимации и компоненты
+Aceternity UI	эффектные UI/landing effects
+Magic UI	современные UI-компоненты
+GSAP	сложные анимации
+Lenis	smooth scroll
+React Three Fiber	React + 3D
+React Spring	physics/spring animation
+shadcn/ui	базовые UI-компоненты
+Lucide	SVG-иконки
+Motion	основной инструмент анимации React
+
+И отдельно сохрани официальный Next.js Getting Started — текущий Next.js по умолчанию при создании нового приложения использует App Router, TypeScript, Tailwind, ESLint и Turbopack; актуальные требования включают Node.js 20.9+.
+
+Я бы на твоём месте сейчас вообще не лез в backend. Для первых красивых сайтов тебе достаточно разобраться в связке:
+
+HTML/CSS → JavaScript → React → Next.js → Tailwind → компоненты → Motion → GSAP → 3D.
+
+А backend подключать уже тогда, когда появится реальная необходимость: авторизация, база данных, формы с сохранением данных, CMS, личный кабинет и т.п.
+
+react компоненты найди мне большие библиотеки с готовыми компонентами 
+
+Да. Если именно большие библиотеки готовых React-компонентов, а не только анимации, то список существенно шире. Я бы разделил их на 3 класса: готовый UI, headless-примитивы, креативные/анимированные компоненты.
+
+1. Большие универсальные библиотеки
+Библиотека	Масштаб	Лучше всего для
+MUI	⭐⭐⭐⭐⭐	большие приложения, админки, dashboards
+Ant Design	⭐⭐⭐⭐⭐	enterprise, таблицы, формы, CRM
+Mantine	⭐⭐⭐⭐⭐	практически всё
+Chakra UI	⭐⭐⭐⭐	быстрые современные приложения
+PrimeReact	⭐⭐⭐⭐⭐	огромное количество готовых widgets
+HeroUI	⭐⭐⭐⭐	современные красивые интерфейсы
+NextUI / HeroUI ecosystem	⭐⭐⭐⭐	Next.js + современный UI
+Fluent UI	⭐⭐⭐⭐⭐	Microsoft-style приложения
+MUI — Material UI
+
+Одна из самых больших React UI-библиотек.
+
+Есть:
+
+Button
+Card
+Dialog
+Drawer
+Menu
+Tabs
+Accordion
+Table
+Date Picker
+Data Grid
+Form elements
+Navigation
+Grid
+Snackbar
+Progress
+Tooltip
+и многое другое.
+
+Но: визуально она сильно ассоциируется с Material Design. Для твоих красивых портфолио я бы не ставил её на первое место.
+
+Ant Design
+
+Очень большая экосистема.
+
+Особенно сильна в:
+
+Tables
+Forms
+DatePicker
+Select
+Upload
+Tree
+Calendar
+Charts / dashboards ecosystem
+
+Если когда-нибудь будешь делать:
+
+систему ПТО / управление документацией / спецификациями / объектами
+
+Ant Design становится очень интересным вариантом.
+
+Mantine
+
+Вот эту я бы обязательно изучил.
+
+Mantine — не просто набор кнопок. Там есть большая экосистема компонентов, hooks и utilities. В современных обсуждениях React-разработчики часто выделяют её именно за широту компонентов и удобство кастомизации.
+
+Например:
+
+Button
+Card
+Modal
+Drawer
+Tabs
+Accordion
+Carousel
+DatePicker
+Calendar
+DataTable
+Notifications
+RichTextEditor
+Dropzone
+Charts
+Navbar
+Pagination
+Stepper
+Timeline
+Tree
+
+Плюс:
+
+useDebouncedValue()
+useDisclosure()
+useForm()
+useHotkeys()
+useMediaQuery()
+useLocalStorage()
+...
+
+То есть Mantine — уже почти toolbox для всего frontend.
+
+PrimeReact
+
+А вот это настоящий монстр по количеству готовых компонентов.
+
+Особенно:
+
+DataTable
+TreeTable
+Tree
+Timeline
+Galleria
+Carousel
+FileUpload
+Calendar
+DatePicker
+Charts
+Dialogs
+Menus
+Steps
+OrganizationChart
+Terminal
+Editor
+
+Если задача:
+
+«Мне нужен максимально широкий набор готовых UI-компонентов»
+
+PrimeReact стоит смотреть одним из первых.
+
+2. Но для твоих сайтов я бы смотрел совсем в другую сторону
+
+Тебе не нужен условный:
+
+«корпоративный Material Design сайт».
+
+Ты хочешь:
+
+красивые landing pages;
+portfolio;
+интерактив;
+анимации;
+3D;
+необычные cards;
+effects;
+scroll animation;
+WebGL;
+современные hero sections.
+
+Поэтому здесь намного интереснее следующие библиотеки.
+
+3. React Bits
+
+React Bits GitHub
+
+Это прямо в твою задачу.
+
+Сейчас проект заявляет 140+ компонентов, включая backgrounds, text effects, animations и UI patterns. Есть варианты JS/TS + CSS/Tailwind.
+
+Например:
+
+Aurora
+Particles
+Spotlight
+BlurText
+ShinyText
+DecryptedText
+MagicRings
+PixelTrail
+SplashCursor
+Magnet
+Tilt
+Dock
+InfiniteScroll
+
+Именно здесь я бы искал компоненты для:
+
+«Сделать сайт визуально дорогим»
+
+4. Aceternity UI
+
+Aceternity UI GitHub
+
+Очень много:
+
+Cards
+Backgrounds
+Buttons
+Text
+Navigation
+Hover effects
+3D effects
+Scroll effects
+Glowing effects
+
+Типичный Aceternity:
+
+┌──────────────────────────────┐
+│                              │
+│      AMAZING PRODUCT         │
+│                              │
+│    ✦ ✦ ✦ animated ✦ ✦       │
+│                              │
+│        [ Explore ]           │
+│                              │
+└──────────────────────────────┘
+
+Это скорее visual component library, чем обычная UI-библиотека.
+
+5. Magic UI
+
+Magic UI GitHub
+
+Очень похожая категория:
+
+Magic UI
+   │
+   ├── Animated text
+   ├── Buttons
+   ├── Cards
+   ├── Marquee
+   ├── Bento grids
+   ├── Borders
+   ├── Backgrounds
+   ├── Charts
+   └── Special effects
+
+Очень удобно для:
+
+SaaS / AI / startup / portfolio / tech websites.
+
+6. shadcn/ui
+
+shadcn/ui GitHub
+
+Здесь принцип отличается.
+
+Это не:
+
+npm install some-library
+
+в классическом понимании.
+
+Ты добавляешь исходник компонента в свой проект и дальше владеешь этим кодом.
+
+Например:
+
+components/
+│
+├── ui/
+│   ├── button.tsx
+│   ├── card.tsx
+│   ├── dialog.tsx
+│   ├── dropdown-menu.tsx
+│   └── tabs.tsx
+
+И можешь менять его как хочешь.
+
+Это одна из причин, почему shadcn особенно хорошо сочетается с Next.js/Tailwind. Современные обзоры React-экосистемы также выделяют именно этот подход как один из основных вариантов для новых Next.js-проектов.
+
+7. Radix UI
+
+Radix UI GitHub
+
+Вот здесь начинается другая философия.
+
+Radix предоставляет доступные функциональные primitives, а внешний вид ты строишь сам.
+
+Например:
+
+Dialog
+Dropdown Menu
+Popover
+Tooltip
+Tabs
+Accordion
+Context Menu
+Navigation Menu
+Select
+Slider
+Switch
+Toast
+Toggle
+
+Radix официально описывает primitives как open-source библиотеку доступных компонентов для построения собственных design systems.
+
+И очень важный момент:
+
+shadcn/ui
+      ↓
+использует Radix primitives
+      ↓
+добавляет стили
+
+Поэтому если будешь изучать shadcn — постепенно начнёшь встречать Radix.
+
+8. React Aria
+
+React Aria
+
+Проект Adobe.
+
+Это скорее:
+
+accessibility + interaction primitives
+
+чем визуальная библиотека.
+
+Полезна для:
+
+Dropdown
+Select
+ComboBox
+DatePicker
+Calendar
+Modal
+Tooltip
+Tabs
+Table
+Tree
+
+То есть тебе не дают обязательно «красивую кнопку».
+
+Тебе дают правильно работающий компонент, который ты потом стилизуешь.
+
+9. HeroUI
+
+HeroUI GitHub
+
+Очень интересный вариант для современных сайтов.
+
+Условно:
+
+shadcn
+   +
+modern design
+   +
+animations
+   +
+React Aria
+
+Особенно стоит посмотреть, если хочется:
+
+современный dark UI;
+красивые cards;
+modal;
+navbar;
+dropdown;
+inputs;
+tabs;
+tables.
+10. Headless UI
+
+Headless UI GitHub
+
+От Tailwind Labs.
+
+Очень хорошая идея для понимания:
+
+логика компонента
+       ≠
+визуальный дизайн
+
+Например:
+
+Headless UI
+    ↓
+Dialog
+    ↓
+ты сам решаешь,
+как он выглядит
+
+Это полезно, когда ты уже начинаешь создавать собственный дизайн.
+
+11. Ark UI
+
+Ark UI GitHub
+
+Ещё одна мощная headless-библиотека.
+
+Интересна тем, что компоненты ориентированы на:
+
+accessibility;
+state machines;
+сложные interactions;
+framework flexibility.
+
+Её уже имеет смысл смотреть после Radix/shadcn.
+
+12. А теперь самое интересное — библиотеки, которые я бы собрал тебе
+
+Не надо устанавливать все 10.
+
+Я бы разделил их так:
+
+🟢 База интерфейса
+
+Mantine
+
+или
+
+shadcn/ui
+
+🔵 Креатив
+
+React Bits
+
+Aceternity UI
+
+Magic UI
+
+🟣 Сложные интерактивные элементы
+
+Radix UI
+
+или
+
+React Aria
+
+🟠 Enterprise / большие приложения
+
+MUI
+
+Ant Design
+
+PrimeReact
+
+🔴 3D
+
+React Three Fiber
+
+Drei
+
+13. И вот мой личный рейтинг именно для твоей задачи
+
+Если цель:
+
+«Я хочу делать современные красивые сайты, но пока плохо разбираюсь во frontend»
+
+то я бы поставил:
+
+1. 🥇 React Bits
+
+Для визуальных эффектов.
+
+2. 🥈 shadcn/ui
+
+Для базовой архитектуры UI.
+
+3. 🥉 Mantine
+
+Если хочется огромную готовую систему компонентов.
+
+4. Aceternity UI
+
+Для wow-эффектов.
+
+5. Magic UI
+
+Для современных SaaS/AI интерфейсов.
+
+6. HeroUI
+
+Для красивого готового UI.
+
+7. Radix
+
+Для понимания фундаментальных UI primitives.
+
+8. PrimeReact
+
+Если нужно очень много готовых сложных компонентов.
+
+9. MUI
+
+Если пойдёшь в большие приложения.
+
+10. Ant Design
+
+Если будешь делать enterprise/CRM/системы.
+
+И есть ещё один важный момент
+
+Я бы не смешивал в одном проекте:
+
+MUI
++
+Mantine
++
+Ant Design
++
+PrimeReact
++
+shadcn
++
+HeroUI
+
+Это примерно как собрать автомобиль из деталей пяти разных автомобилей.
+
+А вот такое сочетание вполне разумно:
+
+Next.js
+   │
+   ├── Tailwind
+   │
+   ├── shadcn/ui       ← базовые UI
+   │
+   ├── React Bits      ← visual effects
+   │
+   ├── Motion          ← animation
+   │
+   ├── GSAP            ← complex animation
+   │
+   └── R3F             ← 3D
+
+Вот эту комбинацию я бы рекомендовал тебе изучать.
+
+Если хочешь именно максимально большой каталог, то я могу следующим сообщением собрать тебе 30–50 GitHub-репозиториев именно с React/Next.js компонентами, разложив их по категориям: Cards / Buttons / Navbar / Hero / Forms / Tables / Dashboard / 3D / WebGL / Cursor / Backgrounds / Text animations / Scroll / Bento / Charts / Full templates — и отдельно отметить ⭐ какие реально стоит брать в проекты, а какие только посмотреть для вдохновения.

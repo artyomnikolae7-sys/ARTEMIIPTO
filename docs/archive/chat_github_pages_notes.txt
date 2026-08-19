@@ -1,0 +1,478 @@
+гитхаб pages я размещаю там свой сайт поэтому хотел бы найди самую поплуярную нужную и полезную документацию для работы с ним b cdjbv ghjtrnjv
+
+Да. Если ты размещаешь сайт именно на GitHub Pages, то я бы не смешивал это с общей документацией по frontend. Здесь есть отдельный набор вещей, которые тебе реально нужны: GitHub Pages → Git → GitHub Actions → Next.js/static export → домен → deployment.
+
+Есть важный нюанс: если сайт на Next.js, GitHub Pages требует учитывать, что Pages — это статический хостинг. Поэтому Next.js-проект должен быть настроен на статический export, если ты хочешь размещать его непосредственно на Pages.
+
+Я бы собрал тебе такой набор.
+
+1. 🥇 GitHub Pages — главная документация
+
+GitHub Pages Documentation
+
+Это твоя основная документация.
+
+Из неё тебе нужны прежде всего разделы:
+
+GitHub Pages
+├── What is GitHub Pages?
+├── Creating a GitHub Pages site
+├── Configuring a publishing source
+├── Custom domains
+├── HTTPS
+└── GitHub Actions
+
+GitHub Pages может публиковать сайт из определённой ветки/директории либо через GitHub Actions.
+
+2. GitHub Pages + GitHub Actions
+
+Это тебе обязательно нужно изучить.
+
+GitHub Actions Documentation
+
+И отдельно:
+
+Deploying to GitHub Pages using a GitHub Actions workflow
+
+Смысл примерно такой:
+
+ты
+ ↓
+git push
+ ↓
+GitHub repository
+ ↓
+GitHub Actions
+ ↓
+npm install
+ ↓
+npm run build
+ ↓
+deploy
+ ↓
+GitHub Pages
+
+То есть тебе больше не нужно вручную загружать собранный сайт.
+
+3. Next.js + GitHub Pages
+
+Вот это для тебя самое важное.
+
+Next.js Static Exports
+
+Next.js умеет генерировать полностью статический сайт:
+
+Next.js
+   ↓
+next build
+   ↓
+HTML / CSS / JS
+   ↓
+GitHub Pages
+
+В next.config используется:
+
+const nextConfig = {
+  output: 'export',
+};
+
+export default nextConfig;
+
+После сборки Next.js создаёт:
+
+out/
+├── index.html
+├── _next/
+├── images/
+└── ...
+
+И именно содержимое out/ можно публиковать как статический сайт.
+
+4. Очень важный момент — basePath
+
+Если твой репозиторий называется:
+
+my-portfolio
+
+и сайт открывается как:
+
+username.github.io/my-portfolio/
+
+то Next.js должен знать, что приложение находится не в корне домена.
+
+Например:
+
+const nextConfig = {
+  output: 'export',
+  basePath: '/my-portfolio',
+};
+
+Это одна из самых частых причин, почему после деплоя:
+
+HTML открылся, а CSS/JS/images не работают.
+
+Потому что браузер ищет:
+
+/_next/...
+
+вместо:
+
+/my-portfolio/_next/...
+5. Если у тебя username.github.io
+
+Это ещё проще.
+
+Если repository:
+
+username.github.io
+
+то сайт:
+
+https://username.github.io
+
+И basePath обычно не нужен.
+
+Получается:
+
+GitHub
+│
+└── username.github.io
+       │
+       └── Next.js
+              ↓
+          static export
+              ↓
+        GitHub Pages
+6. GitHub Actions workflow
+
+Для Next.js тебе понадобится примерно такая архитектура:
+
+.github/
+└── workflows/
+    └── deploy.yml
+
+И workflow делает:
+
+checkout
+   ↓
+setup Node
+   ↓
+npm ci
+   ↓
+npm run build
+   ↓
+upload artifact
+   ↓
+deploy to GitHub Pages
+
+То есть .github/workflows/ — это не случайная папка.
+
+Это CI/CD конфигурация проекта.
+
+7. Git — тебе нужен не весь Git
+
+Не нужно сейчас пытаться изучить Git целиком.
+
+Для работы с сайтами тебе в первую очередь:
+
+git clone
+git status
+git add
+git commit
+git push
+git pull
+git branch
+git switch
+git merge
+git log
+
+Официальная документация:
+
+Git Documentation
+
+А GitHub-версия для новичков:
+
+GitHub Git Guides
+
+8. GitHub Repository
+
+Очень полезно понять структуру самого repository.
+
+repository
+│
+├── .github/
+│   └── workflows/
+│
+├── app/
+├── components/
+├── public/
+│
+├── package.json
+├── next.config.ts
+├── tsconfig.json
+├── README.md
+└── .gitignore
+
+GitHub при этом хранит:
+
+код
+↓
+историю изменений
+↓
+issues
+↓
+pull requests
+↓
+actions
+↓
+releases
+
+Это уже твоя система управления проектом, а не просто «место, куда я загрузил сайт».
+
+9. GitHub README
+
+About READMEs
+
+Я бы для каждого серьёзного проекта делал:
+
+README.md
+
+# Project Name
+
+## Overview
+
+## Features
+
+## Tech Stack
+
+## Installation
+
+## Development
+
+## Build
+
+## Deployment
+
+## Environment Variables
+
+## Project Structure
+
+## Screenshots
+
+## License
+
+Это особенно полезно, если ты потом показываешь GitHub работодателю/заказчику.
+
+10. Custom Domain
+
+Если ты захочешь:
+
+myname.ru
+
+вместо:
+
+username.github.io
+
+тебе понадобится:
+
+Managing a custom domain for your GitHub Pages site
+
+Схема:
+
+your-domain.ru
+       ↓
+DNS
+       ↓
+GitHub Pages
+       ↓
+your repository
+
+И GitHub Pages поддерживает HTTPS.
+
+11. GitHub Pages + статические изображения
+
+Для твоих сайтов это тоже важно.
+
+Например:
+
+public/
+├── images/
+│   ├── projects/
+│   ├── avatar/
+│   └── backgrounds/
+│
+├── models/
+├── videos/
+└── fonts/
+
+В Next.js:
+
+<Image
+  src="/images/projects/project-1.webp"
+  alt="Project"
+/>
+
+Но при GitHub Pages + basePath нужно учитывать путь к asset'ам.
+
+Это особенно важно для:
+
+images;
+fonts;
+videos;
+GLB/GLTF;
+textures;
+JSON;
+SVG.
+12. Если ты используешь Three.js / React Three Fiber
+
+Здесь GitHub Pages тоже отлично подходит для статической демонстрации.
+
+Например:
+
+public/
+└── models/
+    ├── building.glb
+    └── crane.glb
+
+и:
+
+public/
+└── textures/
+    ├── metal.webp
+    └── concrete.webp
+
+Но нужно правильно учитывать basePath, особенно если репозиторий не называется username.github.io.
+
+13. Что GitHub Pages НЕ умеет
+
+Вот это нужно запомнить.
+
+GitHub Pages — это прежде всего:
+
+static hosting
+
+Поэтому ты не можешь рассчитывать на обычный постоянно работающий backend:
+
+Next.js server
+Express
+FastAPI
+Node server
+Python server
+
+который будет постоянно работать на GitHub Pages.
+
+Например:
+
+❌ Next.js SSR
+❌ Next.js API server
+❌ Express backend
+❌ FastAPI backend
+❌ PostgreSQL server
+
+Но:
+
+✅ React
+✅ Next.js static export
+✅ HTML
+✅ CSS
+✅ JS
+✅ images
+✅ WebGL
+✅ Three.js
+✅ React Three Fiber
+✅ client-side API requests
+
+работают.
+
+14. Для твоего случая я бы использовал такой стек
+                     GitHub
+                        │
+                 Git repository
+                        │
+                        ▼
+                  GitHub Actions
+                        │
+                        ▼
+                     Next.js
+                        │
+                 static export
+                        │
+                        ▼
+                  GitHub Pages
+                        │
+             ┌──────────┴──────────┐
+             │                     │
+          Browser              External API
+
+Frontend:
+
+Next.js
+React
+TypeScript
+Tailwind
+shadcn/ui
+Motion
+GSAP
+React Three Fiber
+
+Hosting:
+
+GitHub
+GitHub Actions
+GitHub Pages
+15. А вот эту документацию я бы сохранил в закладки
+Обязательные
+
+GitHub Pages
+
+GitHub Actions
+
+Next.js Static Exports
+
+Git Documentation
+
+GitHub Docs
+
+Когда понадобится
+
+GitHub Pages Custom Domains
+
+GitHub Actions Workflows
+
+Next.js Configuration
+
+Но есть ещё более полезная вещь
+
+У тебя сейчас получается связка:
+
+GitHub → Next.js → React → компоненты → анимации → GitHub Pages.
+
+И здесь я бы сделал тебе не просто список документации, а карту рабочего процесса:
+
+Я создал новый сайт
+        ↓
+Создал GitHub repository
+        ↓
+Создал Next.js проект
+        ↓
+Настроил структуру
+        ↓
+Подключил UI
+        ↓
+Подключил animations
+        ↓
+Добавил assets
+        ↓
+git commit
+        ↓
+git push
+        ↓
+GitHub Actions
+        ↓
+build
+        ↓
+GitHub Pages
+        ↓
+готовый сайт
+
+И отдельно разобрал бы что происходит на каждом этапе и какие файлы за это отвечают. Это даст тебе понимание системы, а не набор команд для копирования.

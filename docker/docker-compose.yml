@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: pto_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: pto_user
+      POSTGRES_PASSWORD: pto_password
+      POSTGRES_DB: pto_intelligence
+    ports:
+      - "5432:5432"
+    volumes:
+      - pto_pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: pto_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - pto_redisdata:/data
+    command: redis-server --appendonly yes
+
+#  minio:
+#    image: minio/minio:latest
+#    container_name: pto_minio
+#    restart: always
+#    environment:
+#      MINIO_ROOT_USER: pto_admin
+#      MINIO_ROOT_PASSWORD: pto_password
+#    ports:
+#      - "9000:9000"
+#      - "9001:9001"
+#    volumes:
+#      - pto_miniodata:/data
+#    command: server /data --console-address ":9001"
+
+volumes:
+  pto_pgdata:
+  pto_redisdata:
+#  pto_miniodata:
