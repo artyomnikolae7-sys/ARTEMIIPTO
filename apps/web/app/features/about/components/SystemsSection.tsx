@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
+import { BarVisualizer } from '../../../components/elevenlabs/BarVisualizer'
 
 const systems = [
   { code: 'ВТСС', name: 'Внутренние телефонные сети связи', description: 'Структурированные кабельные системы (СКС), кроссовое оборудование, этажные распределительные шкафы, кабель-каналы и лотки внутри здания.', progress: 100 },
@@ -18,7 +21,7 @@ export function SystemsSection() {
   return (
     <section id="systems" className="space-y-10 animate-fade-slide-in">
       <div className="text-center space-y-2">
-        <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest font-semibold">Слаботочный комплекс</span>
+        <Badge variant="outline">Слаботочный комплекс</Badge>
         <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
           Системы связи и автоматизации
         </h2>
@@ -55,7 +58,7 @@ export function SystemsSection() {
         </div>
 
         {/* Detailed System Card (7 cols) */}
-        <div className="lg:col-span-7 themed-card p-8 rounded-[20px] space-y-6 flex flex-col justify-between">
+        <Card className="lg:col-span-7 p-8 space-y-6 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-mono font-medium">
@@ -71,8 +74,8 @@ export function SystemsSection() {
               {systems[selected].description}
             </p>
             
-            {/* Progress Bar */}
-            <div className="space-y-2 pt-2">
+            {/* Progress Bar & Audio Visualizer Integration */}
+            <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="text-muted-foreground">Процент сдачи ИД</span>
                 <span className="font-semibold text-foreground">{systems[selected].progress}%</span>
@@ -82,6 +85,11 @@ export function SystemsSection() {
                   className="h-full rounded-full bg-foreground transition-all duration-500"
                   style={{ width: `${systems[selected].progress}%` }}
                 />
+              </div>
+
+              {/* ElevenLabs Bar Visualizer Active Stream */}
+              <div className="pt-2">
+                <BarVisualizer barCount={16} />
               </div>
             </div>
           </div>
@@ -101,7 +109,7 @@ export function SystemsSection() {
               <span className="text-[10px] text-muted-foreground uppercase font-mono">Exon сдача</span>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
     </section>
   )

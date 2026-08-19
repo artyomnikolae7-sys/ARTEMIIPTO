@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { CheckCircle2, ArrowRight, X, Sparkles } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
+import { Button } from '../../../components/elevenlabs/Button'
 import { CASES } from '../data/casesData'
 
 export function CasesSection() {
@@ -10,7 +13,7 @@ export function CasesSection() {
   return (
     <section id="cases" className="space-y-10 animate-fade-slide-in">
       <div className="text-center space-y-2">
-        <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest font-semibold">Оптимизация и Автоматизация</span>
+        <Badge variant="outline">Оптимизация и Автоматизация</Badge>
         <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
           Прикладные инженерные кейсы
         </h2>
@@ -22,17 +25,15 @@ export function CasesSection() {
       {/* Grid of Cases (3 columns) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {CASES.map((c) => (
-          <div
+          <Card
             key={c.id}
             onClick={() => setActiveCaseId(c.id)}
-            className="themed-card p-8 rounded-[20px] flex flex-col justify-between space-y-6 cursor-pointer group hover:border-foreground/20 transition-all"
+            className="p-8 flex flex-col justify-between space-y-6 cursor-pointer group hover:border-foreground/30 transition-all"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="px-3 py-0.5 text-[10px] font-mono uppercase rounded-full border border-border bg-background text-foreground">
-                  Кейс {String(c.id).padStart(2, '0')}
-                </span>
-                <span className="w-7 h-7 rounded-full border border-border bg-background flex items-center justify-center text-muted-foreground group-hover:text-foreground group-hover:bg-card transition-all">
+                <Badge variant="outline">Кейс {String(c.id).padStart(2, '0')}</Badge>
+                <span className="w-7 h-7 rounded-full border border-border bg-background flex items-center justify-center text-muted-foreground group-hover:text-foreground group-hover:bg-secondary transition-all">
                   <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
@@ -54,7 +55,7 @@ export function CasesSection() {
                 ✅ {c.result}
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
@@ -74,9 +75,7 @@ export function CasesSection() {
 
             {/* Modal Header */}
             <div className="space-y-2 pr-8">
-              <span className="px-3 py-0.5 text-[10px] font-mono uppercase rounded-full border border-border bg-card text-foreground">
-                Кейс {String(activeCase.id).padStart(2, '0')}
-              </span>
+              <Badge variant="outline">Кейс {String(activeCase.id).padStart(2, '0')}</Badge>
               <h3 className="text-2xl font-light text-foreground headline-whisper">
                 {activeCase.title}
               </h3>

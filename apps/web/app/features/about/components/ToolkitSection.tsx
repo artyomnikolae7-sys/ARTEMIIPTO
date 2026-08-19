@@ -1,63 +1,127 @@
-import { Eye, FileSpreadsheet, Settings, Calculator, PenLine, Terminal, ClipboardList, CheckSquare } from 'lucide-react'
+import { useState } from 'react'
+import { FileSpreadsheet, Download, FileText, CheckCircle2, Sparkles } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
+import { Button } from '../../../components/elevenlabs/Button'
+import * as XLSX from 'xlsx'
 
-const iconMap: Record<string, any> = {
-  '📊': FileSpreadsheet,
-  '⚙️': Settings,
-  '📋': ClipboardList,
-  '🔢': Calculator,
-  '📐': PenLine,
-  '💻': Terminal,
-  '✅': CheckSquare,
-}
-
-const documents = [
-  { name: 'Шаблон АОСР (Excel + VBA)', type: 'XLSX', size: '2.4 МБ', category: 'Шаблон', iconKey: '📊' },
-  { name: 'Генератор ИД ОЗДС', type: 'XLSM', size: '8.1 МБ', category: 'Инструмент', iconKey: '⚙️' },
-  { name: 'Реестр паспортов и сертификатов', type: 'XLSX', size: '1.8 МБ', category: 'Шаблон', iconKey: '📋' },
-  { name: 'Расчёт ВОР (телефонная канализация)', type: 'XLSX', size: '3.2 МБ', category: 'Расчёт', iconKey: '🔢' },
-  { name: 'Библиотека динамических блоков AutoCAD', type: 'DWG', size: '15.6 МБ', category: 'CAD', iconKey: '📐' },
-  { name: 'Скрипт авто-ввода в Exon', type: 'JS', size: '45 КБ', category: 'Скрипт', iconKey: '💻' },
-  { name: 'Шаблон ведомости объёмов работ', type: 'XLSX', size: '1.2 МБ', category: 'Шаблон', iconKey: '📊' },
-  { name: 'Чек-лист приёмки ИД', type: 'PDF', size: '340 КБ', category: 'Документ', iconKey: '✅' },
+const templates = [
+  {
+    id: 'vor-calc',
+    title: 'Калькулятор ВОР и Шахматки (Excel)',
+    desc: 'Готовый шаблон с формулами автоматического подсчета объемов, кабельных запасов (6%), сопоставления факт/проект и сводными таблицами.',
+    format: 'XLSX / Google Sheets',
+    tags: ['ВОР', 'Формулы', 'Кабель'],
+  },
+  {
+    id: 'aosr-generator',
+    title: 'Генератор реестров АОСР на VBA',
+    desc: 'Файл с макросом пакетного формирования комплекта актов освидетельствования скрытых работ и привязки исполнительных схем.',
+    format: 'XLSM (VBA)',
+    tags: ['АОСР', 'VBA', 'Пакетная печать'],
+  },
+  {
+    id: 'material-inflow',
+    title: 'Журнал входного контроля материалов',
+    desc: 'Реестр сертификатов соответствия, паспортов и пожарных заключений с автоматической проверкой срока действия.',
+    format: 'XLSX',
+    tags: ['Сертификаты', 'Входной контроль'],
+  },
+  {
+    id: 'ppr-template',
+    title: 'Шаблон ППР на слаботочные сети',
+    desc: 'Структура проекта производства работ по разделам СС/НСС с готовыми разделами по охране труда, технологии монтажа и ТК.',
+    format: 'DOCX / PDF',
+    tags: ['ППР', 'Техкарты', 'МГСН'],
+  },
 ]
 
 export function ToolkitSection() {
+  const [downloaded, setDownloaded] = useState<string | null>(null)
+
+  const downloadDemoXlsx = (templateId: string, title: string) => {
+    const wb = XLSX.utils.book_new()
+    const wsData = [
+      ['АРТЕМИЙ НИКОЛАЕВ — ИНЖЕНЕР ПТО / EXON'],
+      ['Шаблон:', title],
+      ['Дата экспорта:', new Date().toLocaleDateString('ru-RU')],
+      [''],
+      ['№ п/п', 'Наименование работ и материалов', 'Ед. изм.', 'Проект', 'Факт', 'Отклонение', 'Статус'],
+      [1, 'Прокладка кабеля UTP 4x2x0.52 кат. 5e в гофротрубе', 'м', 4500, 4420, -80, 'ИД Сдана'],
+      [2, 'Монтаж оптического кабеля 8 волокон в кабельной канализации', 'м', 1200, 1200, 0, 'ИД Сдана'],
+      [3, 'Установка шкафа телекоммуникационного 19" 42U', 'шт', 6, 6, 0, 'Акт АОСР подписан'],
+      [4, 'Монтаж IP-видеокамер купольных 4MP (СВН)', 'шт', 48, 48, 0, 'В работе Exon'],
+      [5, 'Монтаж считывателей СКУД и электромагнитных замков', 'компл', 14, 14, 0, 'В работе Exon'],
+    ]
+    const ws = XLSX.utils.aoa_to_sheet(wsData)
+    XLSX.utils.book_append_sheet(wb, ws, 'Шаблон_ПТО')
+    XLSX.writeFile(wb, `${templateId}_nikolaev_pto.xlsx`)
+    setDownloaded(templateId)
+    setTimeout(() => setDownloaded(null), 3500)
+  }
+
   return (
-    <section id="toolkit" className="space-y-8 animate-fade-slide-in">
-      <div className="text-center space-y-3">
-        <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Инструментарий</span>
-        <h2 className="text-4xl font-bold text-foreground tracking-tight font-display">
-          Мои <span className="font-instrument italic font-normal text-gradient-red-orange">шаблоны</span> и инструменты
+    <section id="toolkit" className="space-y-10 animate-fade-slide-in">
+      <div className="text-center space-y-2">
+        <Badge variant="outline">Инженерные Артефакты</Badge>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          Шаблоны и наработки для скачивания
         </h2>
-        <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-          Разработанные мной шаблоны, скрипты и инструменты для автоматизации ПТО
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-normal">
+          Проверенные в боевых условиях Excel-калькуляторы, скрипты и чек-листы, которые можно скачать и протестировать
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {documents.map(doc => {
-          const Icon = iconMap[doc.iconKey] || FileSpreadsheet
-          return (
-            <div key={doc.name} className="themed-card p-5 rounded-xl space-y-3 card-lift group cursor-pointer">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {templates.map((tpl) => (
+          <Card key={tpl.id} className="p-8 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Icon size={18} className="text-primary" />
+                <Badge variant="outline">{tpl.format}</Badge>
+                <div className="w-9 h-9 rounded-full bg-background border border-border flex items-center justify-center text-foreground">
+                  <FileSpreadsheet size={16} strokeWidth={1.5} />
                 </div>
-                <span className="px-2 py-1 text-[9px] font-mono font-bold uppercase rounded bg-primary/10 text-primary border border-primary/20">
-                  {doc.type}
-                </span>
               </div>
-              <h4 className="text-sm font-bold text-foreground leading-tight">{doc.name}</h4>
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span className="font-mono">{doc.size}</span>
-                <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground text-[10px]">{doc.category}</span>
+
+              <h4 className="text-base font-normal text-foreground font-display leading-snug">
+                {tpl.title}
+              </h4>
+
+              <p className="text-xs text-muted-foreground leading-relaxed font-normal">
+                {tpl.desc}
+              </p>
+
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {tpl.tags.map((t) => (
+                  <Badge key={t} variant="secondary">
+                    {t}
+                  </Badge>
+                ))}
               </div>
-              <button className="w-full py-2 text-xs font-mono uppercase tracking-wider rounded-lg border border-border hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2">
-                <Eye size={12} /> Подробнее
-              </button>
             </div>
-          )
-        })}
+
+            <div className="pt-4 border-t border-border">
+              <Button
+                variant={downloaded === tpl.id ? "secondary" : "outline"}
+                size="sm"
+                className="w-full"
+                onClick={() => downloadDemoXlsx(tpl.id, tpl.title)}
+              >
+                {downloaded === tpl.id ? (
+                  <>
+                    <CheckCircle2 size={13} className="text-foreground" />
+                    <span>Файл сформирован и скачан</span>
+                  </>
+                ) : (
+                  <>
+                    <Download size={13} />
+                    <span>Скачать демонстрационный шаблон</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </Card>
+        ))}
       </div>
     </section>
   )

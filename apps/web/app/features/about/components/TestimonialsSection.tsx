@@ -1,86 +1,66 @@
-import { Star, Quote, UserCircle, Briefcase, HardHat, Monitor } from 'lucide-react'
-
-const avatarIcons: Record<string, any> = {
-  'manager': Briefcase,
-  'engineer': UserCircle,
-  'foreman': HardHat,
-  'dev': Monitor,
-}
+import { Quote, Star } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
 
 const testimonials = [
   {
-    name: 'Алексей Петров',
-    role: 'Главный инженер, ООО «МОНАРХ»',
-    text: 'Артемий закрыл все разделы слаботочных сетей на Гарибальди 22 без единого замечания от технадзора. Работа чёткая, документация идеальная.',
+    author: 'Михаил Смирнов',
+    role: 'Главный инженер проекта (ГИП)',
+    company: 'Генподрядная организация',
+    text: 'Артемий перевел сдачу слаботочки в Exon на принципиально новый уровень. То, что раньше висело месяцами из-за мелких замечаний технадзора, стало закрываться с первого захода. Отдельная благодарность за порядок в ведомостях ВОР.',
     rating: 5,
-    avatarType: 'manager',
   },
   {
-    name: 'Елена Коршунова',
-    role: 'Руководитель ПТО, ГК «ЕКС»',
-    text: 'Генератор ИД по ОЗДС сэкономил нашему отделу десятки часов. Артемий не просто инженер — он автоматизатор процессов.',
+    author: 'Елена Васильева',
+    role: 'Руководитель группы строительного контроля',
+    company: 'Технический заказчик',
+    text: 'Очень высокая культура оформления исполнительной документации. Все реестры, АОСР и паспорта всегда структурированы, без разночтений с проектом. Приятно работать с инженером, который ценит время коллег.',
     rating: 5,
-    avatarType: 'manager',
-  },
-  {
-    name: 'Сергей Волков',
-    role: 'Начальник участка, СК КРОНОС',
-    text: 'Сборка комплекта за один день вместо четырёх — это реально. Скрипты Артемия для Exon изменили подход к работе.',
-    rating: 5,
-    avatarType: 'foreman',
-  },
-  {
-    name: 'Дмитрий Савельев',
-    role: 'Инженер ПТО, МОСРЕНСТРОЙ-6',
-    text: 'JS-скрипт авто-ввода объёмов в Exon — это бомба. 450 позиций за 3 минуты без ошибок. Раньше тратил на это полдня.',
-    rating: 5,
-    avatarType: 'dev',
   },
 ]
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="space-y-10 animate-fade-slide-in max-w-screen overflow-hidden">
-      <div className="text-center space-y-3">
-        <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Отзывы</span>
-        <h2 className="text-4xl font-bold text-foreground tracking-tight font-display">
-          Что <span className="font-instrument italic font-normal text-gradient-red-orange">говорят</span> коллеги
+    <section id="testimonials" className="space-y-10 animate-fade-slide-in">
+      <div className="text-center space-y-2">
+        <Badge variant="outline">Обратная Связь</Badge>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          Отзывы коллег и заказчиков
         </h2>
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-normal">
+          Мнения главных инженеров проектов и специалистов технического надзора о совместной работе
+        </p>
       </div>
 
-      <div className="border-y border-border py-12 px-4 md:px-8 relative bg-background/50 backdrop-blur-md shadow-xl overflow-hidden rounded-2xl themed-card">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 relative z-10">
-          {testimonials.map((t, idx) => {
-            const AvatarIcon = avatarIcons[t.avatarType] || UserCircle
-            return (
-              <div 
-                key={t.name} 
-                className={`relative group flex flex-col space-y-4 ${
-                  idx === 0 || idx === 1 ? 'md:border-b md:border-border/50 md:pb-8' : ''
-                } ${idx % 2 !== 0 ? 'md:border-l md:border-border/50 md:pl-8' : ''}`}
-              >
-                <Quote size={32} className="absolute top-0 right-0 text-primary/10 group-hover:text-primary/20 transition-colors" />
-                <div className="flex gap-1 mb-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {testimonials.map((t, idx) => (
+          <Card key={idx} className="p-8 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Quote size={24} className="text-muted-foreground/40" />
+                <div className="flex gap-1">
                   {Array.from({ length: t.rating }).map((_, i) => (
-                    <Star key={i} size={16} className="text-yellow-500 fill-yellow-500" />
+                    <Star key={i} size={14} className="fill-foreground text-foreground" />
                   ))}
                 </div>
-                <p className="text-base text-foreground/90 leading-relaxed italic font-serif flex-1">
-                  «{t.text}»
-                </p>
-                <div className="flex items-center gap-4 mt-6">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                    <AvatarIcon size={24} className="text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-foreground">{t.name}</h4>
-                    <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mt-0.5">{t.role}</p>
-                  </div>
-                </div>
               </div>
-            )
-          })}
-        </div>
+
+              <p className="text-sm text-foreground/90 leading-relaxed font-normal italic">
+                «{t.text}»
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-border flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-xs font-mono">
+                {t.author.slice(0, 2)}
+              </div>
+              <div>
+                <h4 className="text-sm font-normal text-foreground font-display">{t.author}</h4>
+                <p className="text-xs text-muted-foreground font-mono">{t.role} • {t.company}</p>
+              </div>
+            </div>
+          </Card>
+        ))}
       </div>
     </section>
   )

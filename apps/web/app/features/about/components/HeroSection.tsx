@@ -1,29 +1,33 @@
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { Marquee } from '../../../components/ui/Marquee'
+import { Orb } from '../../../components/elevenlabs/Orb'
+import { Button } from '../../../components/elevenlabs/Button'
+import { Badge } from '../../../components/elevenlabs/Badge'
+import { ShimmeringText } from '../../../components/elevenlabs/ShimmeringText'
+import { Card } from '../../../components/elevenlabs/Card'
 import content from '../../../data/content.json'
 
 export function HeroSection() {
   return (
     <section className="relative py-12 md:py-20 space-y-16">
       
-      {/* Decorative Signature Sphere Accent (Violet Spark #0447ff + Ember Orange #ff4704) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none">
-        <div className="audio-sphere opacity-40 blur-3xl w-72 h-72" />
+      {/* Decorative Signature ElevenLabs Orb in Background */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none opacity-40">
+        <Orb size={320} />
       </div>
 
       {/* Main Hero Header */}
       <div className="max-w-4xl mx-auto text-center space-y-8">
         
-        {/* Tag Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-border bg-card text-xs font-mono font-medium text-muted-foreground uppercase tracking-wider">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shrink-0" />
+        {/* Tag Pill with Spark Dot */}
+        <Badge variant="spark" className="cursor-default">
           Инженер ПТО • Цифровизация Exon
-        </div>
+        </Badge>
 
         {/* Whisper-Weight Headline (Waldenburg/Inter 300, -0.02em tracking) */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl headline-whisper text-foreground leading-[1.12]">
           Инженер ПТО, превращающий строительную документацию в{' '}
-          <span className="font-light underline decoration-border underline-offset-8">структурированные данные</span>
+          <ShimmeringText text="структурированные данные" className="font-light underline decoration-border underline-offset-8" />
         </h1>
 
         {/* Construction Data Pipeline Flow */}
@@ -52,28 +56,30 @@ export function HeroSection() {
           {content.hero.description}
         </p>
 
-        {/* Pill Action Buttons */}
+        {/* ElevenLabs Pill Action Buttons */}
         <div className="flex flex-wrap justify-center items-center gap-3 pt-2">
-          <button
+          <Button
+            variant="filled"
+            size="md"
             onClick={() => document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' })}
-            className="btn-pill-filled cursor-pointer"
           >
             <span>Кейсы автоматизации</span>
             <ArrowRight size={14} />
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="md"
             onClick={() => document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' })}
-            className="btn-pill-outlined cursor-pointer"
           >
             Связаться
-          </button>
+          </Button>
         </div>
       </div>
 
-      {/* Metrics Cards (Warm Taupe Surface, 20px Radius, No Hard Borders) */}
+      {/* Metrics Cards (Warm Taupe Surface, 20px Radius) */}
       <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
         {content.hero.metrics.map((metric, i) => (
-          <div key={i} className="themed-card p-6 text-center space-y-1">
+          <Card key={i} className="p-6 text-center space-y-1 gap-1">
             <span className="text-3xl md:text-4xl font-light font-display tracking-tight text-foreground block">
               {metric.value}
             </span>
@@ -81,7 +87,7 @@ export function HeroSection() {
             {metric.description && (
               <p className="text-xs text-muted-foreground/80 font-normal">{metric.description}</p>
             )}
-          </div>
+          </Card>
         ))}
       </div>
 

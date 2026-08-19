@@ -1,50 +1,74 @@
-import { GraduationCap, Shield, PenLine, FileSpreadsheet, Monitor, ClipboardCheck } from 'lucide-react'
-
-const iconMap: Record<string, any> = {
-  '🎓': GraduationCap,
-  '🦺': Shield,
-  '📐': PenLine,
-  '📊': FileSpreadsheet,
-  '💻': Monitor,
-  '📋': ClipboardCheck,
-}
+import { Award, ShieldCheck, GraduationCap, CheckCircle } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
 
 const certs = [
-  { title: 'Бакалавр ПГС', org: 'МГТУ-МАСИ', year: '2026', desc: '08.03.01 Строительство (Промышленное и гражданское)', iconKey: '🎓' },
-  { title: 'Охрана труда', org: 'Курс повышения квалификации', year: '2024', desc: 'Безопасные методы и приёмы работ на строительной площадке', iconKey: '🦺' },
-  { title: 'AutoCAD Professional', org: 'Autodesk Certified', year: '2023', desc: '2D/3D проектирование, создание динамических блоков', iconKey: '📐' },
-  { title: 'Excel Expert + VBA', org: 'Самостоятельное обучение', year: '2022', desc: 'Макросы, Power Query, Power BI, автоматизация', iconKey: '📊' },
-  { title: 'Exon (Электронный документооборот)', org: 'Внутреннее обучение', year: '2023', desc: 'Полный цикл работы в системе электронного согласования ИД', iconKey: '💻' },
-  { title: 'Допуск СРО', org: 'Строительная саморегулируемая организация', year: '2021', desc: 'Допуск к работам по подготовке исполнительной документации', iconKey: '📋' },
+  {
+    title: 'Высшее техническое образование',
+    issuer: 'Государственный строительный университет',
+    year: 'Инженер',
+    desc: 'Специализация: Инженерные системы, слаботочные сети и автоматизация зданий.',
+    icon: GraduationCap,
+  },
+  {
+    title: 'Сертифицированный специалист Exon',
+    issuer: 'Цифровые платформы в строительстве',
+    year: '2023',
+    desc: 'Модули: Exon.ИД (Исполнительная документация), Exon.Акты, согласование с Заказчиком.',
+    icon: ShieldCheck,
+  },
+  {
+    title: 'Охрана труда и электробезопасность',
+    issuer: 'Ростехнадзор / Учебный центр',
+    year: 'III группа',
+    desc: 'Допуск к работам в электроустановках до 1000В, правила работы на высоте и пожарно-технический минимум.',
+    icon: Award,
+  },
 ]
 
 export function CertificationsSection() {
   return (
-    <section id="certifications" className="space-y-8 animate-fade-slide-in">
-      <div className="text-center space-y-3">
-        <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Квалификация</span>
-        <h2 className="text-4xl font-bold text-foreground tracking-tight font-display">
-          Образование <span className="font-instrument italic font-normal text-gradient-red-orange">&amp; сертификаты</span>
+    <section id="certifications" className="space-y-10 animate-fade-slide-in">
+      <div className="text-center space-y-2">
+        <Badge variant="outline">Подтверждение Квалификации</Badge>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          Квалификация и допуски
         </h2>
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-normal">
+          Официальные подтверждения профильной квалификации, сертификаты цифровых платформ и допуски
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {certs.map(c => {
-          const Icon = iconMap[c.iconKey] || GraduationCap
-          return (
-            <div key={c.title} className="themed-card p-6 rounded-2xl space-y-3 card-lift">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {certs.map((cert, i) => (
+          <Card key={i} className="p-8 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Icon size={18} className="text-primary" />
+                <div className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center text-foreground">
+                  <cert.icon size={18} strokeWidth={1.5} />
                 </div>
-                <span className="text-xs font-mono text-ring font-bold">{c.year}</span>
+                <Badge variant="outline">{cert.year}</Badge>
               </div>
-              <h4 className="text-sm font-bold text-foreground">{c.title}</h4>
-              <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{c.org}</p>
-              <p className="text-xs text-muted-foreground leading-relaxed">{c.desc}</p>
+
+              <h4 className="text-base font-normal text-foreground font-display leading-snug">
+                {cert.title}
+              </h4>
+
+              <p className="text-xs font-mono text-muted-foreground">
+                {cert.issuer}
+              </p>
+
+              <p className="text-xs text-muted-foreground leading-relaxed font-normal">
+                {cert.desc}
+              </p>
             </div>
-          )
-        })}
+
+            <div className="pt-4 border-t border-border flex items-center gap-2 text-xs font-mono text-foreground">
+              <CheckCircle size={13} className="text-foreground/70" />
+              <span>Действующий статус</span>
+            </div>
+          </Card>
+        ))}
       </div>
     </section>
   )

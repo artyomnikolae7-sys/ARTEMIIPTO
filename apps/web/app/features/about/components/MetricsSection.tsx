@@ -1,55 +1,89 @@
-import { Clock, Target, Zap, TrendingUp, CheckCircle2, XCircle } from 'lucide-react'
+import { Clock, TrendingUp, ShieldCheck, FileSpreadsheet } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
 
-const kpis = [
-  { label: 'Время подготовки комплекта ОЗДС', before: '3–4 дня', after: '6–8 часов', improvement: '↓ 75%', icon: Clock },
-  { label: 'Процент замечаний от технадзора', before: '15–20%', after: '2–3%', improvement: '↓ 85%', icon: Target },
-  { label: 'Пакетный ввод объёмов в Exon', before: '2 ч / объект', after: '3 мин', improvement: '↓ 97%', icon: Zap },
-  { label: 'Объектов в параллельном ведении', before: '3–5', after: '12–17', improvement: '↑ 240%', icon: TrendingUp },
+const metricsData = [
+  {
+    icon: Clock,
+    title: 'Скорость сборки тома ИД',
+    before: '4 — 5 рабочих дней',
+    after: '3 — 4 часа',
+    diff: 'Ускорение в 10 раз',
+    desc: 'Благодаря сквозным шаблонам в Excel и макросам автозаполнения шапок и реестров.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Первичное согласование в Exon',
+    before: '45% с первого захода',
+    after: '92% без замечаний',
+    diff: '+47% к первой сдаче',
+    desc: 'Строгий преконтроль комплектности сертификатов и паспортов до отправки в систему.',
+  },
+  {
+    icon: FileSpreadsheet,
+    title: 'Сведение ведомости ВОР (шахматки)',
+    before: '12 часов ручного ввода',
+    after: '15 минут в Power Query',
+    diff: 'Экономия 95% времени',
+    desc: 'Автоматическая консолидация данных с этажных планов и сводных спецификаций.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Трудозатраты на рутину',
+    before: '70% рабочего времени',
+    after: '15% рабочего времени',
+    diff: '-55% рутинного труда',
+    desc: 'Освобождение времени на решение ключевых технических вопросов на стройплощадке.',
+  },
 ]
 
 export function MetricsSection() {
   return (
     <section id="metrics" className="space-y-10 animate-fade-slide-in">
-      <div className="text-center space-y-3">
-        <span className="text-primary font-mono text-xs tracking-widest uppercase font-semibold">Эффективность автоматизации</span>
-        <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight font-display">
-          Ключевые <span className="font-instrument italic font-normal text-gradient-warm">показатели</span> и метрики
+      <div className="text-center space-y-2">
+        <Badge variant="outline">Измеримый Результат</Badge>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          Ключевые метрики эффективности
         </h2>
-        <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-          Сравнение трудозатрат до и после внедрения авторских скриптов и шаблонов автоматизации
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-normal">
+          Реальный эффект от внедрения цифровых инструментов и автоматизации на строительных объектах
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {kpis.map((kpi) => (
-          <div key={kpi.label} className="themed-card p-6 rounded-xl space-y-4 card-lift flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-                  <kpi.icon size={18} />
-                </div>
-                <span className="text-xs font-bold font-mono text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
-                  {kpi.improvement}
-                </span>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {metricsData.map((m, idx) => (
+          <Card key={idx} className="p-8 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center text-foreground">
+                <m.icon size={18} strokeWidth={1.5} />
               </div>
-              <h4 className="text-sm font-bold text-foreground leading-snug">{kpi.label}</h4>
+
+              <h4 className="text-sm font-normal text-foreground font-display leading-snug">
+                {m.title}
+              </h4>
+
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between text-muted-foreground">
+                  <span>Было:</span>
+                  <span className="line-through">{m.before}</span>
+                </div>
+                <div className="flex justify-between font-semibold text-foreground">
+                  <span>Стало:</span>
+                  <span>{m.after}</span>
+                </div>
+              </div>
+
+              <p className="text-xs text-muted-foreground leading-relaxed font-normal pt-1">
+                {m.desc}
+              </p>
             </div>
 
-            <div className="space-y-1.5 pt-3 border-t border-border">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground font-mono">До:</span>
-                <span className="flex items-center gap-1 text-red-500 font-medium">
-                  <XCircle size={13} /> {kpi.before}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground font-mono">После:</span>
-                <span className="flex items-center gap-1 text-emerald-500 font-bold">
-                  <CheckCircle2 size={13} /> {kpi.after}
-                </span>
-              </div>
+            <div className="pt-4 border-t border-border">
+              <Badge variant="spark" className="w-full justify-center">
+                {m.diff}
+              </Badge>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
     </section>

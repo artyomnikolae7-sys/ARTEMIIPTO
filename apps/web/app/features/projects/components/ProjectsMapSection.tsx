@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import { MapPin, Search } from 'lucide-react'
 import L from 'leaflet'
 import { OBJECTS } from '../data/projectsData'
-import { HoverCard } from '../../../components/ui/HoverCard'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
+import { Button } from '../../../components/elevenlabs/Button'
 
 interface ProjectsMapSectionProps {
   theme: string
@@ -62,7 +64,6 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
     return acc
   }, {} as { [key: string]: number })
 
-
   // Filtered objects
   const filteredObjects = OBJECTS.filter(o => {
     const matchesContractor = contractorFilter === 'Все' || o.contractor === contractorFilter
@@ -84,7 +85,7 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
       center: moscowCenter,
       zoom: 10,
       zoomControl: false,
-      attributionControl: false // Hide the Leaflet attribution watermark
+      attributionControl: false
     })
 
     leafletMap.current = map
@@ -98,89 +99,73 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
       : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
 
     L.tileLayer(tileUrl, {
+      maxZoom: 19,
       subdomains: 'abcd',
-      maxZoom: 20
     }).addTo(map)
 
-    const customIcon = L.divIcon({
-      className: 'custom-div-icon',
-      html: `<div class="w-8 h-8 rounded-full bg-amber-500/25 border-2 border-amber-500/80 flex items-center justify-center transition-all duration-300">
-               <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-             </div>`,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
-    })
+    // Cleanup
+    return () => {
+      map.remove()
+      leafletMap.current = null
+    }
+  }, [theme])
 
+  // Update Markers
+  useEffect(() => {
+    if (!leafletMap.current) return
+
+    // Clear old markers
+    Object.values(markersRef.current).forEach(marker => marker.remove())
+    markersRef.current = {}
+
+    // Add markers
     OBJECTS.forEach(obj => {
-      const marker = L.marker(obj.coords, { icon: customIcon })
-        .addTo(map)
+      const isSelected = obj.id === selectedObjectId
+
+      // Custom marker icon
+      const customIcon = L.divIcon({
+        className: 'custom-map-pin',
+        html: `
+          <div class="relative flex items-center justify-center group cursor-pointer">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center font-mono text-[10px] font-bold shadow-md transition-all duration-200 ${
+              isSelected 
+                ? 'bg-foreground text-background scale-125 border-2 border-foreground' 
+                : 'bg-card border border-border text-foreground hover:bg-foreground hover:text-background'
+            }">
+              ${obj.id}
+            </div>
+            ${isSelected ? '<div class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-foreground"></div>' : ''}
+          </div>
+        `,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      })
+
+      const marker = L.marker(obj.coordinates, { icon: customIcon })
+        .addTo(leafletMap.current!)
         .on('click', () => {
           setSelectedObjectId(obj.id)
+          leafletMap.current?.flyTo(obj.coordinates, 13, { duration: 1 })
         })
-        .on('mouseover', () => {
+        .on('mouseover', (e) => {
           setHoveredObject(obj)
-          // Translate map latlng to container client pixels
-          const pixelPos = map.latLngToContainerPoint(obj.coords)
-          setTooltipPos({ x: pixelPos.x, y: pixelPos.y })
+          if (mapContainerRef.current) {
+            const rect = mapContainerRef.current.getBoundingClientRect()
+            setTooltipPos({
+              x: e.originalEvent.clientX - rect.left,
+              y: e.originalEvent.clientY - rect.top
+            })
+          }
         })
         .on('mouseout', () => {
           setHoveredObject(null)
         })
-      
+
       markersRef.current[obj.id] = marker
     })
+  }, [selectedObjectId, theme])
 
-    return () => {
-      if (leafletMap.current) {
-        leafletMap.current.remove()
-        leafletMap.current = null
-      }
-    }
-  }, [theme])
-
-  // Sync Map when selectedObjectId changes
-  useEffect(() => {
-    if (!leafletMap.current) return
-
-    const selectedObj = OBJECTS.find(o => o.id === selectedObjectId)
-    if (!selectedObj) return
-
-    leafletMap.current.setView(selectedObj.coords, 14, {
-      animate: true,
-      duration: 0.8
-    })
-
-    const customIcon = L.divIcon({
-      className: 'custom-div-icon',
-      html: `<div class="w-8 h-8 rounded-full bg-amber-500/25 border-2 border-amber-500/80 flex items-center justify-center">
-               <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-             </div>`,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
-    })
-
-    const activeIcon = L.divIcon({
-      className: 'custom-div-icon active-marker',
-      html: `<div class="w-10 h-10 rounded-full bg-emerald-500/30 border-2 border-emerald-400 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-               <div class="w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#10b981]"></div>
-             </div>`,
-      iconSize: [40, 40],
-      iconAnchor: [20, 20]
-    })
-
-    Object.entries(markersRef.current).forEach(([id, marker]) => {
-      if (Number(id) === selectedObjectId) {
-        marker.setIcon(activeIcon)
-        marker.setZIndexOffset(1000)
-      } else {
-        marker.setIcon(customIcon)
-        marker.setZIndexOffset(0)
-      }
-    })
-  }, [selectedObjectId])
-
-  // Track cursor movement on map for the smooth follower
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!mapContainerRef.current) return
     const rect = mapContainerRef.current.getBoundingClientRect()
     setCursorPos({
@@ -190,119 +175,110 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
   }
 
   return (
-    <section className="space-y-8 animate-fade-slide-in relative">
-      <div className="gradient-glow top-[-50px] right-[-50px] opacity-60"></div>
-      
-      <div className="text-center max-w-3xl mx-auto space-y-3 relative z-10">
-        <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">География объектов в Москве</span>
-        <h2 className="text-4xl font-light text-foreground tracking-tight font-display">
-          Мои строительные <span className="font-instrument italic font-normal text-gradient-red-orange">объекты</span>
+    <section id="map" className="space-y-10 animate-fade-slide-in">
+      <div className="text-center space-y-2">
+        <Badge variant="outline">География Реализованных Проектов</Badge>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          17 строительных объектов Москвы
         </h2>
-        <p className="text-muted-foreground text-sm leading-relaxed">
-          Интерактивная карта проектов, на которых я успешно закрыл исполнительную документацию (ИД). 
-          Выберите объект из списка слева для центрирования карты и просмотра деталей.
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-normal">
+          Интерактивная карта жилых комплексов, программ реновации и коммерческих зданий, где велась исполнительная документация
         </p>
       </div>
 
-      {/* Map Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-black/5 dark:bg-black/20 p-4 rounded-3xl border border-border backdrop-blur-sm shadow-xl relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Sidebar List */}
-        <div className="lg:col-span-4 flex flex-col h-[650px] themed-card rounded-2xl overflow-hidden shadow-md">
+        {/* Left Filter & Object Selector List (4 cols) */}
+        <Card className="lg:col-span-4 p-6 flex flex-col justify-between space-y-4 max-h-[650px]">
           
-          {/* Search & Filter Header */}
-          <div className="p-4 border-b border-border space-y-4 bg-muted/40">
+          {/* Search Box */}
+          <div className="space-y-3">
             <div className="relative">
-              <Search className="absolute left-3 top-3.5 text-muted-foreground" size={14} />
-              <input 
-                type="text" 
-                placeholder="Поиск по адресу, компании..."
+              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Поиск по адресу, названию, генподрядчику..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-3 rounded-xl bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-ring transition-all text-xs shadow-inner"
+                className="w-full pl-9 pr-4 py-2 rounded-full bg-background border border-border text-xs text-foreground focus:outline-none focus:border-foreground transition-colors"
               />
             </div>
 
-            {/* Interactive Contractor Filter Tags with Badge count */}
-            <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold tracking-wider">Подрядные организации:</span>
-              <div className="flex flex-wrap gap-1.5 max-h-[110px] overflow-y-auto pr-1 no-scrollbar">
+            {/* Contractor Filter Pills */}
+            <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
+              <button
+                onClick={() => setContractorFilter('Все')}
+                className={`px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider transition-all border cursor-pointer ${
+                  contractorFilter === 'Все'
+                    ? 'bg-foreground text-background border-foreground font-medium'
+                    : 'bg-background hover:bg-secondary text-muted-foreground border-border'
+                }`}
+              >
+                Все ({OBJECTS.length})
+              </button>
+              {Object.entries(contractorCounts).map(([name, count]) => (
                 <button
-                  onClick={() => setContractorFilter('Все')}
-                  className={`px-3 py-1.5 rounded-lg text-[10px] font-mono uppercase tracking-wider transition-all border cursor-pointer flex items-center gap-1.5 ${
-                    contractorFilter === 'Все' 
-                      ? 'bg-primary text-primary-foreground border-primary shadow-sm font-bold' 
-                      : 'bg-background hover:bg-muted text-muted-foreground border-border'
+                  key={name}
+                  onClick={() => setContractorFilter(name)}
+                  className={`px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider transition-all border cursor-pointer flex items-center gap-1.5 ${
+                    contractorFilter === name
+                      ? 'bg-foreground text-background border-foreground font-medium'
+                      : 'bg-background hover:bg-secondary text-muted-foreground border-border'
                   }`}
                 >
-                  Все ({OBJECTS.length})
+                  <span>{name.replace('ООО ', '').replace('АО ', '')}</span>
+                  <span className="opacity-70 font-mono text-[9px]">{count}</span>
                 </button>
-                {Object.entries(contractorCounts).map(([name, count]) => (
-                  <button
-                    key={name}
-                    onClick={() => setContractorFilter(name)}
-                    className={`px-3 py-1.5 rounded-lg text-[10px] font-mono uppercase tracking-wider transition-all border cursor-pointer flex items-center gap-1.5 ${
-                      contractorFilter === name 
-                        ? 'bg-primary text-primary-foreground border-primary shadow-sm font-bold' 
-                        : 'bg-background hover:bg-muted text-muted-foreground border-border'
-                    }`}
-                  >
-                    <span>{name.replace('ООО ', '').replace('АО ', '')}</span>
-                    <span className={`px-1.5 py-0.2 rounded font-mono text-[9px] ${contractorFilter === name ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>{count}</span>
-                  </button>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Objects list scrollable */}
-          <div className="flex-1 overflow-y-auto no-scrollbar divide-y divide-border p-2 space-y-1.5 bg-muted/20">
-            {filteredObjects.length > 0 ? (
-              filteredObjects.map(obj => {
-                const stats = getObjectStats(obj.id)
-                return (
-                  <HoverCard
-                    key={obj.id}
-                    isActive={selectedObjectId === obj.id}
-                    onClick={() => setSelectedObjectId(obj.id)}
-                    className="p-3.5"
-                  >
-                    <div className="flex justify-between items-start gap-2 mb-1">
-                      <span className={`text-[9px] font-mono font-bold uppercase tracking-wider ${selectedObjectId === obj.id ? 'text-white' : 'text-ring'}`}>
-                        {obj.contractor}
-                      </span>
-                      <span className="text-[9px] text-muted-foreground font-mono">{obj.district.split(' ')[0]}</span>
-                    </div>
-                    <h4 className={`text-xs font-bold mb-1 line-clamp-1 ${selectedObjectId === obj.id ? 'text-white' : 'text-foreground'}`}>
-                      {obj.title}
-                    </h4>
-                    <p className="text-[11px] text-muted-foreground line-clamp-1 flex items-center gap-1">
-                      <MapPin size={12} className="text-ring shrink-0" />
-                      {obj.address}
-                    </p>
+          {/* Objects List */}
+          <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+            {filteredObjects.map((obj) => {
+              const stats = getObjectStats(obj.id)
+              const isSelected = selectedObjectId === obj.id
 
-                    <div className="flex items-center gap-2 mt-2">
-                      <div className="flex-1 h-1.5 bg-muted/20 dark:bg-black/40 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-emerald-500 rounded-full transition-all duration-300"
-                          style={{ width: `${stats.progress}%` }}
-                        />
-                      </div>
-                      <span className={`text-[9px] font-mono font-bold ${selectedObjectId === obj.id ? 'text-white/80' : 'text-muted-foreground'}`}>
-                        {stats.progress}%
-                      </span>
+              return (
+                <div
+                  key={obj.id}
+                  onClick={() => {
+                    setSelectedObjectId(obj.id)
+                    leafletMap.current?.flyTo(obj.coordinates, 13, { duration: 1 })
+                  }}
+                  className={`p-3.5 rounded-[16px] border cursor-pointer transition-all ${
+                    isSelected
+                      ? 'bg-card border-foreground/30 shadow-sm'
+                      : 'bg-background/80 border-border hover:bg-card hover:border-border'
+                  }`}
+                >
+                  <div className="flex justify-between items-start gap-2 mb-1">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase">{obj.contractor}</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">{obj.district.split(' ')[0]}</span>
+                  </div>
+                  <h4 className="text-xs font-normal text-foreground line-clamp-1 font-display">{obj.title}</h4>
+                  <p className="text-[11px] text-muted-foreground line-clamp-1 flex items-center gap-1 mt-0.5">
+                    <MapPin size={11} className="text-muted-foreground/60 shrink-0" />
+                    <span>{obj.address}</span>
+                  </p>
+
+                  <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border/50">
+                    <div className="flex-1 h-1 bg-border rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-foreground rounded-full"
+                        style={{ width: `${stats.progress}%` }}
+                      />
                     </div>
-                  </HoverCard>
-                )
-              })
-            ) : (
-              <div className="p-8 text-center text-muted-foreground text-xs font-mono">Объекты не найдены</div>
-            )}
+                    <span className="text-[10px] font-mono text-foreground font-semibold">{stats.progress}%</span>
+                  </div>
+                </div>
+              )
+            })}
           </div>
-        </div>
+        </Card>
 
-        {/* Map Canvas Wrapper */}
-        <div 
+        {/* Map Canvas (8 cols) */}
+        <div
           ref={mapContainerRef}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHoveringMap(true)}
@@ -310,106 +286,64 @@ export function ProjectsMapSection({ theme }: ProjectsMapSectionProps) {
             setIsHoveringMap(false)
             setHoveredObject(null)
           }}
-          className="lg:col-span-8 h-[650px] rounded-2xl overflow-hidden relative border border-border shadow-md select-none"
+          className="lg:col-span-8 h-[650px] rounded-[24px] overflow-hidden relative border border-border shadow-sm select-none"
         >
           <div ref={mapRef} className="w-full h-full z-10" />
 
-          {/* Smooth custom cursor follower */}
-          {isHoveringMap && (
-            <div 
-              className="pointer-events-none absolute w-10 h-10 rounded-full border border-primary/40 flex items-center justify-center z-50 transform -translate-x-1/2 -translate-y-1/2"
-              style={{
-                left: `${cursorPos.x}px`,
-                top: `${cursorPos.y}px`,
-                transition: 'left 0.12s cubic-bezier(0.25, 1, 0.5, 1), top 0.12s cubic-bezier(0.25, 1, 0.5, 1)',
-                background: 'radial-gradient(circle, rgba(255,0,34,0.06) 0%, transparent 70%)'
-              }}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-              <div className="w-1 h-1 rounded-full bg-primary" />
-            </div>
-          )}
-
-          {/* Premium Hover Card (Popup) with statistics and indicators */}
+          {/* Hover Card Popup */}
           {hoveredObject && (
-            <div 
-              className="absolute glass-panel p-5 rounded-2xl border border-primary/20 shadow-2xl z-30 pointer-events-none transform -translate-x-1/2 mt-3 animate-fade-slide-in max-w-sm"
+            <div
+              className="absolute card-whisper p-4 rounded-[16px] z-30 pointer-events-none transform -translate-x-1/2 max-w-xs space-y-2 bg-background/95 backdrop-blur-md"
               style={{
                 left: `${tooltipPos.x}px`,
-                top: `${tooltipPos.y - 180}px`,
+                top: `${tooltipPos.y - 140}px`,
                 transition: 'left 0.15s ease-out, top 0.15s ease-out',
-                background: 'rgba(13,13,13,0.92)' // Stays dark for map legibility
               }}
             >
-              <div className="space-y-3">
-                <div>
-                  <span className="text-[8px] font-mono text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded uppercase font-bold bg-emerald-500/5">
-                    {hoveredObject.contractor}
-                  </span>
-                  <h4 className="text-sm font-bold text-white mt-1 leading-snug">{hoveredObject.title}</h4>
-                </div>
-
-                {/* Statistics & Indicators */}
-                <div className="grid grid-cols-2 gap-3 bg-white/5 p-2 rounded-xl border border-white/5">
-                  <div className="space-y-0.5 text-center">
-                    <span className="text-[8px] text-muted-foreground uppercase font-mono block">Прогресс ИД</span>
-                    <span className="text-sm font-bold font-mono text-emerald-400">{getObjectStats(hoveredObject.id).progress}%</span>
-                  </div>
-                  <div className="space-y-0.5 text-center">
-                    <span className="text-[8px] text-muted-foreground uppercase font-mono block">Сдано АОСР</span>
-                    <span className="text-sm font-bold font-mono text-ring">{getObjectStats(hoveredObject.id).aosrCount} актов</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-1">
-                  {getObjectStats(hoveredObject.id).systems.map(sys => (
-                    <span key={sys} className="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono text-[9px] border border-white/5">
-                      {sys}
-                    </span>
-                  ))}
-                </div>
+              <span className="text-[9px] font-mono uppercase text-muted-foreground">{hoveredObject.contractor}</span>
+              <h4 className="text-xs font-normal text-foreground font-display leading-snug">{hoveredObject.title}</h4>
+              <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground pt-1 border-t border-border">
+                <span>Прогресс ИД: {getObjectStats(hoveredObject.id).progress}%</span>
+                <span>{getObjectStats(hoveredObject.id).aosrCount} АОСР</span>
               </div>
             </div>
           )}
 
-          {/* Map Overlay Selected Card Info */}
+          {/* Map Overlay for Selected Object */}
           {selectedObject && (
-            <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md glass-panel border-beam-container gradient-border-premium p-6 rounded-2xl shadow-2xl z-20 animate-fade-slide-in">
-              <div className="border-beam" />
-              <div className="flex items-start justify-between gap-4 mb-3">
+            <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md card-whisper p-6 rounded-[20px] shadow-xl z-20 space-y-3 bg-background/95 backdrop-blur-md">
+              <div className="flex items-start justify-between gap-4">
                 <div>
-                  <span className="text-[9px] font-mono text-ring bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 font-bold uppercase tracking-wider">{selectedObject.contractor}</span>
-                  <h3 className="text-lg font-bold text-foreground mt-2 leading-snug font-display">{selectedObject.title}</h3>
+                  <Badge variant="outline">{selectedObject.contractor}</Badge>
+                  <h3 className="text-base font-normal text-foreground mt-2 font-display leading-snug">{selectedObject.title}</h3>
                 </div>
-                <span className="text-[9px] font-mono text-muted-foreground bg-muted border border-border px-2 py-1 rounded-lg uppercase tracking-wider font-bold">{selectedObject.district.split(' ')[0]}</span>
+                <span className="text-[10px] font-mono text-muted-foreground uppercase">{selectedObject.district.split(' ')[0]}</span>
               </div>
 
-              <div className="space-y-3.5 text-xs text-muted-foreground font-medium font-sans">
+              <div className="space-y-3 text-xs text-muted-foreground">
                 <div className="flex gap-2 items-start">
-                  <MapPin size={14} className="text-ring shrink-0 mt-0.5" />
-                  <span className="text-foreground font-sans">{selectedObject.address}</span>
+                  <MapPin size={14} className="text-foreground shrink-0 mt-0.5" />
+                  <span className="text-foreground">{selectedObject.address}</span>
                 </div>
 
-                {/* Extended info inside details */}
-                <div className="grid grid-cols-3 gap-2 bg-muted/40 p-2.5 rounded-xl border border-border text-center">
+                <div className="grid grid-cols-3 gap-2 bg-card p-3 rounded-[12px] border border-border text-center">
                   <div>
-                    <span className="text-[8px] uppercase font-mono block text-muted-foreground">Прогресс ИД</span>
-                    <span className="text-xs font-bold font-mono text-emerald-500">{getObjectStats(selectedObject.id).progress}%</span>
+                    <span className="text-[9px] uppercase font-mono block text-muted-foreground">Прогресс</span>
+                    <span className="text-xs font-bold font-mono text-foreground">{getObjectStats(selectedObject.id).progress}%</span>
                   </div>
                   <div>
-                    <span className="text-[8px] uppercase font-mono block text-muted-foreground">Закрыто АОСР</span>
-                    <span className="text-xs font-bold font-mono text-ring">{getObjectStats(selectedObject.id).aosrCount} шт.</span>
+                    <span className="text-[9px] uppercase font-mono block text-muted-foreground">АОСР</span>
+                    <span className="text-xs font-bold font-mono text-foreground">{getObjectStats(selectedObject.id).aosrCount} шт.</span>
                   </div>
                   <div>
-                    <span className="text-[8px] uppercase font-mono block text-muted-foreground">Системы</span>
-                    <span className="text-xs font-bold font-mono text-foreground truncate block">{getObjectStats(selectedObject.id).systems[0]} + {getObjectStats(selectedObject.id).systems.length - 1}</span>
+                    <span className="text-[9px] uppercase font-mono block text-muted-foreground">Системы</span>
+                    <span className="text-xs font-bold font-mono text-foreground truncate block">{getObjectStats(selectedObject.id).systems[0]}</span>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-border text-[11px] text-muted-foreground leading-relaxed font-sans">
-                  <strong className="text-ring block mb-1 uppercase font-mono tracking-wider font-bold">Специфика / Задачи ПТО:</strong>
+                <p className="text-[11px] text-muted-foreground leading-relaxed pt-1">
                   {selectedObject.details}
-                </div>
+                </p>
               </div>
             </div>
           )}

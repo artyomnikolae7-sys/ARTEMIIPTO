@@ -1,113 +1,191 @@
 import { useState } from 'react'
-import { MessageSquare, ShieldCheck, CheckCheck } from 'lucide-react'
-import { CHATS } from '../data/chatsData'
+import { Send, CheckCircle2, User, Bot, Clock } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
+import { Button } from '../../../components/elevenlabs/Button'
+import { BarVisualizer } from '../../../components/elevenlabs/BarVisualizer'
+
+interface Message {
+  id: number
+  sender: 'engineer' | 'supervision'
+  text: string
+  time: string
+  status?: 'delivered' | 'read'
+}
+
+const initialMessages: Message[] = [
+  {
+    id: 1,
+    sender: 'supervision',
+    text: 'Артемий, добрый день. По корпусу 2 (раздел СВН) в Exon отклонили том ИД. В акте №44 не прикреплен паспорт на уличные камеры Dahua и нет отметки геодезиста на схеме.',
+    time: '11:42',
+  },
+  {
+    id: 2,
+    sender: 'engineer',
+    text: 'Добрый день, Игорь Михайлович. Принято. Паспорт с сертификатом соответствия уже подгрузил в модуль Сертификаты (ID 8841). Исполнительную схему с штампом геодезической службы перезалил в изм. 1.',
+    time: '11:48',
+    status: 'read',
+  },
+  {
+    id: 3,
+    sender: 'supervision',
+    text: 'Отлично, вижу обновление в системе. Замечание снял, акт подписан ЭЦП.',
+    time: '11:55',
+  },
+]
 
 export function ChatSection() {
-  const [selectedChatId, setSelectedChatId] = useState<number>(1)
+  const [messages, setMessages] = useState<Message[]>(initialMessages)
+  const [inputText, setInputText] = useState('')
 
-  const currentChat = CHATS.find(c => c.id === selectedChatId) || CHATS[0]
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!inputText.trim()) return
+
+    const newMsg: Message = {
+      id: Date.now(),
+      sender: 'engineer',
+      text: inputText,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      status: 'delivered',
+    }
+    setMessages((prev) => [...prev, newMsg])
+    setInputText('')
+
+    // Simulated response
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          sender: 'supervision',
+          text: 'Спасибо за оперативность! Проверил статус в Exon — всё согласовано.',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        },
+      ])
+    }, 1200)
+  }
 
   return (
     <section id="chat" className="space-y-10 animate-fade-slide-in">
-      <div className="text-center space-y-3">
-        <span className="text-primary font-mono text-xs tracking-widest uppercase font-semibold">Согласования и надзор</span>
-        <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight font-display">
-          Рабочая переписка и <span className="font-instrument italic font-normal text-gradient-warm">коммуникация</span>
+      <div className="text-center space-y-2">
+        <Badge variant="outline">Рабочая Коммуникация</Badge>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          Симулятор взаимодействия в Exon
         </h2>
-        <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-          Примеры реального взаимодействия с Технадзором, ГИПами, Заказчиками и подрядчиками при согласовании замечаний
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-normal">
+          Интерактивный пример реального диалога с технадзором и заказчиком по снятию замечаний
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 themed-card p-4 sm:p-6 rounded-2xl min-h-[560px]">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Chat Sidebar (4 cols) */}
-        <div className="lg:col-span-4 flex flex-col space-y-2 border-b lg:border-b-0 lg:border-r border-border pb-4 lg:pb-0 lg:pr-4">
-          <div className="flex items-center justify-between pb-3 border-b border-border">
-            <span className="text-xs font-mono font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-              <MessageSquare size={14} className="text-primary" />
-              Диалоги ({CHATS.length})
-            </span>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20 font-mono">
-              Exon / Telegram
-            </span>
+        {/* Sidebar Info (4 cols) */}
+        <Card className="lg:col-span-4 p-6 flex flex-col justify-between space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-xs font-mono">
+                ТН
+              </div>
+              <div>
+                <h4 className="text-sm font-normal text-foreground font-display">Технадзор / Заказчик</h4>
+                <p className="text-xs font-mono text-muted-foreground">ГКУ «Управление дорожно-мостового строительства»</p>
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-2 text-xs">
+              <div className="p-3 rounded-[12px] bg-background border border-border space-y-1">
+                <span className="text-[10px] font-mono uppercase text-muted-foreground">Текущий статус объекта</span>
+                <p className="font-medium text-foreground">ЖК «Большая Академическая», Корп. 2</p>
+              </div>
+              <div className="p-3 rounded-[12px] bg-background border border-border space-y-1">
+                <span className="text-[10px] font-mono uppercase text-muted-foreground">Раздел документации</span>
+                <p className="font-medium text-foreground">СВН (Видеонаблюдение) • АОСР-44</p>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-1.5 overflow-y-auto max-h-[480px] pr-1">
-            {CHATS.map(chat => (
-              <button
-                key={chat.id}
-                onClick={() => setSelectedChatId(chat.id)}
-                className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer ${
-                  selectedChatId === chat.id
-                    ? 'bg-primary/10 border border-primary/30'
-                    : 'hover:bg-secondary/60 border border-transparent'
+          {/* Audio Visualizer Indicator */}
+          <div className="space-y-2 pt-4 border-t border-border">
+            <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+              <span>Канал связи</span>
+              <span className="text-foreground">Online</span>
+            </div>
+            <BarVisualizer barCount={14} />
+          </div>
+        </Card>
+
+        {/* Chat Feed (8 cols) */}
+        <Card className="lg:col-span-8 p-6 flex flex-col justify-between space-y-4 min-h-[420px]">
+          
+          {/* Header */}
+          <div className="flex items-center justify-between pb-3 border-b border-border">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-foreground animate-pulse" />
+              <span className="text-xs font-mono font-medium text-foreground">Чат согласования замечаний</span>
+            </div>
+            <Badge variant="outline">Exon.Direct</Badge>
+          </div>
+
+          {/* Message List */}
+          <div className="flex-1 space-y-4 overflow-y-auto py-2 pr-1">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`flex gap-3 max-w-[88%] ${
+                  msg.sender === 'engineer' ? 'ml-auto flex-row-reverse' : ''
                 }`}
               >
-                <span className="text-2xl shrink-0">{chat.avatar}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-baseline gap-1">
-                    <h4 className="text-xs font-bold text-foreground truncate">{chat.name}</h4>
-                    <span className="text-[9px] font-mono text-muted-foreground shrink-0">{chat.date}</span>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground truncate">{chat.author} • {chat.role}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Chat Main Messages Stream (8 cols) */}
-        <div className="lg:col-span-8 flex flex-col justify-between space-y-4 lg:pl-2">
-          
-          {/* Active Chat Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-border">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">{currentChat.avatar}</span>
-              <div>
-                <h4 className="text-sm font-bold text-foreground leading-tight">{currentChat.name}</h4>
-                <p className="text-xs text-muted-foreground">{currentChat.author} ({currentChat.role})</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-[11px] text-emerald-500 font-mono">
-              <ShieldCheck size={14} />
-              <span>Вопрос решён</span>
-            </div>
-          </div>
-
-          {/* Messages Feed */}
-          <div className="space-y-3.5 flex-1 overflow-y-auto max-h-[380px] p-2">
-            {currentChat.messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex flex-col ${msg.sender === 'me' ? 'items-end' : 'items-start'}`}
-              >
-                <div className="text-[10px] font-mono text-muted-foreground mb-1">
-                  {msg.sender === 'me' ? 'Артемий (ПТО)' : `${currentChat.author} (${currentChat.role})`} • {msg.time}
-                </div>
                 <div
-                  className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed ${
-                    msg.sender === 'me'
-                      ? 'bg-primary text-primary-foreground rounded-tr-none font-medium'
-                      : 'bg-secondary text-foreground rounded-tl-none border border-border'
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-mono shrink-0 ${
+                    msg.sender === 'engineer'
+                      ? 'bg-foreground text-background'
+                      : 'bg-card border border-border text-foreground'
                   }`}
                 >
-                  {msg.text}
+                  {msg.sender === 'engineer' ? 'АН' : 'ТН'}
+                </div>
+
+                <div
+                  className={`p-4 rounded-[18px] text-xs leading-relaxed space-y-1 ${
+                    msg.sender === 'engineer'
+                      ? 'bg-primary text-primary-foreground rounded-tr-none'
+                      : 'bg-background border border-border text-foreground rounded-tl-none'
+                  }`}
+                >
+                  <p>{msg.text}</p>
+                  <div
+                    className={`flex items-center justify-end gap-1 text-[10px] ${
+                      msg.sender === 'engineer' ? 'text-primary-foreground/70' : 'text-muted-foreground'
+                    }`}
+                  >
+                    <span>{msg.time}</span>
+                    {msg.sender === 'engineer' && (
+                      <CheckCircle2 size={11} className="shrink-0" />
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Chat Footer Note */}
-          <div className="p-3 rounded-xl bg-secondary/60 border border-border flex items-center justify-between text-xs text-muted-foreground font-mono">
-            <span className="flex items-center gap-1.5">
-              <CheckCheck size={14} className="text-primary" />
-              Замечание закрыто в системе Exon без задержек сроков
-            </span>
-          </div>
+          {/* Input Form */}
+          <form onSubmit={handleSend} className="pt-3 border-t border-border flex items-center gap-2">
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder="Напишите ответ или уточнение по замечанию..."
+              className="flex-1 px-4 py-2.5 rounded-full bg-background border border-border text-foreground text-xs focus:outline-none focus:border-foreground transition-colors"
+            />
+            <Button type="submit" variant="filled" size="sm" className="shrink-0">
+              <Send size={13} />
+              <span className="hidden sm:inline">Отправить</span>
+            </Button>
+          </form>
 
-        </div>
-
+        </Card>
       </div>
     </section>
   )

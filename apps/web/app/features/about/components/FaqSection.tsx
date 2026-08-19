@@ -1,64 +1,67 @@
 import { useState } from 'react'
-import { HelpCircle, ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
+import { Card } from '../../../components/elevenlabs/Card'
+import { Badge } from '../../../components/elevenlabs/Badge'
 
 const faqs = [
   {
-    q: 'Какие разделы ИД вы закрываете?',
-    a: 'Специализируюсь на слаботочных сетях связи: СС (ВТСС, СВН, СКД, ОСО, СКТВ, ШПД), НСС (наружные кабельные сети, телефонная канализация), а также ЭОМ при необходимости.'
+    q: 'С какими разделами слаботочных систем вы работаете?',
+    a: 'Полный комплекс слаботочных сетей и автоматизации: СС (Сети связи), НСС (Наружные сети связи), ВТСС (Внутренняя телефония и СКС), СВН (Видеонаблюдение), СКД / СКУД (Контроль доступа), ОСО / ОС (Охранная сигнализация), СКТВ (Телевидение), ШПД (Интернет), ОЗДС и диспетчеризация.',
   },
   {
-    q: 'Как быстро можете собрать комплект ОЗДС?',
-    a: 'С помощью моего генератора ИД — за 6-8 часов вместо стандартных 3-4 дней. Полный комплект: АОСР, реестр, паспорта/сертификаты, исполнительные схемы.'
+    q: 'Как вы работаете с замечаниями технического надзора в Exon?',
+    a: 'Замечания классифицируются по типам (оформление, нехватка сертификатов, несоответствие объемов). Благодаря параметрическим шаблонам правки вносятся пакетом во весь комплект за 10–15 минут без перепечатки и задержек.',
   },
   {
-    q: 'Работаете ли вы с системой Exon?',
-    a: 'Да, свободно владею Exon. Разработал JS-скрипт для автоматического ввода объёмов (450 позиций за 3 минуты). Также работаю с Sarex.'
+    q: 'Возможен ли выезд на строительные площадки Москвы и МО?',
+    a: 'Да, регулярно провожу сопоставление проектных трасс с физическим монтажом на площадке, участвую в комиссионных освидетельствованиях скрытых работ и совещаниях с Заказчиком.',
   },
   {
-    q: 'Какие инструменты автоматизации используете?',
-    a: 'Excel + VBA для генерации документов, Power Query для сводных данных, AutoCAD для исполнительных схем с параметрической привязкой, JavaScript для автоматизации Exon.'
-  },
-  {
-    q: 'Можете ли выехать на объект для технадзора?',
-    a: 'Да, регулярно выезжаю на объекты для проверок МГСН с полным комплектом ИД на планшете (Exon) и распечатанными схемами AutoCAD.'
-  },
-  {
-    q: 'С какими заказчиками работали?',
-    a: 'Москапстрой, Мосинжпроект, Департамент строительства Москвы, ПАО «Ростелеком», ПАО «МТС» и ряд крупных субподрядных организаций.'
+    q: 'Каковы средние сроки формирования полного комплекта ИД на объект?',
+    a: 'Благодаря автоматизированным генераторам АОСР и шаблонам ведомостей ВОР, типовой том исполнительной документации по одной слаботочной системе собирается за 1–2 рабочих дня вместо 2 недель ручной верстки.',
   },
 ]
 
 export function FaqSection() {
-  const [open, setOpen] = useState<number | null>(null)
+  const [openIdx, setOpenIdx] = useState<number | null>(0)
 
   return (
-    <section id="faq" className="space-y-8 animate-fade-slide-in">
-      <div className="text-center space-y-3">
-        <span className="text-ring font-mono text-xs tracking-widest uppercase font-semibold">Вопросы</span>
-        <h2 className="text-4xl font-bold text-foreground tracking-tight font-display">
-          Часто <span className="font-instrument italic font-normal text-gradient-red-orange">задаваемые</span> вопросы
+    <section id="faq" className="space-y-10 animate-fade-slide-in">
+      <div className="text-center space-y-2">
+        <Badge variant="outline">Вопросы и Ответы</Badge>
+        <h2 className="text-3xl sm:text-4xl headline-whisper text-foreground">
+          Часто задаваемые вопросы
         </h2>
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-normal">
+          Ответы на популярные вопросы о процессе сдачи исполнительной документации и ведении проектов
+        </p>
       </div>
 
-      <div className="max-w-3xl mx-auto space-y-3">
+      <div className="max-w-3xl mx-auto space-y-4">
         {faqs.map((faq, i) => (
-          <div key={i} className="themed-card rounded-xl overflow-hidden">
-            <button
-              onClick={() => setOpen(open === i ? null : i)}
-              className="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-muted/30 transition-colors"
-            >
-              <div className="flex items-center gap-3">
-                <HelpCircle size={16} className="text-ring shrink-0" />
-                <span className="text-sm font-bold text-foreground">{faq.q}</span>
+          <Card
+            key={i}
+            className="p-6 cursor-pointer gap-2 transition-all hover:border-foreground/30"
+            onClick={() => setOpenIdx(openIdx === i ? null : i)}
+          >
+            <div className="flex items-center justify-between gap-4">
+              <h4 className="text-sm sm:text-base font-normal text-foreground font-display leading-snug">
+                {faq.q}
+              </h4>
+              <div className="w-8 h-8 rounded-full bg-background border border-border flex items-center justify-center shrink-0 text-muted-foreground">
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-200 ${openIdx === i ? 'rotate-180 text-foreground' : ''}`}
+                />
               </div>
-              {open === i ? <ChevronUp size={16} className="text-muted-foreground shrink-0" /> : <ChevronDown size={16} className="text-muted-foreground shrink-0" />}
-            </button>
-            {open === i && (
-              <div className="px-5 pb-5 pl-12 text-sm text-muted-foreground leading-relaxed animate-fade-slide-in">
+            </div>
+
+            {openIdx === i && (
+              <p className="text-xs text-muted-foreground leading-relaxed pt-3 border-t border-border font-normal">
                 {faq.a}
-              </div>
+              </p>
             )}
-          </div>
+          </Card>
         ))}
       </div>
     </section>
